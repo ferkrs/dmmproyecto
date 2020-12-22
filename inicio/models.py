@@ -4,20 +4,27 @@ from django.urls import reverse
 
 class Persona(models.Model):
     cui = models.CharField(max_length=20,blank= False) 
+    SEXO = [ 
+        (0,""),(1,"M"),(2,"F"),
+    ]
+    sexo = models.IntegerField(choices=SEXO, default=0, blank=False)
     primer_nombre = models.CharField(max_length=20, blank=False) 
-    segundo_nombre = models.CharField(max_length=20, null=True, blank=True) 
-    tercer_nombre = models.CharField(max_length=20, null=True, blank=True) 
+    segundo_nombre = models.CharField(max_length=20,  blank=False) 
+    tercer_nombre = models.CharField(max_length=20,  blank=True) 
     primer_apellido = models.CharField(max_length=20, blank=False) 
-    segundo_apellido = models.CharField(max_length=20, null=True, blank=True)
-    apellido_casada = models.CharField(max_length=20, null=True, blank=True) 
-    fecha_nacimiento = models.DateField(blank= True, null=True)
-    telefono= models.CharField(max_length=8, blank= False)
-    direccion = models.CharField(max_length=20,blank= False)
-    correo_electronico = models.EmailField(max_length=100)
-    def __str__(self): 
+    segundo_apellido = models.CharField(max_length=20,  blank=True)
+    apellido_casada = models.CharField(max_length=20,  blank=True) 
+    fecha_nacimiento = models.DateField(blank=False, null=False)
+    telefono= models.CharField(max_length=8, blank=True)
+        #quitar direccion
+    direccion = models.CharField(max_length=20, blank=True)
+    correo_electronico = models.EmailField(max_length=100, blank=True)
+    def __str__(self):
         txt="{0} (Nombre: {1} {2})"
         return txt.format(self.cui, self.primer_nombre, self.primer_apellido)
-    
+    def persona_list(self): 
+        txt="{0} (Nombre: {1} {2})"
+        return txt.format(self.cui, self.primer_nombre, self.primer_apellido)
     class Meta:
         verbose_name = "Registro de personas"
         verbose_name_plural = "Registro de personas"
@@ -26,64 +33,68 @@ class Grupo(models.Model):
     DEPARTAMENTO = [ 
         (0,"SAN MARCOS"),
     ]
-    departamento = models.IntegerField(choices=DEPARTAMENTO, default=0)
+    departamento = models.IntegerField(choices=DEPARTAMENTO, default=0, blank=False)
     MUNICIPIO = [ 
         (0,"SAN PEDRO"),
     ]
-    municipio = models.IntegerField(choices=MUNICIPIO, default=0)
+    municipio = models.IntegerField(choices=MUNICIPIO, default=0, blank=False)
 
     IDENTIFICADOR = [ 
         (0, "AREA RURAL"), 
         (1, "AREA URBANA"), 
         (2, "LLANO GRANDE")
     ]
-    identificador= models.IntegerField(choices=IDENTIFICADOR)
+    identificador= models.IntegerField(choices=IDENTIFICADOR, blank=False)
     #AREA URBANA
     ZONA= [ 
-        (0, "ZONA 1"),(1, "ZONA 1 Y 2"),
-        (2, "ZONA 1 Y 4"),(3, "ZONA 2"),
-        (4, "ZONA 4"),(5, "ZONA 3 Y 4"),
+        (0, ""), (1, "ZONA 1"),(2, "ZONA 1 Y 2"),
+        (3, "ZONA 1 Y 4"),(4, "ZONA 2"),
+        (5, "ZONA 4"),(6, "ZONA 3 Y 4"),
 
     ]
-    zona = models.IntegerField(choices=ZONA,null=False, blank=False)
+    zona = models.IntegerField(choices=ZONA,default=0, blank=True)
 
     CASERIO= [ 
-        (0, "LOS JAZMINES"),(1, "LLANO GRANDE"),
+        (0, ""), (1, "LOS JAZMINES"),(2, "LLANO GRANDE"),
     ]
-    caserio = models.IntegerField(choices=CASERIO,null=False, blank=False)
+    caserio = models.IntegerField(choices=CASERIO,default=0, blank=True)
 
     CANTON= [ 
-        (0, "LA PARROQUIA"),(1, "SANTA MARIA DE ATOCHA"),
-        (2, "SAN MIGUEL"),(3, "SAN JUAN DE DIOS"),
-        (4, "SAN JUAN DEL POZO"),(5, "SAN AGUSTÍN TONALÁ"),
-        (6, "EL MOSQUITO"),(7, "SAN SEBASTIÁN"),
+        (0, ""),(1, "LA PARROQUIA"),(2, "SANTA MARIA DE ATOCHA"),
+        (3, "SAN MIGUEL"),(4, "SAN JUAN DE DIOS"),
+        (5, "SAN JUAN DEL POZO"),(6, "SAN AGUSTÍN TONALÁ"),
+        (7, "EL MOSQUITO"),(8, "SAN SEBASTIÁN"),
     ]
-    canton = models.IntegerField(choices=CANTON,null=False, blank=False)
+    canton = models.IntegerField(choices=CANTON,default=0, blank=True)
     
     SECTOR= [ 
-        (0, "HIERBA BUENA"),(1, "GALLO ROJO"),
+        (0, ""),(1, "HIERBA BUENA"),(2, "GALLO ROJO"),
     ]
-    sector = models.IntegerField(choices=SECTOR,null=False, blank=False)
+    sector = models.IntegerField(choices=SECTOR,default=0, blank=True)
     #AREA RURAL
 
     ALDEAS= [ 
-        (0, "CANTEL"),(1, "CORRAL GRANDE"),
-        (2, "CHAMPOLLAP"),(3, "CHIM"),
-        (4, "EL CEDRO"),(5, "EL TABLERO"),
-        (6, "LA GRANDEZA"),(7, "MÁVIL"),
-        (8, "PIEDRA GRANDE"),(9, "PROVINCIA CHIQUITA"),
-        (10, "SACUCHÚM"),(11, "SAN ANDRÉS CHÁPIL"),
-        (12, "SAN ISIDRO CHAMAC"),(13, "SAN JOSÉ CÁBEN"),
-        (14, "SAN PEDRO PETZ"),(15, "SANTA TERESA"),
-        (16, "SAN FRANCISCO SOCHE"),
+        (0, ""),(1, "CANTEL"),(2, "CORRAL GRANDE"),
+        (3, "CHAMPOLLAP"),(4, "CHIM"),
+        (5, "EL CEDRO"),(6, "EL TABLERO"),
+        (7, "LA GRANDEZA"),(8, "MÁVIL"),
+        (9, "PIEDRA GRANDE"),(10, "PROVINCIA CHIQUITA"),
+        (11, "SACUCHÚM"),(12, "SAN ANDRÉS CHÁPIL"),
+        (13, "SAN ISIDRO CHAMAC"),(14, "SAN JOSÉ CÁBEN"),
+        (15, "SAN PEDRO PETZ"),(16, "SANTA TERESA"),
+        (17, "SAN FRANCISCO SOCHE"),
     ]
-    aldeas = models.IntegerField(choices=ALDEAS,null=False, blank=False)
-    paraje = models.CharField(max_length=20, null=True, blank=True)
-    nombre_grupo = models.CharField(max_length=20,blank= False)
+    aldeas = models.IntegerField(choices=ALDEAS,default=0, blank=True)
+    paraje = models.CharField(max_length=20,blank=True)
+    nombre_grupo = models.CharField(max_length=20)
     integrantes = models.ManyToManyField(Persona)
+
     def __str__(self): 
         txt="{0}"
         return txt.format(self.nombre_grupo)
+
+    def grupos_integrantes(self):
+        return "\n".join([p.persona_list() for p in self.integrantes.all()])
     class Meta:
         verbose_name = "Asiganacion de grupos"
         verbose_name_plural = "Asiganacion de grupos"
@@ -100,40 +111,8 @@ class RelacionDPG(models.Model):
     persona = models.ForeignKey(Persona, on_delete= models.CASCADE,related_name='persona_directiva', null=False, blank=False)
     puesto = models.IntegerField(choices=DIRECTIVA, null=False, blank=False)
     grupo = models.ForeignKey(Grupo, on_delete= models.CASCADE,related_name='grupo_directiva',null=False, blank=False)
-    def __str__(self): 
-        txt="{0} (Hola: {1})"
-        return txt.format(self.puesto)
-
+    #mostrar la relacion entre la persona y el puesto
     class Meta:
         verbose_name = "Asignar Directiva"
         verbose_name_plural = "Asignar Directiva"
-
-class Curso(models.Model):
-    MODALIDAD = [
-        (0, "CURSO"), 
-        (1, "TALLER"), 
-        (2, "SEMINARIO"),
-        (3, "DIPLOMADO"), 
-        (4, "CAPACITACION"),
-        (5, "CONVERSATORIO"),  
-    ] 
-    modalidad = models.IntegerField(choices=MODALIDAD, null=False, blank=False)
-    nombre = models.CharField(max_length=20, blank=False) 
-    fecha_inicio = models.DateField(blank= True, null=True)
-    fecha_finalizacion = models.DateField(blank= True, null=True)
-    hora_inicio = models.TimeField(auto_now=False)
-    hora_final = models.TimeField(auto_now=False)
-    DIAS = [
-        (0, "LUNES"), 
-        (1, "MARTES"), 
-        (2, "MIERCOLES"),
-        (3, "JUEVES"), 
-        (4, "VIERNES"),
-        (5, "SABADO"),  
-        (6, "DOMINGO") 
-    ]
-    de = models.IntegerField(choices=DIAS, null=False, blank=False)
-    a = models.IntegerField(choices=DIAS, null=False, blank=False)
-    integrantes = models.ManyToManyField(Persona)
-    #falta agregar a los responsables
-    
+#cambiar de modelo

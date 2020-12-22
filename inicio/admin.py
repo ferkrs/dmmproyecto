@@ -4,20 +4,16 @@ from .models import *
 admin.site.site_header = 'DMM Proyectos' 
  
 class PersonaAdmin(admin.ModelAdmin): 
-    list_display = ('cui',)
+    list_display = (
+                    'cui','primer_nombre', 
+                    'segundo_nombre','primer_apellido', 
+                    'segundo_apellido','fecha_nacimiento')
     search_fields = ['cui']
     list_filter = ('cui',)
 admin.site.register(Persona, PersonaAdmin)
 
-class CursoAdmin(admin.ModelAdmin): 
-    list_display = ('nombre',)
-    search_fields = ['modalidad']
-    list_filter = ('modalidad',)
-admin.site.register(Curso, CursoAdmin)
-
-
 class GrupoAdmin(admin.ModelAdmin):
-    list_display = ('nombre_grupo',)
+    list_display = ('nombre_grupo','grupos_integrantes')
     search_fields = ['nombre_grupo']
     list_filter = ('nombre_grupo',)
 admin.site.register(Grupo, GrupoAdmin)
