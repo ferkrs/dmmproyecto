@@ -24,4 +24,4 @@ class MujeresAlfa(models.Model):
 
     class Meta:
         verbose_name = "Grupos de alfabetizacion"
-        verbose_name_plural = "Grupos de alfabetizacion"
+        verbose_name_plural = "Grupos de alfabetizacion" 

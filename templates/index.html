@@ -1,4 +1,19 @@
-{% extends 'base.html' %}
+{% include 'base.html' %}
+{% block index  %} 
 {% load staticfiles %}
-{% include 'sidebar.html' %}
-    
+
+{% include 'navbar.html' %}
+  
+<div class="container-fluid page-body-wrapper">
+  {% include 'sidebar.html' %}
+
+  <div class="main-panel">
+    <div class="content-wrapper">
+
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock index  %}

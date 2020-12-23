@@ -1,59 +1,77 @@
 {% block content %} 
 {% load staticfiles %}
-
-            <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                    <div class="sidebar-brand-icon rotate-n-15">
-                        <i class="fas fa-laugh-wink"></i>
-                    </div>
-                    <div class="sidebar-brand-text mx-3">DMM</div>
-                </a>
-                <hr class="sidebar-divider my-0">
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Inicio</span></a>
-                </li>
-                <hr class="sidebar-divider">
-                <div class="sidebar-heading">
-                    Registrar grupos sociales
-                </div>
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                        aria-expanded="true" aria-controls="collapseTwo">
-                        <i class="fas fa-fw fa-users"></i>
-                        <span>Registro de grupos</span>
-                    </a>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Grupos Sociales</h6>
-                            <a class="collapse-item" href="">Registro de Personas</a>
-                            <a class="collapse-item" href="">Crear Grupos</a>
-                            <a class="collapse-item" href="">Asignar Directiva</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                        aria-expanded="true" aria-controls="collapseUtilities">
-                        <i class="fas fa-fw fa-users"></i>
-                        <span>Cursos</span>
-                    </a>
-                    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                        data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Cursos Cortos</h6>
-                            <a class="collapse-item" href="">Registro de Personas</a>
-                            <a class="collapse-item" href="utilities-color.html">Aperturar Curso</a>
-                        </div>
-                    </div>
-                </li>
-
-                <hr class="sidebar-divider">
-                <hr class="sidebar-divider d-none d-md-block">
-                <div class="text-center d-none d-md-inline">
-                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
-                </div>
-
-            </ul>
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+      <li class="nav-item nav-profile">
+        <a href="#" class="nav-link">
+          <div class="nav-profile-image">
+            <span class="login-status online"></span>
+          </div>
+          <div class="nav-profile-text d-flex flex-column">
+            <span class="font-weight-bold mb-2">David Grey. H</span>
+            <span class="text-secondary text-small">Project Manager</span>
+          </div>
+          <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'index' %}">
+          <span class="menu-title">Inicio</span>
+          <i class="mdi mdi-home menu-icon"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+          <span class="menu-title">Agregar Grupos</span>
+          <i class="menu-arrow"></i>
+          <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+        </a>
+        <div class="collapse" id="ui-basic">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="{% url 'grupos' %}">Buttons</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="pages/icons/mdi.html">
+          <span class="menu-title">Icons</span>
+          <i class="mdi mdi-contacts menu-icon"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="pages/forms/basic_elements.html">
+          <span class="menu-title">Forms</span>
+          <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="pages/charts/chartjs.html">
+          <span class="menu-title">Charts</span>
+          <i class="mdi mdi-chart-bar menu-icon"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="pages/tables/basic-table.html">
+          <span class="menu-title">Tables</span>
+          <i class="mdi mdi-table-large menu-icon"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#general-pages" aria-expanded="false" aria-controls="general-pages">
+          <span class="menu-title">Sample Pages</span>
+          <i class="menu-arrow"></i>
+          <i class="mdi mdi-medical-bag menu-icon"></i>
+        </a>
+        <div class="collapse" id="general-pages">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="pages/samples/blank-page.html"> Blank Page </a></li>
+            <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a></li>
+            <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a></li>
+            <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
+            <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </nav>
 {%endblock%}

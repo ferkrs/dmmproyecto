@@ -6,3 +6,6 @@ from .models import *
 
 def index(request): 
     return render(request,'index.html')
+
+def grupos(request): 
+    return render(request,'grupos.html')
