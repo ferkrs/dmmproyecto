@@ -20,8 +20,8 @@ class Persona(models.Model):
     direccion = models.CharField(max_length=20, blank=True)
     correo_electronico = models.EmailField(max_length=100, blank=True)
     def __str__(self):
-        txt="{0} (Nombre: {1} {2})"
-        return txt.format(self.cui, self.primer_nombre, self.primer_apellido)
+        txt="Nombre: {0} {1}, Telefono: {2}"
+        return txt.format(self.primer_nombre, self.primer_apellido, self.telefono) 
     def persona_list(self): 
         txt="{0} (Nombre: {1} {2})"
         return txt.format(self.cui, self.primer_nombre, self.primer_apellido)
@@ -92,8 +92,10 @@ class Grupo(models.Model):
     def __str__(self): 
         txt="{0}"
         return txt.format(self.nombre_grupo)
-
-    def grupos_integrantes(self):
+    def count_integrantes(self):
+        return  self.integrantes.all().count()
+  
+    def directiva_grupo(self):
         return "\n".join([p.persona_list() for p in self.integrantes.all()])
     class Meta:
         verbose_name = "Asiganacion de grupos"
@@ -111,7 +113,11 @@ class RelacionDPG(models.Model):
     persona = models.ForeignKey(Persona, on_delete= models.CASCADE,related_name='persona_directiva', null=False, blank=False)
     puesto = models.IntegerField(choices=DIRECTIVA, null=False, blank=False)
     grupo = models.ForeignKey(Grupo, on_delete= models.CASCADE,related_name='grupo_directiva',null=False, blank=False)
-    #mostrar la relacion entre la persona y el puesto
+
+    def persona_puesto(self):
+        txt="({0} Puesto: {1} )"
+        return txt.format(self.persona, self.puesto)
+    #mostrar la relacion entre la persona y el puest
     class Meta:
         verbose_name = "Asignar Directiva"
         verbose_name_plural = "Asignar Directiva"

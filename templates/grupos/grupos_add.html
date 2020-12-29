@@ -3,15 +3,15 @@
 {% load staticfiles %}
 {% include 'navbar.html' %}
 <div class="container-fluid page-body-wrapper">
-<div class="main-panel">
   {% include 'sidebar.html' %}
+<div class="main-panel">
   <div class="content-wrapper">
     <div class="page-header">
-      <h3 class="page-title"> Form elements </h3>
+      <h3 class="page-title">Asignacion de grupos</h3>
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Forms</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Form elements</li>
+          <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Agregar Grupos</li>
         </ol>
       </nav>
     </div>
@@ -19,9 +19,38 @@
       <div class="col-12 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
-            <h4 class="card-title">Basic form elements</h4>
-            <p class="card-description"> Basic form elements </p>
+            <h4 class="card-title">Formulario</h4>
+            <p class="card-description">Apertura de grupos</p>
             <form class="forms-sample">
+              {% csrf_token %}
+              {{form.as_p}}
+    
+              <!-- 
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Departamento</label>
+                    <div class="col-sm-9">
+                      <select class="form-control">
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Municipio</label>
+                    <div class="col-sm-9">
+                      <select class="form-control">
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="exampleSelectGender">Departamento</label>
+                <select class="form-control" id="exampleSelectGender">
+                </select>
+              </div>
               <div class="form-group">
                 <label for="exampleInputName1">Name</label>
                 <input type="text" class="form-control" id="exampleInputName1" placeholder="Name">
@@ -34,13 +63,7 @@
                 <label for="exampleInputPassword4">Password</label>
                 <input type="password" class="form-control" id="exampleInputPassword4" placeholder="Password">
               </div>
-              <div class="form-group">
-                <label for="exampleSelectGender">Gender</label>
-                <select class="form-control" id="exampleSelectGender">
-                  <option>Male</option>
-                  <option>Female</option>
-                </select>
-              </div>
+
               <div class="form-group">
                 <label>File upload</label>
                 <input type="file" name="img[]" class="file-upload-default">
@@ -59,6 +82,7 @@
                 <label for="exampleTextarea1">Textarea</label>
                 <textarea class="form-control" id="exampleTextarea1" rows="4"></textarea>
               </div>
+-->
               <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
               <button class="btn btn-light">Cancel</button>
             </form>
