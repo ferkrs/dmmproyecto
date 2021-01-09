@@ -28,4 +28,10 @@ class Curso(models.Model):
     de = models.IntegerField(choices=DIAS, null=False, blank=False)
     a = models.IntegerField(choices=DIAS, null=False, blank=False)
     integrantes = models.ManyToManyField(Persona)
-    #agregar responsable
+            
+    def count_integrantes(self):
+        return  self.integrantes.all().count()
+    def horario(self):
+        txt="De: {0} a: {1}"
+        return txt.format(self.de, self.a)
+

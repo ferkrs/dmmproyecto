@@ -1,28 +1,56 @@
 from django.shortcuts import render, redirect
 from django.views import generic
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from django.http import HttpResponse
 from .models import *  
 from .forms import GrupoForm
-     
+def index(request): 
+    return render(request,'index.html')
+
+#funcion de listar
 class GruposList(generic.ListView):
     queryset = Grupo.objects.all()
     template_name = 'grupos/grupos_list.html'
+
+#funcion de consulta de directiva by id
+def DirectivaId(request, id): 
+    directiva = RelacionDPG.objects.filter(grupo=id)
+    return render(request, 'grupos/directiva.html', {'directiva': directiva})
+
+
+
     
+#Funcion de borrar  
+def GrupoDelete(request, id):
+    grupo = Grupo.objects.get(id=id)
+    #Falta agregar la concicion de que el usuario esta seguro de borrar
+    try:
+        grupo.delete()
+    except: 
+        pass
+    return redirect('grupo_list')
+#Grupo Crear
 def grupo_crear(request):
     grupo = GrupoForm(request)
     if request.method == 'POST':
         form = GrupoForm(request.POST)
         if form.is_valid():
-            form = form.save()
-            return render(request, 'grupos/grupos_add.html', {'grupo': grupo})
+            try:  
+                form.save() 
+                return render(request, 'grupos/grupos_add.html', {'grupo': grupo})
+            except:  
+                pass
+
     else:
         form = GrupoForm()
     return render(request, 'grupos/grupos_add.html', {'form': form})
 
+#Asignar personas a grupos
 
-def index(request): 
-    return render(request,'index.html')
+#Grupo y personas del grupo
 
-
-# agregar el 
+    #Funcion para renderizar dos modelos en un modelo
+    #grupo = Grupo.objects.all()
+    #relaciondpg = RelacionDPG.objects.all()
+    #context= {'grupo': grupo, 'relaciondpg':relaciondpg}
+    #return render(request, 'grupos/directiva.html', context)

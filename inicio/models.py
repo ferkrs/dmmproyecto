@@ -30,6 +30,7 @@ class Persona(models.Model):
         verbose_name_plural = "Registro de personas"
 
 class Grupo(models.Model):
+    nombre_grupo = models.CharField(max_length=50)
     DEPARTAMENTO = [ 
         (0,"SAN MARCOS"),
     ]
@@ -86,38 +87,35 @@ class Grupo(models.Model):
     ]
     aldeas = models.IntegerField(choices=ALDEAS,default=0, blank=True)
     paraje = models.CharField(max_length=20,blank=True)
-    nombre_grupo = models.CharField(max_length=20)
-    integrantes = models.ManyToManyField(Persona)
 
-    def __str__(self): 
-        txt="{0}"
-        return txt.format(self.nombre_grupo)
-    def count_integrantes(self):
-        return  self.integrantes.all().count()
-  
-    def directiva_grupo(self):
-        return "\n".join([p.persona_list() for p in self.integrantes.all()])
+    #cambiar el modelo para obtener el id
+    def grupo_id(self): 
+        return str(self.id)
     class Meta:
         verbose_name = "Asiganacion de grupos"
         verbose_name_plural = "Asiganacion de grupos"
 
 class RelacionDPG(models.Model): 
     DIRECTIVA = [
-        (0, "PRESIDENTE"), 
-        (1, "VICE-PRESIDENTE"), 
-        (2, "SECRETARIA"),
-        (3, "TESORERA"), 
-        (4, "VOCAL 1"),
-        (5, "VOCAL 2"),  
+        (0, "MIEMBRO"), 
+        (1, "PRESIDENTE"), 
+        (2, "VICE-PRESIDENTE"),
+        (3, "SECRETARIA"),
+        (4, "TESORERA"), 
+        (5, "VOCAL 1"),
+        (6, "VOCAL 2"),
+
     ]
     persona = models.ForeignKey(Persona, on_delete= models.CASCADE,related_name='persona_directiva', null=False, blank=False)
-    puesto = models.IntegerField(choices=DIRECTIVA, null=False, blank=False)
+    puesto = models.IntegerField(choices=DIRECTIVA, null=False, blank=False, default=0)
     grupo = models.ForeignKey(Grupo, on_delete= models.CASCADE,related_name='grupo_directiva',null=False, blank=False)
-
-    def persona_puesto(self):
-        txt="({0} Puesto: {1} )"
-        return txt.format(self.persona, self.puesto)
+    def __str__(self): 
+        return str(self.id)
     #mostrar la relacion entre la persona y el puest
+  
+    def directiva_grupo(self):
+        return "\n".join([p.grupo_id() for p in self.grupo.all()])
+
     class Meta:
         verbose_name = "Asignar Directiva"
         verbose_name_plural = "Asignar Directiva"

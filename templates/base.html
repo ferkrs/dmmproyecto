@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>DMM</title>
     {% load staticfiles %}
+    <!--Necesario incluir jquery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static 'vendors/mdi/css/materialdesignicons.min.css' %}">
     <link rel="stylesheet" href="{% static 'vendors/css/vendor.bundle.base.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -16,6 +18,7 @@
 
       {% endblock content %}
     </div>
+    <script src="{% static 'js/jquery-2.0.0.min.js' %}"></script>
       <script src="{% static 'vendors/js/vendor.bundle.base.js' %}"></script>
       <script src="{% static 'vendors/chart.js/Chart.min.js' %}"></script>
       <script src="{% static 'js/off-canvas.js' %}"></script>

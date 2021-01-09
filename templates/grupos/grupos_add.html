@@ -7,11 +7,11 @@
 <div class="main-panel">
   <div class="content-wrapper">
     <div class="page-header">
-      <h3 class="page-title">Asignacion de grupos</h3>
+      <h3 class="page-title">Creacion de grupos</h3>
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Agregar Grupos</li>
+          <li class="breadcrumb-item" aria-current="page">Crear grupos</li>
         </ol>
       </nav>
     </div>
@@ -19,72 +19,77 @@
       <div class="col-12 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
-            <h4 class="card-title">Formulario</h4>
-            <p class="card-description">Apertura de grupos</p>
-            <form class="forms-sample">
+            <form class="forms-sample" method="POST">
               {% csrf_token %}
-              {{form.as_p}}
-    
-              <!-- 
+              <h4 class="card-title">Identificador de grupo</h4>
               <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Departamento</label>
-                    <div class="col-sm-9">
-                      <select class="form-control">
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Municipio</label>
-                    <div class="col-sm-9">
-                      <select class="form-control">
-                      </select>
-                    </div>
-                  </div>
+                <div class="col-md-12">
+                  <label> Nombre del grupo</label>
+                  {{form.nombre_grupo}}
                 </div>
               </div>
-              <div class="form-group">
-                <label for="exampleSelectGender">Departamento</label>
-                <select class="form-control" id="exampleSelectGender">
-                </select>
+              <br>
+              <h4 class="card-title">Datos de ubicacion</h4>
+              <p class="card-description">Ubicacion de los grupos</p>
+              <br>
+              <div class="row">
+                <div class="col-md-4">
+                  <label>Departamento</label>
+                  {{form.departamento}}
+                </div>
+                <div class="col-md-4">
+                  <label>Municipio</label>
+                  {{form.municipio}}
+                </div>
+                <div class="col-md-4">
+                  <label>Identificador</label>
+                  {{form.identificador}}
+                </div>
               </div>
-              <div class="form-group">
-                <label for="exampleInputName1">Name</label>
-                <input type="text" class="form-control" id="exampleInputName1" placeholder="Name">
-              </div>
-              <div class="form-group">
-                <label for="exampleInputEmail3">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
-              </div>
-              <div class="form-group">
-                <label for="exampleInputPassword4">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword4" placeholder="Password">
-              </div>
+                <!-- Dejamos el espacio para la funcion en js-->
+              <!-- Area urbana-->
+              <br>
+              <div class="row">
+                <div class="col-md-3">
+                  <label>Zona</label>
+                  {{form.zona}}
+                </div>
 
-              <div class="form-group">
-                <label>File upload</label>
-                <input type="file" name="img[]" class="file-upload-default">
-                <div class="input-group col-xs-12">
-                  <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
-                  <span class="input-group-append">
-                    <button class="file-upload-browse btn btn-gradient-primary" type="button">Upload</button>
-                  </span>
+                <div class="col-md-3">
+                  <label>Canton</label>
+                  {{form.canton}}
+                </div>
+
+                <div class="col-md-3">
+                  <label>Sector</label>
+                  {{form.sector}}
+                </div>
+
+                <div class="col-md-3">
+                  <label>Canton</label>
+                  {{form.canton}}
+                </div>
+
+              </div>
+              <br>
+              <!--Este es el espacio para area rural-->
+              <div class="row">
+                <div class="col-md-4">
+                  <label>Aldea</label>
+                  {{form.aldeas}}
+                </div>
+                <div class="col-md-4">
+                  <label>Caserio</label>
+                  {{form.caserio}}
+                </div>
+                <div class="col-md-4">
+                  <label>Canton / Paraje </label>
+                  {{form.paraje}}
                 </div>
               </div>
-              <div class="form-group">
-                <label for="exampleInputCity1">City</label>
-                <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location">
-              </div>
-              <div class="form-group">
-                <label for="exampleTextarea1">Textarea</label>
-                <textarea class="form-control" id="exampleTextarea1" rows="4"></textarea>
-              </div>
--->
-              <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
+              <br>
               <button class="btn btn-light">Cancel</button>
+              <button type="submit" class="btn btn-gradient-primary mr-2">Guardar grupo</button>
             </form>
           </div>
         </div>

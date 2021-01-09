@@ -7,7 +7,7 @@
 <div class="main-panel">
   <div class="content-wrapper">
     <div class="page-header">
-      <h3 class="page-title">Asignacion de grupos</h3>
+      <h3 class="page-title">Directiva</h3>
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item active"><a href="{% url 'index' %}">Inicio</a></li>
@@ -27,49 +27,31 @@
               <tr>
                 <th>No. </th>
                 <th>Nombre del grupo</th>
-                <th>No. Integrantes</th>
-                <th>Directiva</th>
-                <th>Acciones</th>
+                <th>Nombre</th>
+                <th>Puesto</th>
+                <th>Telefono</th>
+                <th>Direccion</th>
 
               </tr>
             </thead>
             <tbody>
-              {% for grupo in grupo_list %}
+
               <tr>
-                <td>{{grupo.id}}</td>
-                <td>{{grupo.nombre_grupo }}</td>
-                <td>{{grupo.count_integrantes}}</td>
-                <td>
-                  <a type="button" class="btn btn-sm btn-info btn-rounded btn-fw" href="/grupos-directiva/{{ grupo.id }} ">Directiva</a>
-                </td>
-                <td>
-                  <button class="btn btn-sm btn-success">Ver</button>
-                  <button class="btn btn-sm btn-warning">Editar</button> 
-                  <a type="button" class="btn btn-sm btn-danger" href="/grupos-delete/{{ grupo.id }} ">Delete</a>
-                </td>
+                
+                {% for directiva in directivas  %}
+                                    
+                <td>{{directiva.id}}</td>
+
+                {% endfor %}
+
               </tr>
-              {% endfor %} 
             </tbody>
           </table>
+          <a type="button" class="btn btn-sm btn-gradient-info btn-rounded btn-fw" href="{% url 'grupo_list' %}">Regresar</a>
         </div>
       </div>
     </div>
   </div>
 </div>
 </div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript">
-  $('#identificador').hide();
-
-  function check_prov(value) {
-    if(value != 0) {
-      $('#area_rural').hide(500);
-    } else if(value == 0) {
-      $('#area_rural').show(500);
-    }
-    console.log(value);
-  }
-  
-</script>
 {% endblock gruposlist %}
