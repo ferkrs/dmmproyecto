@@ -1,0 +1,60 @@
+{% include 'base.html' %}
+{% block gruposlist  %} 
+{% load staticfiles %}
+{% include 'navbar.html' %}
+<div class="container-fluid page-body-wrapper">
+  {% include 'sidebar.html' %}
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="page-header">
+      <h3 class="page-title">Usuarios</h3>
+      <a class="file-upload-browse btn btn-gradient-primary" type="button" href="{% url 'user_create' %}">Crear usuario</a>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'index' %}">Usuario</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'grupos' %}">Inicio</a></li>
+        </ol>
+      </nav>
+    </div>
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Usuarios Sistema</h4>
+          <p class="card-description"> Listado de los usuarios registrados
+          </p>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Primer Nombre</th>
+                <th>Segundo Nombre</th>
+                <th>Usuario</th>
+                <th>Rol</th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for usuario in usuarios %}
+              <tr>
+                <td>{{ usuario.first_name }}</td>
+                <td>{{usuario.last_name}}</td>
+                <td>{{usuario.username}}</td>
+                <td>{{usuario.get_rol_display}}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning">
+                        Editar
+                    </button>
+                    <button class="btn btn-sm btn-danger">
+                        Eliminar
+                    </button>
+                </td>
+              </tr>
+              {% endfor %} 
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock gruposlist %}

@@ -73,12 +73,11 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dmm',
         'USER': 'root',
-        'PASSWORD':'F3rkr5',
+        'PASSWORD':'database',
         'HOST': 'localhost',
-
+        'PORT': '3306'
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -122,3 +121,5 @@ STATICFILES_DIRS = [
 STATIC_URL = '/static/'
 MEDIA_ROOT='media' 
 MEDIA_URL = '/media/'
+LOGIN_REDIRECT_URL = '/'
+AUTH_USER_MODEL = 'inicio.Usuario'

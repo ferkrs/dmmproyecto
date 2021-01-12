@@ -1,0 +1,38 @@
+{% include 'base.html' %}
+{% block grupos  %} 
+{% load staticfiles %}
+{% include 'navbar.html' %}
+<div class="container-fluid page-body-wrapper">
+  {% include 'sidebar.html' %}
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="page-header">
+      <h3 class="page-title">Asignacion de grupos</h3>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Agregar Grupos</li>
+        </ol>
+      </nav>
+    </div>
+    <div class="row">
+      <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Registro de usuarios</h4>
+            <p class="card-description">Apertura de grupos</p>
+            <form class="forms-sample">
+              {% csrf_token %}
+              {{form.as_p}}
+    
+              <button type="submit" class="btn btn-gradient-primary mr-2">Agregar</button>
+              <a class="btn btn-light" type="button" href="{% url 'user_list' %}">Cancelar</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock grupos %}

@@ -3,9 +3,26 @@ from django.views import generic
 from django.views.generic import ListView, TemplateView
 from django.http import HttpResponse
 from .models import *  
-from .forms import GrupoForm
+from .forms import GrupoForm, RegisterForm
 def index(request): 
     return render(request,'index.html')
+
+# VISTAS LOGIN Y REGISTRO DE USUARIOS
+# Users List
+def user_list(request):
+    usuarios = Usuario.objects.all()
+    return render(request, 'users/user_list.html', {'usuarios': usuarios})
+
+def register(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, 'users/user_list.html', {})
+    else:
+        form = RegisterForm()
+    return render(request, 'users/user_register.html', {'form': form})
+
 
 
 class GruposAdd(generic.ListView):

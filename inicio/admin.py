@@ -23,3 +23,7 @@ class RelacionDPGAdmin(admin.ModelAdmin):
     search_fields = ['puesto']
     list_filter = ('puesto',)
 admin.site.register(RelacionDPG, RelacionDPGAdmin)
+
+class UsuarioAdmin(admin.ModelAdmin):
+    list_display = ('username', 'first_name', 'last_name')
+admin.site.register(Usuario, UsuarioAdmin)
