@@ -7,19 +7,25 @@ from .forms import GrupoForm
 def index(request): 
     return render(request,'index.html')
 
+
+class GruposAdd(generic.ListView):
+    template_name =  'grupos/grupo_add.html'
+
 #funcion de listar
 class GruposList(generic.ListView):
     queryset = Grupo.objects.all()
     template_name = 'grupos/grupos_list.html'
 
+    def contar():
+        id = Grupo.objects.filter(id)
+
+        realacion = RelacionDPG.objects.filter(grupo=id).count()
+
 #funcion de consulta de directiva by id
 def DirectivaId(request, id): 
-    directiva = RelacionDPG.objects.filter(grupo=id)
-    return render(request, 'grupos/directiva.html', {'directiva': directiva})
+    datos = RelacionDPG.objects.filter(grupo=id).order_by('puesto')
+    return render(request, 'grupos/directiva.html', {'datos': datos})
 
-
-
-    
 #Funcion de borrar  
 def GrupoDelete(request, id):
     grupo = Grupo.objects.get(id=id)

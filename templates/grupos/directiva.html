@@ -25,26 +25,26 @@
           <table class="table table-striped">
             <thead>
               <tr>
-                <th>No. </th>
                 <th>Nombre del grupo</th>
-                <th>Nombre</th>
                 <th>Puesto</th>
+                <th>Nombre</th>
                 <th>Telefono</th>
                 <th>Direccion</th>
 
               </tr>
             </thead>
             <tbody>
-
               <tr>
-                
-                {% for directiva in directivas  %}
-                                    
-                <td>{{directiva.id}}</td>
-
-                {% endfor %}
-
+              {% for datos in datos  %}
+              <td>{{datos.grupo}}</td>
+              <td>{{datos.get_puesto_display}}</td>
+              <td>{{datos.persona}}</td>
+              <td>{{datos.tel_persona}}</td>
+              <td>{{datos.dir_persona}}</td>
               </tr>
+              
+              {% endfor %}
+
             </tbody>
           </table>
           <a type="button" class="btn btn-sm btn-gradient-info btn-rounded btn-fw" href="{% url 'grupo_list' %}">Regresar</a>
