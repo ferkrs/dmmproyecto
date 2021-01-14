@@ -21,7 +21,7 @@
           <div class="card-body">
             <h4 class="card-title">Registro de usuarios</h4>
             <p class="card-description">Apertura de grupos</p>
-            <form class="forms-sample">
+            <form class="forms-sample" method="POST">
               {% csrf_token %}
               {{form.as_p}}
     

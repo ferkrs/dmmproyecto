@@ -9,6 +9,7 @@ class RegisterForm(forms.ModelForm):
             'last_name',
             'email',
             'username',
+            'password',
             'rol'
         ]
         labels = {
@@ -16,13 +17,16 @@ class RegisterForm(forms.ModelForm):
             'last_name': 'Apellido',
             'email': 'Correo Electrónico',
             'username': 'Nombre de Usuario',
-            'rol': 'Rol de usuario'
+            'rol': 'Rol de usuario',
+            'password': 'Ingrese una contraseña para el usuario'
         }
         widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'form-control '}),
-            'username': forms.TextInput(attrs={'class': 'form-control '}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control '}),
-            'rol' :forms.Select(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control ', 'required': True}),
+            'username': forms.TextInput(attrs={'class': 'form-control ', 'required': True}),
+            'password': forms.PasswordInput(attrs={'class': 'form-control ', 'required': True}),
+            'email': forms.EmailInput(attrs={'class': 'form-control ', 'required': True}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control ', 'required': True}),
+            'rol' :forms.Select(attrs={'class': 'form-control', 'required': True}),
         }
 
 class GrupoForm(forms.ModelForm):

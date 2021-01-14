@@ -4,11 +4,17 @@ from django.views.generic import ListView, TemplateView
 from django.http import HttpResponse
 from .models import *  
 from .forms import GrupoForm, RegisterForm
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+
+@login_required
 def index(request): 
     return render(request,'index.html')
 
 # VISTAS LOGIN Y REGISTRO DE USUARIOS
 # Users List
+@login_required
 def user_list(request):
     usuarios = Usuario.objects.all()
     return render(request, 'users/user_list.html', {'usuarios': usuarios})
@@ -17,12 +23,17 @@ def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)
+            user.password = make_password(user.password)
+            user.save()
             return render(request, 'users/user_list.html', {})
     else:
         form = RegisterForm()
     return render(request, 'users/user_register.html', {'form': form})
 
+def logout_view(request):
+    logout(request)
+    return redirect('accounts/login')
 
 
 class GruposAdd(generic.ListView):
