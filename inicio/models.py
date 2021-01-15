@@ -1,56 +1,83 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import AbstractUser
 
+# USUARIO
+class Usuario(AbstractUser):
+    # Este modelo permite almacenar la información de los usuarios para ingresar al sistema
 
+    # Rol
+    ROLES = [
+        (0, "Administrador"),
+        (1, "Trabajador Social"),
+        (2, "Tecnico Capacitador"),
+        (3, "Promotor de grupos sociales"),
+        (5, "Secretaria")
+    ]
+    rol = models.PositiveSmallIntegerField(choices=ROLES)
+
+    # Campos requeridos
+    REQUIRED_FIELDS = ['password','first_name', 'last_name', 'rol', 'email']
+
+# PERSONA
 class Persona(models.Model):
+    # CUI
     cui = models.CharField(max_length=20,blank= False) 
+    # Sexo
     SEXO = [ 
         (0,""),(1,"M"),(2,"F"),
     ]
     sexo = models.IntegerField(choices=SEXO, default=0, blank=False)
-    primer_nombre = models.CharField(max_length=20, blank=False) 
-    segundo_nombre = models.CharField(max_length=20,  blank=False) 
+    # Primer nombre
+    primer_nombre = models.CharField(max_length=20, blank=False)
+    # Segundo nombre
+    segundo_nombre = models.CharField(max_length=20,  blank=True)
+    # Tercer nombre 
     tercer_nombre = models.CharField(max_length=20,  blank=True) 
+    # Primer apellido
     primer_apellido = models.CharField(max_length=20, blank=False) 
+    # Segundo apellido
     segundo_apellido = models.CharField(max_length=20,  blank=True)
-    apellido_casada = models.CharField(max_length=20,  blank=True) 
+    # Apellido casada
+    apellido_casada = models.CharField(max_length=20,  blank=True)
+    # Fecha Nacimiento
     fecha_nacimiento = models.DateField(blank=False, null=False)
+    # Telefono
     telefono= models.CharField(max_length=8, blank=True)
         #quitar direccion
     direccion = models.CharField(max_length=20, blank=True)
+    # Correo electronico
     correo_electronico = models.EmailField(max_length=100, blank=True)
     def __str__(self):
-        txt="{0} {1}"
-        return txt.format(self.primer_nombre, self.primer_apellido) 
+        txt="Nombre: {0} {1}, Telefono: {2}"
+        return txt.format(self.primer_nombre, self.primer_apellido, self.telefono) 
+    def persona_list(self): 
+        txt="{0} (Nombre: {1} {2})"
+        return txt.format(self.cui, self.primer_nombre, self.primer_apellido)
     class Meta:
         verbose_name = "Registro de personas"
         verbose_name_plural = "Registro de personas"
-    def direccion_persona(self): 
-        txt="{0}"
-        return txt.format(self.direccion)
-   
-    def telefono_persona(self): 
-        txt="{0}"
-        return txt.format(self.telefono)
 
 class Grupo(models.Model):
-    nombre_grupo = models.CharField(max_length=50)
+    # Departamentos
     DEPARTAMENTO = [ 
         (0,"SAN MARCOS"),
     ]
     departamento = models.IntegerField(choices=DEPARTAMENTO, default=0, blank=False)
+    # Municipios
     MUNICIPIO = [ 
         (0,"SAN PEDRO"),
     ]
     municipio = models.IntegerField(choices=MUNICIPIO, default=0, blank=False)
 
+    # Area
     IDENTIFICADOR = [ 
         (0, "AREA RURAL"), 
         (1, "AREA URBANA"), 
         (2, "LLANO GRANDE")
     ]
     identificador= models.IntegerField(choices=IDENTIFICADOR, blank=False)
-    #AREA URBANA
+    # Zonas area urbana
     ZONA= [ 
         (0, ""), (1, "ZONA 1"),(2, "ZONA 1 Y 2"),
         (3, "ZONA 1 Y 4"),(4, "ZONA 2"),
@@ -58,12 +85,12 @@ class Grupo(models.Model):
 
     ]
     zona = models.IntegerField(choices=ZONA,default=0, blank=True)
-
+    # Caserio
     CASERIO= [ 
         (0, ""), (1, "LOS JAZMINES"),(2, "LLANO GRANDE"),
     ]
     caserio = models.IntegerField(choices=CASERIO,default=0, blank=True)
-
+    # Canton
     CANTON= [ 
         (0, ""),(1, "LA PARROQUIA"),(2, "SANTA MARIA DE ATOCHA"),
         (3, "SAN MIGUEL"),(4, "SAN JUAN DE DIOS"),
@@ -71,13 +98,13 @@ class Grupo(models.Model):
         (7, "EL MOSQUITO"),(8, "SAN SEBASTIÁN"),
     ]
     canton = models.IntegerField(choices=CANTON,default=0, blank=True)
-    
+    # Sector
     SECTOR= [ 
         (0, ""),(1, "HIERBA BUENA"),(2, "GALLO ROJO"),
     ]
     sector = models.IntegerField(choices=SECTOR,default=0, blank=True)
+    
     #AREA RURAL
-
     ALDEAS= [ 
         (0, ""),(1, "CANTEL"),(2, "CORRAL GRANDE"),
         (3, "CHAMPOLLAP"),(4, "CHIM"),
@@ -90,39 +117,40 @@ class Grupo(models.Model):
         (17, "SAN FRANCISCO SOCHE"),
     ]
     aldeas = models.IntegerField(choices=ALDEAS,default=0, blank=True)
+    # Paraje
     paraje = models.CharField(max_length=20,blank=True)
+    # Grupo
+    nombre_grupo = models.CharField(max_length=20)
+
     def __str__(self): 
-        return str(self.nombre_grupo)
-    #cambiar el modelo para obtener el id
-    def grupo_id(self): 
-        return str(self.id)
+        txt="{0}"
+        return txt.format(self.nombre_grupo)
     class Meta:
         verbose_name = "Asiganacion de grupos"
         verbose_name_plural = "Asiganacion de grupos"
 
-class RelacionDPG(models.Model): 
+class RelacionDPG(models.Model):
+    # Puestos en directiva
     DIRECTIVA = [
-        (0, "MIEMBRO"), 
-        (1, "PRESIDENTA(E)"), 
-        (2, "VICE-PRESIDENTA(E)"),
-        (3, "SECRETARIA(O)"),
-        (4, "TESORERA(O)"), 
+        (0, "MIEMBRO"),
+        (1, "PRESIDENTE"),
+        (2, "VICE-PRESIDENTE"),
+        (3, "SECRETARIA"),
+        (4, "TESORERA"),
         (5, "VOCAL 1"),
         (6, "VOCAL 2"),
-
     ]
+    # Integrante
     persona = models.ForeignKey(Persona, on_delete= models.CASCADE,related_name='persona_directiva', null=False, blank=False)
-    puesto = models.IntegerField(choices=DIRECTIVA, null=False, blank=False, default=0)
+    # Puesto a ocupar
+    puesto = models.IntegerField(choices=DIRECTIVA, null=False, blank=False, default=6)
+    # Grupo al que pertenece
     grupo = models.ForeignKey(Grupo, on_delete= models.CASCADE,related_name='grupo_directiva',null=False, blank=False)
-    
-    def tel_persona(self): 
-        return self.persona.telefono_persona()
-    #mostrar la relacion entre la persona y el puest
-    def dir_persona(self): 
-        return self.persona.direccion_persona()
-  
 
+    def persona_puesto(self):
+        txt="({0} Puesto: {1} )"
+        return txt.format(self.persona, self.puesto)
+    #mostrar la relacion entre la persona y el puest
     class Meta:
         verbose_name = "Asignar Directiva"
         verbose_name_plural = "Asignar Directiva"
-#cambiar de modelo
