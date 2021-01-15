@@ -44,13 +44,14 @@
                 <div class="col-sm-6">
                         <address> 
                           <p class="font-weight-bold">Nombre del grupo</p>
-                          <p> 695 lsom Ave, </p>
+                          <p> {{ grupo.nombre_grupo }} </p>
                         </address>
                 </div>
                 <div class="col-sm-6">
                     <address> 
                     <p class="font-weight-bold">Datos de ubicacion</p>
-                    <p> 695 lsom Ave, </p>
+                    <p> {{ grupo.get_departamento_display }} -  {{ grupo.get_municipio_display }}</p>
+                    <p> {{ grupo.get_zona_display }} -  {{ grupo.get_caserio_display }}</p>
                     </address>
                 </div>
      

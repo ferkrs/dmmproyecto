@@ -5,11 +5,15 @@ from django.http import HttpResponse
 from .models import *  
 from .forms import GrupoForm
 from django.contrib import messages
+# Modelos
+from .models import Grupo
+
 def index(request): 
     return render(request,'index.html')
 
-def GruposAdd(request): 
-    return render(request,'grupos/grupo_add.html')
+def GruposAdd(request, id):
+    grupo = Grupo.objects.get(id=id)
+    return render(request,'grupos/grupo_add.html', {'grupo': grupo})
 #funcion de listar
 class GruposList(generic.ListView):
     queryset = Grupo.objects.all()

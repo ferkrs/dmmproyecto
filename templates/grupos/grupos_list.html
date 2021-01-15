@@ -48,8 +48,8 @@
                   <a type="button" class="btn btn-sm btn-info btn-rounded btn-fw" href="/grupos-directiva/{{ grupo.id }} ">Directiva</a>
                 </td>
                 <td>
-                  <a type="button" class="btn btn-sm btn-success" href="{% url 'pergrup_add' %}">Agregar</a>
-                  <a type="button" class="btn btn-sm btn-danger" href="#" onclick="eliminar_grupo({{grupo.id}})">Delete</a>
+                  <a type="button" class="btn btn-sm btn-success" href="{% url 'pergrup_add' id=grupo.id %}">Agregar</a>
+                  <a type="button" class="btn btn-sm btn-danger" href="#" onclick="eliminar_grupo({{grupo.id}})">Eliminar</a>
                 </td>
               </tr>
               {% endfor %} 
