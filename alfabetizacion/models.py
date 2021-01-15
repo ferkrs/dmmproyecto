@@ -1,24 +1,34 @@
 from django.db import models
 from inicio.models import Persona
 
-class Comunidad(models.Model): 
+# Modelo Comunidad
+class Comunidad(models.Model):
+    # Nombre de la comunidad
     comunidad = models.CharField(max_length=30, blank=False)
     class Meta:
         verbose_name = "Agregar Comunidades"
         verbose_name_plural = "Agregar Comunidades"
     def __str__(self):
         return self.comunidad
+        
+# Modelo MujeresAlfa
 class MujeresAlfa(models.Model):
+    # Nombre de la comunidad
     comunidad = models.ForeignKey(Comunidad, verbose_name="comunidades", on_delete = models.CASCADE)
-    nombre_alfabetizadora = models.CharField(max_length=20, blank=False) 
+    # Nombre encargada
+    nombre_alfabetizadora = models.CharField(max_length=20, blank=False)
+    # Ciclo
     ciclo = models.DateField(blank=False)
+    # Integrantes
     integrantes = models.ManyToManyField(Persona)
+    # Fase de alfabetizacion
     FASE=[ 
         (0, "FASE INCIAL"), 
         (1, "PRIMERA DE POST"), 
         (2, "SEGUNDA DE POST"),
     ]
     fase = models.IntegerField(choices=FASE, null=False, blank=False)
+    # Fechas de creacion y actualizacion
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now= True)
 

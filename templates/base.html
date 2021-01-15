@@ -7,6 +7,7 @@
     {% load staticfiles %}
     <!--Necesario incluir jquery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'vendors/mdi/css/materialdesignicons.min.css' %}">
     <link rel="stylesheet" href="{% static 'vendors/css/vendor.bundle.base.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -14,35 +15,40 @@
   </head>
   <body>
     {% block content %}
-        <!-- This is for call alerts-->
-
-  {% endblock content %}
+    
+    {% endblock content %}
+    
     <div class="container-scroller">
-
- 
+      
+      
     </div>
-      <script src="{% static 'js/jquery-2.0.0.min.js' %}"></script>
-      <script src="{% static 'vendors/js/vendor.bundle.base.js' %}"></script>
-      <script src="{% static 'vendors/chart.js/Chart.min.js' %}"></script>
-      <script src="{% static 'js/off-canvas.js' %}"></script>
-      <script src="{% static 'js/hoverable-collapse.js' %}"></script>
-      <script src="{% static 'js/misc.js' %}"></script>
-      <script src="{% static 'js/dashboard.js' %}"></script>
-      <script src="{% static 'js/todolist.js' %}"></script>
-      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    
 
-      {% if messages %}
+    <script src="{% static 'js/jquery-2.0.0.min.js' %}"></script>
+    <script src="{% static 'vendors/js/vendor.bundle.base.js' %}"></script>
+    <script src="{% static 'vendors/chart.js/Chart.min.js' %}"></script>
+    <script src="{% static 'js/off-canvas.js' %}"></script>
+    <script src="{% static 'js/todolist.js' %}"></script>
+    <script src="{% static 'js/hoverable-collapse.js' %}"></script>
+    <script src="{% static 'js/misc.js' %}"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    {% if messages %}
       {% for m in messages  %}
-      <script> 
-        Swal.fire({
-          icon: 'success',
-          title: '{{m}}',
-          showConfirmButton: false,
-          timer: 1500
-        })
-      </script>
-
+        <script> 
+          Swal.fire({
+            icon: 'success',
+            title: '{{m}}',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        </script>
       {% endfor %}
     {% endif %}
+  
   </body>
-</html>
+  </html>
