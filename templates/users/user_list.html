@@ -12,7 +12,7 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
-          <li class="breadcrumb-item"><a href="{% url 'grupos' %}">Listado</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'user_list' %}">Listado</a></li>
         </ol>
       </nav>
     </div>
@@ -40,21 +40,40 @@
                 <td>{{usuario.username}}</td>
                 <td>{{usuario.get_rol_display}}</td>
                 <td>
-                    <button class="btn btn-sm btn-warning">
-                        Editar
-                    </button>
-                    <button class="btn btn-sm btn-danger">
-                        Eliminar
+                    <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-warning" data-form-url="{% url 'user_update' usuario.id %}">
+                        <span class="fa fa-trash">Editar</span>
+                      </button>
+                    <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-danger" data-form-url="{% url 'user_delete' usuario.id %}">
+                      <span class="fa fa-trash">Eliminar</span>
                     </button>
                 </td>
               </tr>
               {% endfor %} 
             </tbody>
           </table>
+          <div class="modal fade" tabindex="-1" role="dialog" id="modal">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content"></div>
+            </div>
+          </div>
+     
+          <script type="text/javascript">
+            $(function () {
+              // Update, Read and Delete book buttons open modal with id="modal" (default)
+              // The formURL is retrieved from the data of the element
+              $(".bs-modal").each(function () {
+                $(this).modalForm({
+                  formURL: $(this).data('form-url')
+                });
+              });
+            });
+          </script>
+
         </div>
       </div>
     </div>
   </div>
 </div>
 </div>
+
 {% endblock gruposlist %}

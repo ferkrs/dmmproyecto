@@ -21,6 +21,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'bootstrap_modal_forms',
+    'widget_tweaks',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -29,7 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'inicio',
     'servicios',
-    'alfabetizacion'
+    'alfabetizacion',
 ]
 
 MIDDLEWARE = [

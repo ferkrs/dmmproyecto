@@ -3,12 +3,16 @@ from .views import *
 from django.urls import path, include
 
 urlpatterns = [
+    # Index Route
     path('', index, name='index'),
-    # User Routes
+    # Authentication Routes
     path('accounts/', include('django.contrib.auth.urls')),
-    path('users/create', views.register, name='user_create'),
-    path('users/list', views.user_list, name='user_list'),
     path('logout', views.logout_view, name='logout'),
+    # User Routes
+    path('users/list', views.user_list, name='user_list'),
+    path('users/create', views.register, name='user_create'),
+    path('users/update/<int:pk>', views.UserUpdateView.as_view(), name='user_update'),
+    path('users/delete/<int:pk>', views.UserDeleteView.as_view(), name='user_delete'),
     # Grupos Routes
     path('grupos', grupo_crear, name='grupos'),
     path('grupos/list', views.GruposList.as_view(), name='grupo_list'),

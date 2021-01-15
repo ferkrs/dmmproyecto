@@ -7,10 +7,10 @@
 <div class="main-panel">
   <div class="content-wrapper">
     <div class="page-header">
-      <h3 class="page-title">Asignacion de grupos</h3>
+      <h3 class="page-title">Creación usuarios de sistema</h3>
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'user_list' %}">Listado Usuarios</a></li>
           <li class="breadcrumb-item active" aria-current="page">Agregar Grupos</li>
         </ol>
       </nav>
@@ -20,7 +20,6 @@
         <div class="card">
           <div class="card-body">
             <h4 class="card-title">Registro de usuarios</h4>
-            <p class="card-description">Apertura de grupos</p>
             <form class="forms-sample" method="POST">
               {% csrf_token %}
               {{form.as_p}}
