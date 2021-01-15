@@ -27,7 +27,7 @@ class Curso(models.Model):
     ]
     de = models.IntegerField(choices=DIAS, null=False, blank=False)
     a = models.IntegerField(choices=DIAS, null=False, blank=False)
-    integrantes = models.ManyToManyField(Persona)
+    integrantes = models.ManyToManyField(Persona, blank=True)
             
     def count_integrantes(self):
         return  self.integrantes.all().count()

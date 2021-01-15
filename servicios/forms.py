@@ -2,7 +2,9 @@ from .models import Curso
 from django import forms
 from django.forms.fields import DateField
 class DateInput(forms.DateInput): 
-    input_type = 'date'
+    input_type = 'date', 
+    input_type = 'time'
+    
 class CursoForm(forms.ModelForm):
     class Meta:
         model = Curso
@@ -34,10 +36,10 @@ class CursoForm(forms.ModelForm):
         widgets = {
             'modalidad' :forms.Select(attrs={'class': 'form-control'}),
             'nombre' :forms.TextInput(attrs={'class': 'form-control '}), 
-            'fecha_inicio' :forms.DateInput(),
-            'fecha_finalizacion' :forms.DateInput(format='%d/%m/%Y'),
-            'hora_inicio' :forms.TimeInput(attrs={'class': 'form-control'}),
-            'hora_final' :forms.TimeInput(attrs={'class': 'form-control'}),
+            'fecha_inicio' :forms.DateInput(attrs={'class':'form-control', 'type':'date'}),
+            'fecha_finalizacion' :forms.DateInput(attrs={'class':'form-control', 'type':'date'}),
+            'hora_inicio' :forms.TimeInput(attrs={'class':'form-control', 'type':'time'}),
+            'hora_final' :forms.TimeInput(attrs={'class':'form-control', 'type':'time'}),
             'de' :forms.Select(attrs={'class': 'form-control'}),
             'a' :forms.Select(attrs={'class': 'form-control'}),  
         }

@@ -4,13 +4,12 @@ from django.views.generic import ListView, TemplateView
 from django.http import HttpResponse
 from .models import *  
 from .forms import GrupoForm
+from django.contrib import messages
 def index(request): 
     return render(request,'index.html')
 
-
-class GruposAdd(generic.ListView):
-    template_name =  'grupos/grupo_add.html'
-
+def GruposAdd(request): 
+    return render(request,'grupos/grupo_add.html')
 #funcion de listar
 class GruposList(generic.ListView):
     queryset = Grupo.objects.all()
@@ -37,26 +36,15 @@ def GrupoDelete(request, id):
     return redirect('grupo_list')
 #Grupo Crear
 def grupo_crear(request):
-    grupo = GrupoForm(request)
     if request.method == 'POST':
         form = GrupoForm(request.POST)
         if form.is_valid():
             try:  
-                form.save() 
+                form.save()
+                messages.success(request,"Se ha creado el grupo")
                 return render(request, 'grupos/grupos_add.html', {'grupo': grupo})
             except:  
                 pass
-
     else:
         form = GrupoForm()
     return render(request, 'grupos/grupos_add.html', {'form': form})
-
-#Asignar personas a grupos
-
-#Grupo y personas del grupo
-
-    #Funcion para renderizar dos modelos en un modelo
-    #grupo = Grupo.objects.all()
-    #relaciondpg = RelacionDPG.objects.all()
-    #context= {'grupo': grupo, 'relaciondpg':relaciondpg}
-    #return render(request, 'grupos/directiva.html', context)

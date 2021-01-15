@@ -21,11 +21,51 @@
           <div class="card-body">
             <h4 class="card-title">Formulario</h4>
             <p class="card-description">Apertura de grupos</p>
-            <form class="forms-sample">
+            <form class="forms-sample" method="POST">
               {% csrf_token %}
-              {{form.as_p}}
-              <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Modalidad:</label>
+                {{form.modalidad}}
+                </div>
+                <div class="col-md-6">
+                  <label>Nombre:</label>
+                {{form.nombre}}
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Fecha inicio:</label>
+                  {{form.fecha_inicio}}
+                </div>
+                <div class="col-md-6">
+                  <label>Fecha Finalizacion:</label>
+                {{form.fecha_finalizacion}}
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-md-3">
+                  <label>Fecha inicio:</label>
+                  {{form.hora_inicio}}
+                </div>
+                <div class="col-md-3">
+                  <label>Fecha Finalizacion:</label>
+                {{form.hora_final}}
+                </div>
+                <div class="col-md-3">
+                  <label>De:</label>
+                {{form.de}}
+                </div>
+                <div class="col-md-3">
+                  <label>A:</label>
+                  {{form.a}}
+                </div>
+              </div>
+              <br>
               <button class="btn btn-light">Cancel</button>
+              <button type="submit" class="btn btn-gradient-primary mr-2">Guardar</button>
             </form>
           </div>
         </div>
