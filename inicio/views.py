@@ -8,11 +8,19 @@ from .forms import GrupoForm, RegisterForm, UserModelForm
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 # Bootstrap Modals
 from bootstrap_modal_forms.generic import (
     BSModalDeleteView,
     BSModalUpdateView
 )
+
+# Usuario administrador
+def administrador_check(user):
+    if(user.rol == 0):
+        return True
+    else:
+        return False
 
 @login_required
 def index(request): 
@@ -21,6 +29,7 @@ def index(request):
 # VISTAS LOGIN Y REGISTRO DE USUARIOS
 # Users List
 @login_required
+@user_passes_test(administrador_check)
 def user_list(request):
     usuarios = Usuario.objects.all()
     return render(request, 'users/user_list.html', {'usuarios': usuarios})
@@ -32,6 +41,10 @@ class UserDeleteView(BSModalDeleteView):
     success_message = 'Success: El usuario ha sido eliminado correctamente'
     success_url = reverse_lazy('user_list')
 
+    def dispatch(self, request, *args, **kwargs):
+        if(request.user.rol != 0):
+            return redirect('index')
+
 # Update
 class UserUpdateView(BSModalUpdateView):
     model = Usuario
@@ -40,6 +53,12 @@ class UserUpdateView(BSModalUpdateView):
     success_message = 'Success: Book was updated.'
     success_url = reverse_lazy('user_list')
 
+    def dispatch(self, request, *args, **kwargs):
+        if(request.user.rol != 0):
+            return redirect('index')
+
+@login_required
+@user_passes_test(administrador_check)
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -55,6 +74,7 @@ def register(request):
 def logout_view(request):
     logout(request)
     return redirect('accounts/login')
+
 
 
 class GruposAdd(generic.ListView):
