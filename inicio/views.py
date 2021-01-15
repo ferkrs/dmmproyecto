@@ -49,10 +49,6 @@ class UserDeleteView(BSModalDeleteView):
     success_message = 'Success: El usuario ha sido eliminado correctamente'
     success_url = reverse_lazy('user_list')
 
-    def dispatch(self, request, *args, **kwargs):
-        if(request.user.rol != 0):
-            return redirect('index')
-
 # User Update
 class UserUpdateView(BSModalUpdateView):
     model = Usuario
@@ -60,10 +56,6 @@ class UserUpdateView(BSModalUpdateView):
     form_class = UserModelForm
     success_message = 'Success: Book was updated.'
     success_url = reverse_lazy('user_list')
-
-    def dispatch(self, request, *args, **kwargs):
-        if(request.user.rol != 0):
-            return redirect('index')
 
 # User Create
 @login_required
