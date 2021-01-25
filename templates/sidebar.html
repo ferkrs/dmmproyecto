@@ -18,6 +18,12 @@
       </li>
       {% endif %}
       <li class="nav-item">
+        <a class="nav-link" href="{% url 'personas_list' %}">
+          <span class="menu-title">Control de Integrantes</span>
+          <i class="mdi mdi-account-multiple menu-icon"></i>
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
           <span class="menu-title">Grupos Sociales</span>
           <i class="menu-arrow"></i>
@@ -30,7 +36,12 @@
           </ul> 
         </div>
       </li>
-
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'alfabetizacion_list' %}">
+          <span class="menu-title">Alfabetizacion</span>
+          <i class="mdi mdi-account-multiple menu-icon"></i>
+        </a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#general-pages" aria-expanded="false" aria-controls="general-pages">
           <span class="menu-title">Servicios</span>

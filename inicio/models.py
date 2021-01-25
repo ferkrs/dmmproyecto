@@ -129,7 +129,8 @@ class Grupo(models.Model):
         verbose_name = "Asiganacion de grupos"
         verbose_name_plural = "Asiganacion de grupos"
 
-class RelacionDPG(models.Model):
+
+class AsignacionPersonaGrupo(models.Model):
     # Puestos en directiva
     DIRECTIVA = [
         (0, "MIEMBRO"),
@@ -143,7 +144,7 @@ class RelacionDPG(models.Model):
     # Integrante
     persona = models.ForeignKey(Persona, on_delete= models.CASCADE,related_name='persona_directiva', null=False, blank=False)
     # Puesto a ocupar
-    puesto = models.IntegerField(choices=DIRECTIVA, null=False, blank=False, default=6)
+    puesto = models.IntegerField(choices=DIRECTIVA, null=False, blank=False, default=0)
     # Grupo al que pertenece
     grupo = models.ForeignKey(Grupo, on_delete= models.CASCADE,related_name='grupo_directiva',null=False, blank=False)
 

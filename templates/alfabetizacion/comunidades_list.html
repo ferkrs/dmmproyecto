@@ -1,0 +1,101 @@
+{% include 'base.html' %}
+{% block gruposlist  %}
+{% load staticfiles %}
+{% include 'navbar.html' %}
+<div class="container-fluid page-body-wrapper">
+  {% include 'sidebar.html' %}
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="page-header">
+      <h3 class="page-title">Alfabetizacion de Comunidades</h3>
+      <button type="button" class="file-upload-browse btn btn-gradient-primary" data-toggle="modal" data-target="#modalagregar">
+          Crear Comunidad
+        </button>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'user_list' %}">Listado</a></li>
+        </ol>
+      </nav>
+    </div>
+
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+            <h4 class="card-title">Listado de Comunidades</h4>
+            </p>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Nombre Comunidad</th>
+                    <th>Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for comu in comunidades %}
+                <tr>
+                    <td>{{ comu.comunidad }}</td>
+                    <td>
+                      <a type="button" class="btn btn-sm btn-success" href="{% url 'alfabetizacion_fases' id=comu.id %}">Listado de Fases</a>
+                        <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-warning" data-form-url="{% url 'alfabetizacion_edit' comu.id %}">
+                            <span class="fa fa-trash">Editar</span>
+                        </button>
+                        <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-danger" data-form-url="{% url 'alfabetizacion_fases' comu.id %}">
+                        <span class="fa fa-trash">Eliminar</span>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %} 
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal fade" id="modalagregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title" id="exampleModalLabel">Nueva Comunidad</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <form method="POST" action="{% url 'alfabetizacion_create' %}" class="pt-3">
+                {% csrf_token %}
+                <h4 class="card-title"><u>Información de Comunidad</u></h4>
+                  <div class="row">
+                      <div class="col-md-10">
+                        <label for="">Nombre de comunidad</label>
+                        {{formComunidad.comunidad}}
+                      </div>
+                    </div>
+                      <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Agregar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                      </div>
+              </form>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function () {
+    // Update, Read and Delete book buttons open modal with id="modal" (default)
+    // The formURL is retrieved from the data of the element
+    $(".bs-modal").each(function () {
+      $(this).modalForm({
+        formURL: $(this).data('form-url')
+      });
+    });
+  });
+</script>
+
+{% endblock gruposlist %}

@@ -2,7 +2,6 @@
 {% block grupoadd  %} 
 {% load staticfiles %}
 {% include 'navbar.html' %}
-
 <div class="container-fluid page-body-wrapper">
   {% include 'sidebar.html' %}
 <div class="main-panel">
@@ -16,6 +15,26 @@
         </ol>
       </nav>
     </div>
+    <!-- Modal / Ventana / Overlay en HTML -->
+    <div class="modal fade" id="modalagregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
     
     <div class="col-lg-12 grid-margin stretch-card">
       <div class="card">
@@ -52,38 +71,6 @@
                       </button>
                 </span>
               </div>
-
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>No. </th>
-                  <th>CUI</th>
-                  <th>Nombre</th>
-                  <th>Sexo</th>
-                  <th>Fecha Nacimiento</th>
-                  <th>Puesto</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                  {% for integrante in integrantes %}
-                <tr>
-                  <td>{{ forloop.counter }}</td>
-                  <td>{{ integrante.persona.cui }}</td>
-                  <td>{{ integrante.persona.primer_nombre }} {{ integrante.persona__primer_apellido }}</td>
-                  <td>{{ integrante.persona.get_sexo_display }}</td>
-                  <td>{{ integrante.persona.fecha_nacimiento}}</td>
-                  <td><label class="badge badge-gradient-success">{{ integrante.get_puesto_display }}</label></td>
-                  <td>
-                      <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-warning" data-form-url="{% url 'index' %}">
-                          <span class="fa fa-trash">Editar</span>
-                        </button>
-                        <a type="button" class="btn btn-sm btn-danger" href="#" onclick="eliminar_grupo({{integrante.id}})">Eliminar</a>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
           </div>
         </div>
       </div>

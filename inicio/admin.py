@@ -19,10 +19,9 @@ class GrupoAdmin(admin.ModelAdmin):
 admin.site.register(Grupo, GrupoAdmin)
 
 class RelacionDPGAdmin(admin.ModelAdmin): 
-
     search_fields = ['puesto']
     list_filter = ('puesto',)
-admin.site.register(RelacionDPG, RelacionDPGAdmin)
+admin.site.register(AsignacionPersonaGrupo, RelacionDPGAdmin)
 
 class UsuarioAdmin(admin.ModelAdmin):
     list_display = ('username', 'first_name', 'last_name')
