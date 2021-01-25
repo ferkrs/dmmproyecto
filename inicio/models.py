@@ -1,7 +1,6 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
-
 # USUARIO
 class Usuario(AbstractUser):
     # Este modelo permite almacenar la información de los usuarios para ingresar al sistema
