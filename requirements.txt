@@ -1,4 +1,6 @@
 Django==2.2.9
+django-bootstrap-modal-forms==2.0.1
+django-widget-tweaks==1.4.8
 mysqlclient==2.0.2
 Pillow==8.0.1
 pytz==2020.4

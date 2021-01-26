@@ -10,7 +10,6 @@ class CursoList(generic.ListView):
     queryset = Curso.objects.all()
     template_name = 'servicios/servicios_list.html'
 
-
 def servicio_crear(request):
     if request.method == 'POST':
         form = CursoForm(request.POST)
@@ -21,6 +20,16 @@ def servicio_crear(request):
                 return render(request, 'servicios/servicios_add.html', {'servicio': servicios})
             except:  
                 pass
+                return redirect('servicio_list') 
     else:
         form = CursoForm()
     return render(request, 'servicios/servicios_add.html', {'form': form})
+
+def ServicioDelete(request, id):
+    servicio = Curso.objects.get(id=id)
+    try:
+        servicio.delete()
+    except: 
+        pass
+    return redirect('servicio_list')  
+    

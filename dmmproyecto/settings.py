@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'inicio',
     'servicios',
     'alfabetizacion',
+    'reportes',
 ]
 
 MIDDLEWARE = [
@@ -73,7 +74,7 @@ WSGI_APPLICATION = 'dmmproyecto.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'devm',
+        'NAME': 'dmm',
         'USER': 'root',
         'PASSWORD':'F3rkr5',
         'HOST': 'localhost',

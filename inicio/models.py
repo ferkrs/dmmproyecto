@@ -48,14 +48,14 @@ class Persona(models.Model):
     # Correo electronico
     correo_electronico = models.EmailField(max_length=100, blank=True)
     def __str__(self):
-        txt="Nombre: {0} {1}, Telefono: {2}"
-        return txt.format(self.primer_nombre, self.primer_apellido, self.telefono) 
-    def persona_list(self): 
-        txt="{0} (Nombre: {1} {2})"
-        return txt.format(self.cui, self.primer_nombre, self.primer_apellido)
-    class Meta:
-        verbose_name = "Registro de personas"
-        verbose_name_plural = "Registro de personas"
+        txt="{0} {1}"
+        return txt.format(self.primer_nombre, self.primer_apellido) 
+    def telefono_persona(self): 
+        txt="{0}"
+        return txt.format(self.telefono)
+    def direccion_persona(self): 
+        txt="{0}"
+        return txt.format(self.direccion)
 
 class Grupo(models.Model):
     # Departamentos
@@ -150,7 +150,10 @@ class AsignacionPersonaGrupo(models.Model):
     def persona_puesto(self):
         txt="({0} Puesto: {1} )"
         return txt.format(self.persona, self.puesto)
-    #mostrar la relacion entre la persona y el puest
-    class Meta:
-        verbose_name = "Asignar Directiva"
-        verbose_name_plural = "Asignar Directiva"
+    def tel_persona(self):
+        txt="{0}"
+        return txt.format(self.persona.telefono_persona())
+    def dir_persona(self):
+        txt="{0}"
+        return txt.format(self.persona.direccion_persona())
+

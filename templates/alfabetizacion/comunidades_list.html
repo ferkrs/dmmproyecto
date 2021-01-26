@@ -8,9 +8,6 @@
   <div class="content-wrapper">
     <div class="page-header">
       <h3 class="page-title">Alfabetizacion de Comunidades</h3>
-      <button type="button" class="file-upload-browse btn btn-gradient-primary" data-toggle="modal" data-target="#modalagregar">
-          Crear Comunidad
-        </button>
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
@@ -22,12 +19,24 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-            <h4 class="card-title">Listado de Comunidades</h4>
-            </p>
+              <span class="d-flex align-items-center purchase-popup">
+                <div class="col-sm-6">
+                  <div class="col-sm-12">
+                    <h4 class="card-title">Alfabetizacion</h4>
+                    <p class="card-description">Alfabetizacion de </p>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="col-sm-12">
+                    <button type="button" class="btn download-button purchase-button btn-rounded ml-auto" data-toggle="modal" data-target="#modalagregar">Crear comunidad</button>
+                  </div>
+                </div>
+              </span>
             <table class="table table-hover">
                 <thead>
                 <tr>
                     <th>Nombre Comunidad</th>
+                    <th>Fase</th>
                     <th>Opciones</th>
                 </tr>
                 </thead>
@@ -35,14 +44,11 @@
                 {% for comu in comunidades %}
                 <tr>
                     <td>{{ comu.comunidad }}</td>
+                    <td>{{ comu.fase}}</td>
                     <td>
                       <a type="button" class="btn btn-sm btn-success" href="{% url 'alfabetizacion_fases' id=comu.id %}">Listado de Fases</a>
-                        <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-warning" data-form-url="{% url 'alfabetizacion_edit' comu.id %}">
-                            <span class="fa fa-trash">Editar</span>
-                        </button>
-                        <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-danger" data-form-url="{% url 'alfabetizacion_fases' comu.id %}">
-                        <span class="fa fa-trash">Eliminar</span>
-                        </button>
+                      <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-warning" data-form-url="{% url 'alfabetizacion_edit' comu.id %}"><span class="fa fa-trash">Editar</span></button>
+                      <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-danger" data-form-url="{% url 'alfabetizacion_fases' comu.id %}"><span class="fa fa-trash">Eliminar</span></button>
                     </td>
                 </tr>
                 {% endfor %} 

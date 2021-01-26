@@ -1,58 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <title>DMM</title>
-      {% load staticfiles %}
-      <link rel="stylesheet" href="{% static 'vendors/mdi/css/materialdesignicons.min.css' %}">
-      <link rel="stylesheet" href="{% static 'vendors/css/vendor.bundle.base.css' %}">
-      <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    </head>
-  <body>
-    <div class="container-scroller">
-      <div class="container-fluid page-body-wrapper full-page-wrapper">
-        <div class="content-wrapper d-flex align-items-center auth">
-          <div class="row flex-grow">
-            <div class="col-lg-4 mx-auto">
-              <div class="auth-form-light text-left p-5">
-                <div class="brand-logo">
-                  <img src="../../assets/images/logo.svg">
-                </div>
-                <h4>Sistema Dirección Municipal de la Mujer</h4>
-                <br>
-                <h6 class="font-weight-light">Ingreso al sistema</h6>
-                <form method="post" action="{% url 'login' %}" class="pt-3">
-                  {% csrf_token %}
-                  
-                  <p>Usuario</p>
-                  {{ form.username }}
-
-                  <p>Contraseña</p>
-                  {{ form.password }}
-
-                  <div class="mt-3">
-                    <input class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" type="submit"></a>
-                  </div>
-                </form>
-              </div>
+{% include 'base.html' %}
+{% block session %}
+{% load staticfiles %}
+<div class="container-scroller">
+  <div class="container-fluid page-body-wrapper full-page-wrapper">
+    <div class="content-wrapper d-flex align-items-center auth">
+      <div class="row flex-grow">
+        <div class="col-lg-3 mx-auto">
+          <div class="auth-form-light text-left p-5">
+            <div class="brand-logo" >
+            <center style="margin:10px auto; display:block;"><img src="{% static 'images/logom.png' %}"></center>
             </div>
+            <h4 class="texto_centrado">Sistema Dirección Municipal de la Mujer</h4>
+            <h6 class="font-weight-light texto_centrado">Iniciar sesión</h6>
+            <form method="post" action="{% url 'login' %}" class="pt-3">
+                {% csrf_token %}
+                  <div class="form-group">
+                    <label>Usuario:</label>
+                    <input class="form-control form-control-lg" {{ form.username }}
+                    </div>
+                  <div class="form-group">
+                    <label>Contraseña:</label>
+                    <input class="form-control form-control-lg" {{ form.password }}
+                  </div>
+                <div class="mt-3">
+                  <input class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" type="submit"></a>
+                </div>
+              </form>
           </div>
         </div>
-        <!-- content-wrapper ends -->
       </div>
-      <!-- page-body-wrapper ends -->
     </div>
-    <!-- container-scroller -->
-    <!-- plugins:js -->
-    <script src="../../assets/vendors/js/vendor.bundle.base.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page -->
-    <!-- End plugin js for this page -->
-    <!-- inject:js -->
-    <script src="../../assets/js/off-canvas.js"></script>
-    <script src="../../assets/js/hoverable-collapse.js"></script>
-    <script src="../../assets/js/misc.js"></script>
-    <!-- endinject -->
-  </body>
-</html>
+  </div>
+</div>
+{% endblock session %}

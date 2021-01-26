@@ -27,11 +27,11 @@ class Curso(models.Model):
     ]
     de = models.IntegerField(choices=DIAS, null=False, blank=False)
     a = models.IntegerField(choices=DIAS, null=False, blank=False)
-    integrantes = models.ManyToManyField(Persona, blank=True)
-            
-    def count_integrantes(self):
-        return  self.integrantes.all().count()
+
     def horario(self):
         txt="De: {0} a: {1}"
         return txt.format(self.de, self.a)
 
+class RelacionCurso(models.Model):
+    id_curso = models.ForeignKey(Curso, on_delete= models.CASCADE,related_name='id_curso',  blank=False)
+    persona = models.ForeignKey(Persona, on_delete= models.CASCADE,related_name='persona_curso', blank=False)

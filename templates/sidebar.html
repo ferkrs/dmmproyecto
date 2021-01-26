@@ -13,23 +13,29 @@
       <li class="nav-item">
         <a class="nav-link" href="{% url 'user_list' %}">
           <span class="menu-title">Usuarios</span>
-          <i class="mdi mdi-account-multiple menu-icon"></i>
+          <i class="mdi mdi mdi-account-convert menu-icon"></i>
         </a>
       </li>
       {% endif %}
       <li class="nav-item">
         <a class="nav-link" href="{% url 'personas_list' %}">
           <span class="menu-title">Control de Integrantes</span>
-          <i class="mdi mdi-account-multiple menu-icon"></i>
+          <i class="mdi mdi mdi-account-search menu-icon"></i>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+        <a class="nav-link" href="{% url 'alfabetizacion_list' %}">
+          <span class="menu-title">Alfabetizacion</span>
+          <i class="mdi mdi-book-open-page-variant menu-icon"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#grupos" aria-expanded="false" aria-controls="ui-basic">
           <span class="menu-title">Grupos Sociales</span>
           <i class="menu-arrow"></i>
-          <i class="mdi mdi-account-multiple-plus menu-icon"></i>
+          <i class="mdi mdi mdi-account-multiple-outline menu-icon"></i>
         </a>
-        <div class="collapse" id="ui-basic">
+        <div class="collapse" id="grupos">
           <ul class="nav flex-column sub-menu">
             <li class="nav-item"> <a class="nav-link" href="{% url 'grupo_add' %}">Aperturar Grupo</a></li>
             <li class="nav-item"> <a class="nav-link" href="{% url 'grupo_list' %}">Ver grupos</a></li>
@@ -37,24 +43,33 @@
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'alfabetizacion_list' %}">
-          <span class="menu-title">Alfabetizacion</span>
-          <i class="mdi mdi-account-multiple menu-icon"></i>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#general-pages" aria-expanded="false" aria-controls="general-pages">
+        <a class="nav-link" data-toggle="collapse" href="#servicios" aria-expanded="false" aria-controls="general-pages">
           <span class="menu-title">Servicios</span>
           <i class="menu-arrow"></i>
-          <i class="mdi mdi-account-multiple-outline menu-icon"></i>
+          <i class="mdi mdi mdi-library-books menu-icon"></i>
         </a>
-        <div class="collapse" id="general-pages">
+        <div class="collapse" id="servicios">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="{% url 'curso_list' %}">Listado de servicios</a></li>
-            <li class="nav-item"> <a class="nav-link" href="{% url 'servicio_crear' %}"> Crear grupo </a></li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'servicio_crear' %}">Crear grupo</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'servicio_list' %}">Listado de servicios</a></li>
+          </ul>
+        </div>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#reportes" aria-expanded="false" aria-controls="general-pages">
+          <span class="menu-title">Reportes</span>
+          <i class="menu-arrow"></i>
+          <i class="mdi mdi mdi-stack-overflow menu-icon"></i>
+        </a>
+        <div class="collapse" id="reportes">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="">Reporte de servicios</a></li>
+            <li class="nav-item"> <a class="nav-link" href="">Reporte de grupos</a></li>
           </ul>
         </div>
       </li>
     </ul>
   </nav>
+  
 {%endblock%}
