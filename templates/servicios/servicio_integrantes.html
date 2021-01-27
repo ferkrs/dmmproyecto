@@ -28,7 +28,7 @@
               </button>
           </div>
           <div class="modal-body">
-            <form method="post" action="{% url 'fase_integrantes' fase.id %}" class="pt-3">
+            <form method="post" action="{% url 'servicio_integrantes' servicio.id %}" class="pt-3">
               {% csrf_token %}
               <h4 class="card-title"><u>Información de Persona</u></h4>
                 <div class="row">
@@ -136,11 +136,12 @@
     <div class="col-lg-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-            <h2 class="card-title">{{ fase.get_fase_display }}</h2>
+            <h2 class="card-title">{{ servicio.get_modalidad_display }} - {{ servicio.nombre }}</h2>
             <div class="row">
                 <div class="col-sm-6">
-                        <address> 
-                          <p class="font-weight-bold">Comunidad</p>
+                        <address>
+                          <p>Inicio:  {{ servicio.fecha_inicio }}  </p>
+                          <p>Fin:  {{ servicio.fecha_finalizacion }}  </p>
                           <p> {{ fase.comunidad }} </p>
                         </address>
                 </div>
@@ -194,7 +195,7 @@
                     <button type="button" id="asignacion-update" class="bs-modal btn btn-sm btn-warning" data-form-url="{% url 'personas_update' integrante.id %}">
                       <span class="fa fa-trash">Editar</span>
                     </button>
-                    <a type="button" class="btn btn-sm btn-danger" href="#" onclick="eliminar_asignacion({{integrante.id}}, {{fase.id}})">Eliminar</a>
+                    <a type="button" class="btn btn-sm btn-danger" href="#" onclick="eliminar_asignacion({{integrante.id}}, {{servicio.id}})">Eliminar</a>
                   </td>
                 </tr>
                 {% endfor %}
@@ -221,7 +222,7 @@
     })
     .then((result) => {
       if (result.isConfirmed) {
-        window.location.href ="/alfabetizacion/fases/"+id+"/"+grupo+"/delete"
+        window.location.href ="/servicios/integrantes/"+id+"/"+grupo+"/delete"
         Swal.fire(
           'Se ha eliminado el integrante correctamente!',
         )

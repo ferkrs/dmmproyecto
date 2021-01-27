@@ -82,9 +82,18 @@ def integrantes_fase(request, id):
             print(e)
             return redirect('/alfabetizacion/fases/'+str(id)+'/integrantes')
     else:
+        # Personas existentes
+        personas = Persona.objects.all()
         formPersona = PersonaForm
         # Info Comunidad
         fase = MujeresAlfa.objects.get(pk=id)
         # Integrantes
         integrantes = MujeresAlfa.objects.get(pk=id).integrantes.all()
-        return render(request,'alfabetizacion/integrantes_fase.html', {'integrantes': integrantes, 'fase': fase, 'formPersona': formPersona})
+        return render(request,'alfabetizacion/integrantes_fase.html', {'integrantes': integrantes, 'fase': fase, 'formPersona': formPersona, 'personas': personas})
+
+def eliminar_integrante(request, id, grupo):
+    # Obtener persona según ID
+    persona = Persona.objects.get(pk=id)
+    # Obtener fase
+    MujeresAlfa.objects.get(pk=grupo).integrantes.remove(persona)
+    return redirect('/alfabetizacion/fases/'+str(grupo)+'/integrantes')
