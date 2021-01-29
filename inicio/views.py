@@ -9,6 +9,7 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from django.views.generic import ListView, TemplateView
 from django.http import HttpResponse
+from datetime import datetime
 # Modelos
 from .models import *  
 # Formularios
@@ -29,6 +30,8 @@ from bootstrap_modal_forms.generic import (
     BSModalDeleteView,
     BSModalUpdateView
 )
+# EXCEL
+import django_excel as excel
 
 # Index view
 @login_required
@@ -99,8 +102,8 @@ def logout_view(request):
 """
 @login_required
 def personas_list(request):
-    personas_noasignadas = Persona.objects.filter(persona_directiva=None)
-    personas_asignadas = Persona.objects.exclude(persona_directiva=None)
+    personas_noasignadas = Persona.objects.filter()
+    personas_asignadas = Persona.objects.exclude()
     return render(request, 'personas/personas_list.html', {'asignadas': personas_asignadas, 'no_asignadas': personas_noasignadas})
 
 class PersonaUpdateView(BSModalUpdateView):
@@ -123,7 +126,8 @@ class GruposList(generic.ListView):
 #funcion de consulta de directiva by id
 def directiva(request, id): 
     datos = AsignacionPersonaGrupo.objects.filter(grupo=id).order_by('puesto')
-    return render(request, 'grupos/directiva.html', {'datos': datos})
+    grupo_actual = Grupo.objects.get(pk=id)
+    return render(request, 'grupos/directiva.html', {'datos': datos, 'grupo': grupo_actual})
 
 #Funcion de borrar  
 def GrupoDelete(request, id):
@@ -232,3 +236,139 @@ class AsignacionUpdateView(BSModalUpdateView):
     form_class = AsignacionPersonaModal
     success_message = 'Success: El usuario fue editado correctamente.'
     success_url = reverse_lazy('grupo_list')
+
+
+"""
+    GENERACION A EXCEL
+"""
+def generar_excel(request):
+    export = []
+    # Encabezados de excel
+    export.append([
+        'No.',
+        'CUI',
+        'Sexo',
+        'Primer Nombre',
+        'Segundo Nombre',
+        'Tercer Nombre',
+        'Primer Apellido',
+        'Segundo Apellido',
+        'Apellido Casada',
+        'Fecha Nacimiento',
+        'Dirección'
+    ]) 
+    # Obtener registros del modelo
+    personas = Persona.objects.all()
+    count = 0
+    for persona in personas:
+        export.append([
+            count,
+            persona.cui,
+            persona.get_sexo_display(),
+            persona.primer_nombre,
+            persona.segundo_nombre,
+            persona.tercer_nombre,
+            persona.primer_apellido,
+            persona.segundo_apellido,
+            persona.apellido_casada,
+            str(persona.fecha_nacimiento),
+            persona.direccion
+        ])
+        count = count + 1
+    today = datetime.now()
+    strToday = today.strftime("%Y%m%d")
+
+    # Transformar el array a un arreglo
+    sheet = excel.pe.Sheet(export)
+
+    return excel.make_response(sheet, "xlsx", file_name="personas-"+strToday+".xlsx")
+
+def integrantes_grupo_excel(request, id):
+    export = []
+    # Encabezados de excel
+    export.append([
+        'No.',
+        'CUI',
+        'Sexo',
+        'Primer Nombre',
+        'Segundo Nombre',
+        'Tercer Nombre',
+        'Primer Apellido',
+        'Segundo Apellido',
+        'Apellido Casada',
+        'Fecha Nacimiento',
+        'Dirección'
+    ]) 
+    # Obtener registros del modelo
+    grupo_actual = Grupo.objects.get(id=id)
+    integrantes = AsignacionPersonaGrupo.objects.filter(grupo=grupo_actual)
+    count = 0
+    for integrante in integrantes:
+        export.append([
+            count,
+            integrante.persona.cui,
+            integrante.persona.get_sexo_display(),
+            integrante.persona.primer_nombre,
+            integrante.persona.segundo_nombre,
+            integrante.persona.tercer_nombre,
+            integrante.persona.primer_apellido,
+            integrante.persona.segundo_apellido,
+            integrante.persona.apellido_casada,
+            str(integrante.persona.fecha_nacimiento),
+            integrante.persona.direccion
+        ])
+        count = count + 1
+    today = datetime.now()
+    strToday = today.strftime("%Y%m%d")
+
+    # Transformar el array a un arreglo
+    sheet = excel.pe.Sheet(export)
+
+    return excel.make_response(sheet, "xlsx", file_name="integrantes-"+grupo_actual.nombre_grupo+"-"+strToday+".xlsx")
+
+def directiva_grupo_excel(request, id):
+    export = []
+    # Encabezados de excel
+    export.append([
+        'No.',
+        'CUI',
+        'Sexo',
+        'Primer Nombre',
+        'Segundo Nombre',
+        'Tercer Nombre',
+        'Primer Apellido',
+        'Segundo Apellido',
+        'Apellido Casada',
+        'Fecha Nacimiento',
+        'Dirección',
+        'Puesto'
+    ]) 
+    # Obtener registros del modelo
+    grupo_actual = Grupo.objects.get(id=id)
+    integrantes = AsignacionPersonaGrupo.objects.filter(grupo=grupo_actual).exclude(puesto=0).order_by('puesto')
+    count = 0
+    for integrante in integrantes:
+        export.append([
+            count,
+            integrante.persona.cui,
+            integrante.persona.get_sexo_display(),
+            integrante.persona.primer_nombre,
+            integrante.persona.segundo_nombre,
+            integrante.persona.tercer_nombre,
+            integrante.persona.primer_apellido,
+            integrante.persona.segundo_apellido,
+            integrante.persona.apellido_casada,
+            str(integrante.persona.fecha_nacimiento),
+            integrante.persona.direccion,
+            integrante.get_puesto_display()
+        ])
+        count = count + 1
+    today = datetime.now()
+    strToday = today.strftime("%Y%m%d")
+
+    # Transformar el array a un arreglo
+    sheet = excel.pe.Sheet(export)
+
+    return excel.make_response(sheet, "xlsx", file_name="directiva-"+grupo_actual.nombre_grupo+"-"+strToday+".xlsx")
+
+    

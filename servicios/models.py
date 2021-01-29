@@ -16,6 +16,7 @@ class Curso(models.Model):
     fecha_finalizacion = models.DateField(blank= True, null=True)
     hora_inicio = models.TimeField(auto_now=False)
     hora_final = models.TimeField(auto_now=False)
+    integrantes = models.ManyToManyField(Persona)
     DIAS = [
         (0, "LUNES"), 
         (1, "MARTES"), 
@@ -27,11 +28,7 @@ class Curso(models.Model):
     ]
     de = models.IntegerField(choices=DIAS, null=False, blank=False)
     a = models.IntegerField(choices=DIAS, null=False, blank=False)
-    integrantes = models.ManyToManyField(Persona, blank=True)
-            
-    def count_integrantes(self):
-        return  self.integrantes.all().count()
+
     def horario(self):
         txt="De: {0} a: {1}"
         return txt.format(self.de, self.a)
-

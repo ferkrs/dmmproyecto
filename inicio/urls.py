@@ -28,5 +28,8 @@ urlpatterns = [
     path('grupos/addexistente/<int:id>', asignar_existente, name='pergrupexistente_add'),
     path('grupos/personas/delete/<int:id>/<int:grupo>', eliminar_integrante, name='pergrup_del'),
     path('grupos/personas/edit/<int:pk>', views.AsignacionUpdateView.as_view(), name='pergrup_update'),
-
+    # Excel
+    path('personas/excel', generar_excel, name='generar_excel'),
+    path('grupos/personas/<int:id>/excel', integrantes_grupo_excel, name='grupo_integrantes_excel'),
+    path('grupos/personas/directiva/<int:id>/excel', directiva_grupo_excel, name='grupo_directiva_excel')
 ]

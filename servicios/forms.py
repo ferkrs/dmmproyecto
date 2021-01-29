@@ -17,8 +17,6 @@ class CursoForm(forms.ModelForm):
             'hora_final',
             'de', 
             'a',
-            'integrantes',
-
             ]
         labels = {
             'modalidad':'Modalidad',
@@ -29,7 +27,6 @@ class CursoForm(forms.ModelForm):
             'hora_final':'Hora final',
             'de':'De', 
             'a':'a',
-            'integrantes':'Integrantes',
 
         }
 

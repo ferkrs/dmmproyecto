@@ -10,6 +10,9 @@ from bootstrap_modal_forms.generic import (
 )
 from django.urls import reverse_lazy
 from django.contrib import messages
+from datetime import datetime
+# EXCEL
+import django_excel as excel
 
 # Lista Comunidades
 def comunidad_create(request):
@@ -97,3 +100,80 @@ def eliminar_integrante(request, id, grupo):
     # Obtener fase
     MujeresAlfa.objects.get(pk=grupo).integrantes.remove(persona)
     return redirect('/alfabetizacion/fases/'+str(grupo)+'/integrantes')
+
+"""
+    GENERACION A EXCEL
+"""
+def fases_excel(request, id):
+    export = []
+    # Encabezados de excel
+    export.append([
+        'No.',
+        'Alfabetizadora',
+        'Ciclo',
+        'Integrantes',
+        'Fase'
+    ]) 
+    # Obtener registros del modelo
+    comunidad = Comunidad.objects.get(pk=id)
+    fases = MujeresAlfa.objects.filter(comunidad__id=id)
+    count = 1
+    for fase in fases:
+        export.append([
+            count,
+            fase.nombre_alfabetizadora,
+            str(fase.ciclo),
+            fase.integrantes.count(),
+            fase.get_fase_display(),
+        ])
+        count = count + 1
+    today = datetime.now()
+    strToday = today.strftime("%Y%m%d")
+
+    # Transformar el array a un arreglo
+    sheet = excel.pe.Sheet(export)
+
+    return excel.make_response(sheet, "xlsx", file_name="fases-"+comunidad.comunidad+"-"+strToday+".xlsx")
+
+def integrantes_fase_excel(request, id):
+    export = []
+    # Encabezados de excel
+    export.append([
+        'No.',
+        'CUI',
+        'Sexo',
+        'Primer Nombre',
+        'Segundo Nombre',
+        'Tercer Nombre',
+        'Primer Apellido',
+        'Segundo Apellido',
+        'Apellido Casada',
+        'Fecha Nacimiento',
+        'Dirección'
+    ]) 
+    # Obtener registros del modelo
+    fase = MujeresAlfa.objects.get(pk=id)
+    integrantes = MujeresAlfa.objects.get(pk=id).integrantes.all()
+    count = 0
+    for persona in integrantes:
+        export.append([
+            count,
+            persona.cui,
+            persona.get_sexo_display(),
+            persona.primer_nombre,
+            persona.segundo_nombre,
+            persona.tercer_nombre,
+            persona.primer_apellido,
+            persona.segundo_apellido,
+            persona.apellido_casada,
+            str(persona.fecha_nacimiento),
+            persona.direccion
+        ])
+        count = count + 1
+    today = datetime.now()
+    strToday = today.strftime("%Y%m%d")
+
+    # Transformar el array a un arreglo
+    sheet = excel.pe.Sheet(export)
+
+    return excel.make_response(sheet, "xlsx", file_name="integrantes-"+fase.nombre_alfabetizadora+"-"+strToday+".xlsx")

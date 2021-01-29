@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'inicio',
     'servicios',
     'alfabetizacion',
+    'reportes',
 ]
 
 MIDDLEWARE = [

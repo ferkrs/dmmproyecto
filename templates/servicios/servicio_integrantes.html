@@ -169,6 +169,7 @@
                     <button type="button" class="btn download-button purchase-button btn-rounded ml-auto" data-toggle="modal" data-target="#modalexistente">
                       Agregar Existente
                     </button>
+                    <a type="button" class="btn btn-gradient-dark btn-icon-text" href="{% url 'integrantes_servicio_excel' id=servicio.id %}">Generar Excel<i class="mdi mdi-cloud-download btn-icon-append"></i></a>
                 </span>
               </div>
 
@@ -212,7 +213,7 @@
 <script>
   function eliminar_asignacion(id, grupo){
     Swal.fire({
-      title: 'Desea eliminar el integrante de esta fase?',
+      title: 'Desea eliminar el integrante de este servicio?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

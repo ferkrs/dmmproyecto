@@ -173,6 +173,7 @@
                     <button type="button" class="btn download-button purchase-button btn-rounded ml-auto" data-toggle="modal" data-target="#modalexistente">
                       Agregar Existente
                     </button>
+                    <a type="button" class="btn btn-gradient-dark btn-icon-text" href="{% url 'grupo_integrantes_excel' id=grupo.id %}">Generar Excel<i class="mdi mdi-cloud-download btn-icon-append"></i></a>
                 </span>
               </div>
 
@@ -183,8 +184,7 @@
                   <th>CUI</th>
                   <th>Nombre</th>
                   <th>Sexo</th>
-                  <th>Fecha Nacimiento</th>
-                  <th>Puesto</th>
+                  <th>Correo Electronico</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -195,8 +195,7 @@
                   <td>{{ integrante.persona.cui }}</td>
                   <td>{{ integrante.persona.primer_nombre }} {{ integrante.persona__primer_apellido }}</td>
                   <td>{{ integrante.persona.get_sexo_display }}</td>
-                  <td>{{ integrante.persona.fecha_nacimiento}}</td>
-                  <td><label class="badge badge-gradient-success">{{ integrante.get_puesto_display }}</label></td>
+                  <td>{{ integrante.persona.correo_electronico}}</td>
                   <td>
                       <button type="button" id="asignacion-update" class="bs-modal btn btn-sm btn-warning" data-form-url="{% url 'pergrup_update' integrante.id %}">
                           <span class="fa fa-trash">Editar</span>
@@ -207,7 +206,10 @@
                 {% endfor %}
               </tbody>
             </table>
+            <br>
+            <a type="button" class="btn btn-sm btn-gradient-info btn-rounded btn-fw" href="{% url 'grupo_list' %}">Regresar</a>
           </div>
+          
         </div>
     </div>
 

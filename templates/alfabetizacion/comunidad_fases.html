@@ -11,6 +11,7 @@
       <button type="button" class="file-upload-browse btn btn-gradient-primary" data-toggle="modal" data-target="#modalagregar">
         Agregar Fase
       </button>
+      <a type="button" class="btn btn-gradient-dark btn-icon-text" href="{% url 'alfabetizacion_fases_excel' id=comunidad.id %}">Generar Excel<i class="mdi mdi-cloud-download btn-icon-append"></i></a>
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
