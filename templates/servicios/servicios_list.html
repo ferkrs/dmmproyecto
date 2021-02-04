@@ -39,6 +39,9 @@
                 <td>{{curso.get_modalidad_display}}</td>
                 <td>{{curso.nombre}}</td>
                 <td>
+                  De: <label class="badge badge-danger">{{curso.get_de_display}} </label> a: <label class="badge badge-danger">{{curso.get_a_display}}</label></td>
+                <td> De: <label class="text-success">{{curso.hora_inicio}}</label> a: <label class="text-success"> {{curso.hora_final}}</label></td>
+                <td><a type="button" class="btn btn-sm btn-primary" href="/servicios/integrantes/{{curso.id}}">Integrantes</a></td>
                   De: <label class="badge badge-success">{{curso.get_de_display}} </label> a: <label class="badge badge-success">{{curso.get_a_display}}</label>
                   </td>
                 <td> 

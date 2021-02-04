@@ -119,12 +119,13 @@
                 <h4 class="card-title"><u>Información de Persona</u></h4>
                   <div class="col-md-8">
                       <label>Seleccione una persona</label>
-                      {{formExistente.persona}}
-                  </div>
-                  <h4 class="card-title"><u>Puesto en grupo</u></h4>
-                  <div class="col-md-8">
-                      <label>Puesto</label>
-                      {{formExistente.puesto}}
+                      <select class="form-control" name="persona" id="persona">
+                        {% for persona in personas %}
+                          <option value="">
+                            {{persona.cui}} - {{persona.primer_nombre}} {{persona.primer_apellido}}
+                          </option>
+                        {% endfor %}
+                      </select>
                   </div>
                   </div>
                   <div class="modal-footer">
@@ -142,6 +143,7 @@
           <div class="card-body">
             
             <div class="col-12">
+<<<<<<< HEAD
               <span class="d-flex align-items-center purchase-popup">
                   <h4 class="card-title">Agregar Integrantes</h4>
                   <div class="btn-group ml-auto ">
@@ -155,6 +157,21 @@
             </div>
               <div class="table-responsive">
                 <table class="table">
+=======
+                <span class="d-flex align-items-center purchase-popup">
+                    <h4 class="card-title">Agregar Integrantes</h4>
+                    <button type="button" class="btn download-button purchase-button btn-rounded ml-auto" data-toggle="modal" data-target="#modalagregar">
+                      Agregar Nuevo
+                    </button>
+                    <button type="button" class="btn download-button purchase-button btn-rounded ml-auto" data-toggle="modal" data-target="#modalexistente">
+                      Agregar Existente
+                    </button>
+                    <a type="button" class="btn btn-gradient-dark btn-icon-text" href="{% url 'fase_integrantes_excel' id=fase.id %}">Generar Excel<i class="mdi mdi-cloud-download btn-icon-append"></i></a>
+                </span>
+              </div>
+
+            <table class="table table-striped">
+>>>>>>> 4e09724385ca1511f20d54e4edf4a4570bae3aaa
               <thead>
                 <tr>
                   <th>No.</th>
@@ -184,7 +201,11 @@
                     <button type="button" id="asignacion-update" class="bs-modal btn btn-sm btn-warning btn-rounded " data-form-url="{% url 'personas_update' integrante.id %}">
                       <span class="fa fa-trash">Editar</span>
                     </button>
+<<<<<<< HEAD
                     <a type="button" class="btn btn-sm btn-danger btn-rounded" href="#" onclick="eliminar_asignacion({{integrante.id}}, {{grupo.id}})">Eliminar</a>
+=======
+                    <a type="button" class="btn btn-sm btn-danger" href="#" onclick="eliminar_asignacion({{integrante.id}}, {{fase.id}})">Eliminar</a>
+>>>>>>> 4e09724385ca1511f20d54e4edf4a4570bae3aaa
                   </td>
                 </tr>
                 {% endfor %}
@@ -203,7 +224,6 @@
 {% block js %}
 <script>
   function eliminar_asignacion(id, grupo){
-    console.log(id)
     Swal.fire({
       title: 'Desea eliminar el integrante de esta fase?',
       icon: 'warning',
@@ -215,7 +235,7 @@
     })
     .then((result) => {
       if (result.isConfirmed) {
-        window.location.href ="/grupos/personas/delete/"+id+"/"+grupo
+        window.location.href ="/alfabetizacion/fases/"+id+"/"+grupo+"/delete"
         Swal.fire(
           'Se ha eliminado el integrante correctamente!',
         )

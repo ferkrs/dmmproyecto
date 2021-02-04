@@ -16,6 +16,7 @@ class Curso(models.Model):
     fecha_finalizacion = models.DateField(blank= True, null=True)
     hora_inicio = models.TimeField(auto_now=False)
     hora_final = models.TimeField(auto_now=False)
+    integrantes = models.ManyToManyField(Persona)
     DIAS = [
         (0, "LUNES"), 
         (1, "MARTES"), 
@@ -34,7 +35,3 @@ class Curso(models.Model):
     def horario(self):
         txt="De: {0} a: {1}"
         return txt.format(self.de, self.a)
-
-class RelacionCurso(models.Model):
-    id_curso = models.ForeignKey(Curso, on_delete= models.CASCADE,related_name='id_curso',  blank=False)
-    persona = models.ForeignKey(Persona, on_delete= models.CASCADE,related_name='persona_curso', blank=False)

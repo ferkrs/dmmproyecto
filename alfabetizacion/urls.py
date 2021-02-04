@@ -11,5 +11,9 @@ urlpatterns = [
     path('alfabetizacion/fases/editar/<int:pk>', views.FaseUpdateView.as_view(), name='fases_edit'),
     path('alfabetizacion/fases/delete/<int:pk>', views.FaseDeleteView.as_view(), name='fases_delete'),
     path('alfabetizacion/fases/<int:id>/integrantes', views.integrantes_fase, name='fase_integrantes'),
-    path('alfabetizacion/fases/<int:id>', views.comunidad_fases_list, name='alfabetizacion_fases')
+    path('alfabetizacion/fases/<int:id>/<int:grupo>/delete', views.eliminar_integrante, name='fase_integrantes_delete'),
+    path('alfabetizacion/fases/<int:id>', views.comunidad_fases_list, name='alfabetizacion_fases'),
+    # Excel
+    path('alfabetizacion/fases/excel/<int:id>', views.fases_excel, name="alfabetizacion_fases_excel"),
+    path('alfabetizacion/fases/<int:id>/integrantes/excel', views.integrantes_fase_excel, name="fase_integrantes_excel")
 ]
