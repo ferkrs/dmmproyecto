@@ -1,0 +1,86 @@
+{% include 'base.html' %}
+{% block reporte_servicios  %} 
+{% load staticfiles %}
+{% include 'navbar.html' %}
+<div class="container-fluid page-body-wrapper">
+  {% include 'sidebar.html' %}
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="page-header">
+      <h3 class="page-title">Formulario de reporte de servicios sociales</h3>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
+          <li class="breadcrumb-item" aria-current="page">Reporte de servicios</li>
+        </ol>
+      </nav>
+    </div>
+    <div class="row">
+      <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Formulario de reportes de grupos sociales </h4>
+            <p class="card-description">Generar reporte de grupos sociales</p>
+            <form class="forms-sample" method="POST">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Eje de trabajo:</label>
+                  {{reportes.eje_trabajo}}
+                </div>
+                <div class="col-md-6">
+                  <label>Nombre del grupo:</label>
+                  {{reportes.servicio}}
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="form-group col-md-2">
+                  <label>Presupuesto:</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text bg-gradient-primary text-white">Q.</span>
+                    </div>
+                    {{reportes.presupuesto}}
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <label>No. Beneficiados:</label>
+                  {{reportes.beneficiados}}
+                </div>
+                <div class="col-md-3">
+                  <label>Fecha de Inicio:</label>
+                  {{reportes.fecha_inicio}}
+                </div>
+                  
+                <div class="col-md-3">
+                  <label>Fecha de Finalizacion:</label>
+                  {{reportes.fecha_finalizacion}}
+                </div>
+                <div class="col-md-2">
+                  <label>Responsable:</label>
+                  {{reportes.user}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Descripción:</label>
+                  {{reportes.descripcion}}
+                </div>
+                <div class="col-md-6">
+                  <label>Resultado:</label>
+                  {{reportes.resultado}}
+                </div>
+              </div>
+              <br>
+              <button class="btn btn-light">Cancel</button>
+              <button type="submit" class="btn btn-gradient-primary mr-2">Guardar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock reporte_servicios %}

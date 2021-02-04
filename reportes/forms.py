@@ -1,21 +1,8 @@
-from .models import ReporteGrupos
+from .models import *
 from django import forms
 from django.forms.fields import DateField
 class DateInput(forms.DateInput): 
     input_type = 'date', 
-
-class EjeForm(forms.ModelForm):
-    class Meta:
-        model = Eje
-        fields = [
-            'eje_trabajo',
-            ]
-        labels = { 
-            'eje_trabajo':'Eje de trabajo',
-            }
-        idgets = {
-            'eje_trabajo':forms.TextInput(attrs={'class': 'form-control '}), 
-             }
 
 class ReporteGruposForm(forms.ModelForm):
     class Meta:
@@ -48,11 +35,11 @@ class ReporteGruposForm(forms.ModelForm):
 
         widgets = {
             'eje_trabajo':forms.Select(attrs={'class': 'form-control'}),
-            'grupo':forms.TextInput(attrs={'class': 'form-control '}), 
+            'grupo':forms.Select(attrs={'class': 'form-control'}),
             'nombre_proyecto':forms.TextInput(attrs={'class': 'form-control '}), 
-            'descripcion':forms.TextInput(attrs={'class': 'form-control '}), 
-            'resultado':forms.TextInput(attrs={'class': 'form-control '}), 
-            'beneficiados':forms.TextInput(attrs={'class': 'form-control '}), 
+            'descripcion': forms.Textarea(attrs={ 'class': 'form-control','rows':10, 'cols':20}), 
+            'resultado':forms.Textarea(attrs={ 'class': 'form-control','rows':10, 'cols':20}), 
+            'beneficiados':forms.TextInput(attrs={'class': 'form-control'}), 
             'presupuesto':forms.TextInput(attrs={'class': 'form-control '}), 
             'fecha_inicio':forms.DateInput(attrs={'class':'form-control', 'type':'date'}),
             'fecha_finalizacion': forms.DateInput(attrs={'class':'form-control', 'type':'date'}),
@@ -90,13 +77,13 @@ class ReporteserviciosForm(forms.ModelForm):
         widgets = {
 
             'eje_trabajo':forms.Select(attrs={'class': 'form-control'}),
-            'servicio':forms.TextInput(attrs={'class': 'form-control '}), 
+            'servicio':forms.Select(attrs={'class': 'form-control'}),
             'fecha_inicio':forms.DateInput(attrs={'class':'form-control', 'type':'date'}),
             'fecha_finalizacion':forms.DateInput(attrs={'class':'form-control', 'type':'date'}),
             'presupuesto':forms.TextInput(attrs={'class': 'form-control '}), 
-            'descripcion':forms.TextInput(attrs={'class': 'form-control '}), 
+            'descripcion':forms.Textarea(attrs={ 'class': 'form-control','rows':10, 'cols':20}),
             'beneficiados':forms.TextInput(attrs={'class': 'form-control '}), 
-            'resultado':forms.TextInput(attrs={'class': 'form-control '}), 
+            'resultado':forms.Textarea(attrs={ 'class': 'form-control','rows':10, 'cols':20}),
             'user':forms.Select(attrs={'class': 'form-control'}),
 
         }

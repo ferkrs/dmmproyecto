@@ -27,6 +27,9 @@ class Curso(models.Model):
     ]
     de = models.IntegerField(choices=DIAS, null=False, blank=False)
     a = models.IntegerField(choices=DIAS, null=False, blank=False)
+    def __str__(self): 
+        txt="{0}"
+        return txt.format(self.nombre)
 
     def horario(self):
         txt="De: {0} a: {1}"

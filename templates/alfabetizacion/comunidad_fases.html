@@ -7,26 +7,31 @@
 <div class="main-panel">
   <div class="content-wrapper">
     <div class="page-header">
-      <h3 class="page-title">Fases Comunidad: {{comunidad.comunidad}}</h3>
-      <button type="button" class="file-upload-browse btn btn-gradient-primary" data-toggle="modal" data-target="#modalagregar">
-        Agregar Fase
-      </button>
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
-          <li class="breadcrumb-item"><a href="{% url 'user_list' %}">Listado</a></li>
-        </ol>
-      </nav>
+    </div>
+    <div class="row">
+      <div class="col-md-12 stretch-card grid-margin">
+        <div class="card bg-gradient-info card-img-holder text-white">
+          <div class="card-body">
+            <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image">
+            <h4 class="font-weight-normal mb-3">Comunidad: 
+            </h4>
+            <h1>{{comunidad.comunidad}}</h1>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-            <h4 class="card-title">Listado de Fases Actuales</h4>
-            </p>
-            <table class="table table-hover">
+              <span class="d-flex align-items-center purchase-popup">
+                <h4 class="card-title">Listado de fases</h4>
+                  <a  type="button"class="btn btn-gradient-danger btn-rounded ml-auto" data-toggle="modal" data-target="#modalagregar">Agregar fase</a>
+              </span>
+            <div class="table-responsive">
+              <table class="table">
                 <thead>
                 <tr>
-                    <th>Alfabetizador</th>
+                    <th>Alfabetizador(a)</th>
                     <th>Ciclo</th>
                     <th>Integrantes</th>
                     <th>Fase</th>
@@ -42,10 +47,10 @@
                     <td>{{ fase.get_fase_display }}</td>
                     <td>
                         <a type="button" class="btn btn-sm btn-info btn-rounded btn-fw" href="/alfabetizacion/fases/{{fase.id}}/integrantes">Integrantes</a>
-                        <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-warning" data-form-url="{% url 'fases_edit' pk=fase.id %}">
+                        <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-warning btn-rounded" data-form-url="{% url 'fases_edit' pk=fase.id %}">
                           <span class="fa fa-trash">Editar</span>
                         </button>
-                        <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-danger" data-form-url="{% url 'fases_delete' pk=fase.id %}">
+                        <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-danger btn-rounded" data-form-url="{% url 'fases_delete' pk=fase.id %}">
                           <span class="fa fa-trash">Eliminar</span>
                         </button>
                     </td>
@@ -53,6 +58,9 @@
                 {% endfor %} 
                 </tbody>
             </table>
+            </div>
+            <br>
+            <a type="button" class="btn btn-sm btn-info btn-rounded btn-fw" href="{% url 'alfabetizacion_list' %}">Regresar</a>
         </div>
     </div>
     <div class="modal fade" id="modalagregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -92,7 +100,6 @@
             </form>
           </div>
         </div>
-
     </div>
   </div>
 </div>
@@ -105,8 +112,6 @@
 
 <script type="text/javascript">
   $(function () {
-    // Update, Read and Delete book buttons open modal with id="modal" (default)
-    // The formURL is retrieved from the data of the element
     $(".bs-modal").each(function () {
       $(this).modalForm({
         formURL: $(this).data('form-url')

@@ -86,7 +86,7 @@ class GrupoForm(forms.ModelForm):
             'nombre_grupo': forms.TextInput(attrs={'class': 'form-control '}),  
             'departamento' :forms.Select(attrs={'class': 'form-control'}),
             'municipio' :forms.Select(attrs={'class': 'form-control'}),
-            'identificador' :forms.Select(attrs={'class': 'form-control'}),
+            'identificador' :forms.Select(attrs={'class': 'form-control', 'onchange' : 'identificador(this.value);' }),
             'zona' :forms.Select(attrs={'class': 'form-control'}),
             'caserio' :forms.Select(attrs={'class': 'form-control'}),
             'sector' :forms.Select(attrs={'class': 'form-control'}),

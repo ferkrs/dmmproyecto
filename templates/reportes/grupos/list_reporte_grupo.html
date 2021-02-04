@@ -1,0 +1,51 @@
+<div class="col-lg-12  col-sm-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <div class="col-12">
+            <span class="d-flex align-items-center purchase-popup">
+                <h4 class="card-title">Agregar Integrantes</h4>
+                <div class="btn-group ml-auto ">
+                  <button type="button" class="btn btn-gradient-danger btn-rounded dropdown-toggle " data-toggle="dropdown" aria-expanded="false">Agregar integrantes</button>
+                  <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 44px, 0px);">
+                    <a class="dropdown-item" data-toggle="modal" data-target="#modalagregar">Agregar nuevo</a>
+                    <a class="dropdown-item" data-toggle="modal" data-target="#modalexistente">Agregar existente</a>
+                  </div>
+                </div>
+            </span>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+            <thead>
+              <tr>
+                <th>No. </th>
+                <th>CUI</th>
+                <th>Nombre</th>
+                <th>Sexo</th>
+                <th>Correo Electronico</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for integrante in integrantes %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ integrante.persona.cui }}</td>
+                <td>{{ integrante.persona.primer_nombre }} {{ integrante.persona__primer_apellido }}</td>
+                <td>{{ integrante.persona.get_sexo_display }}</td>
+                <td>{{ integrante.persona.correo_electronico}}</td>
+                <td>
+                    <button type="button" id="asignacion-update" class="bs-modal btn btn-sm btn-warning btn-rounded" data-form-url="{% url 'pergrup_update' integrante.id %}">
+                        <span class="fa fa-trash">Editar</span>
+                    </button>
+                      <a type="button" class="btn btn-sm btn-danger btn-rounded " href="#" onclick="eliminar_asignacion({{integrante.id}}, {{grupo.id}})">Eliminar</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <a type="button" class="btn btn-sm btn-gradient-info btn-rounded btn-fw" href="{% url 'grupo_list' %}">Regresar</a>
+      </div>
+    </div>
+</div>

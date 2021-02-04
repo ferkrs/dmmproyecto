@@ -134,7 +134,6 @@ def GrupoDelete(request, id):
     except: 
         pass
     return redirect('grupo_list')
-
 #Grupo Crear
 def grupo_crear(request):
     if request.method == 'POST':

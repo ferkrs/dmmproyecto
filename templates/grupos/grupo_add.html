@@ -8,11 +8,11 @@
 <div class="main-panel">
   <div class="content-wrapper">
     <div class="page-header">
-      <h3 class="page-title">Agregar integrantes</h3>
+      <h3 class="page-title"></h3>
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item active"><a href="{% url 'index' %}">Inicio</a></li>
-          <li class="breadcrumb-item"><a href="{% url 'grupo_list' %}">Listado de grupos</a></li>
+          <li class="breadcrumb-item "><a href="{% url 'grupo_list' %}">Listado de grupos</a></li>
         </ol>
       </nav>
     </div>
@@ -22,7 +22,7 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h3 class="modal-title" id="exampleModalLabel">Nuevo Integrante</h3>
+            <h3 class="modal-title" id="exampleModalLabel">Agregar integrante</h3>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -32,7 +32,7 @@
               {% csrf_token %}
               <h4 class="card-title"><u>Información de Persona</u></h4>
                 <div class="row">
-                    <div class="col-md-10">
+                    <div class="col-md-4">
                       <label for="">CUI</label>
                       {{formPersona.cui}}
                     </div>
@@ -136,79 +136,80 @@
             </div>
           </div>
       </div>
-    
-    <div class="col-lg-12 grid-margin stretch-card">
-      <div class="card">
-        <div class="card-body">
-            <h2 class="card-title">Detalle del grupo</h2>
-            <div class="row">
-                <div class="col-sm-6">
-                        <address> 
-                          <p class="font-weight-bold">Nombre del grupo</p>
-                          <p> {{ grupo.nombre_grupo }} </p>
-                        </address>
-                </div>
-                <div class="col-sm-6">
-                    <address> 
-                    <p class="font-weight-bold">Datos de ubicacion</p>
-                    <p> {{ grupo.get_departamento_display }} -  {{ grupo.get_municipio_display }}</p>
-                    <p> {{ grupo.get_zona_display }} -  {{ grupo.get_caserio_display }}</p>
-                    </address>
-                </div>
-     
+
+      <div class="row">
+        <div class="col-md-12 stretch-card grid-margin">
+          <div class="card bg-gradient-info card-img-holder text-white">
+            <div class="card-body">
+              <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image">
+              <h4>Integrantes del grupo: 
+              </h4>
+              <h1>{{ grupo.nombre_grupo }} </h1>
+              <h6 >{{ grupo.get_departamento_display }} -  {{ grupo.get_municipio_display }}, {{ grupo.get_zona_display }} -  {{ grupo.get_caserio_display }}</h6>
             </div>
+          </div>
         </div>
       </div>
-    </div>
-
     <div class="col-lg-12  col-sm-12 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
             <div class="col-12">
                 <span class="d-flex align-items-center purchase-popup">
                     <h4 class="card-title">Agregar Integrantes</h4>
-                    <button type="button" class="btn download-button purchase-button btn-rounded ml-auto" data-toggle="modal" data-target="#modalagregar">
-                      Agregar Nuevo
-                    </button>
-                    <button type="button" class="btn download-button purchase-button btn-rounded ml-auto" data-toggle="modal" data-target="#modalexistente">
-                      Agregar Existente
-                    </button>
+                    <div class="btn-group ml-auto ">
+                      <button type="button" class="btn btn-gradient-danger btn-rounded dropdown-toggle " data-toggle="dropdown" aria-expanded="false">Agregar integrantes</button>
+                      <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 44px, 0px);">
+                        <a class="dropdown-item" data-toggle="modal" data-target="#modalagregar">Agregar nuevo</a>
+                        <a class="dropdown-item" data-toggle="modal" data-target="#modalexistente">Agregar existente</a>
+                      </div>
+                    </div>
                 </span>
               </div>
+              <div class="table-responsive">
+                <table class="table">
+                <thead>
+                  <tr>
+                    <th>No. </th>
+                    <th>CUI</th>
+                    <th>Nombre</th>
+                    <th>Sexo</th>
+                    <th>Correo Electronico</th>
+                    <th>Telefono</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for integrante in integrantes %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ integrante.persona.cui }}</td>
+                    <td>{{ integrante.persona.primer_nombre }} {{ integrante.persona.segundo_nombre }} {{ integrante.persona.primer_apellido }}</td>
+                    <td>{{ integrante.persona.get_sexo_display }}</td>
+                    {% if integrante.persona.correo_electronico == "" %}
+                    <td><label class="badge badge-info">Sin registros</label></td>
+                    {% else %}
+                    <td>{{integrante.persona.correo_electronico}}</td>
+                    {% endif %}
+                    {% if integrante.persona.telefono == "" %}
+                    <td><label class="badge badge-info">Sin registros</label></td>
+                    {% else %}
+                    <td>{{ integrante.persona.telefono}}</td>
+                    {% endif %}
 
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>No. </th>
-                  <th>CUI</th>
-                  <th>Nombre</th>
-                  <th>Sexo</th>
-                  <th>Correo Electronico</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                  {% for integrante in integrantes %}
-                <tr>
-                  <td>{{ forloop.counter }}</td>
-                  <td>{{ integrante.persona.cui }}</td>
-                  <td>{{ integrante.persona.primer_nombre }} {{ integrante.persona__primer_apellido }}</td>
-                  <td>{{ integrante.persona.get_sexo_display }}</td>
-                  <td>{{ integrante.persona.correo_electronico}}</td>
-                  <td>
-                      <button type="button" id="asignacion-update" class="bs-modal btn btn-sm btn-warning" data-form-url="{% url 'pergrup_update' integrante.id %}">
-                          <span class="fa fa-trash">Editar</span>
-                      </button>
-                        <a type="button" class="btn btn-sm btn-danger" href="#" onclick="eliminar_asignacion({{integrante.id}}, {{grupo.id}})">Eliminar</a>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
+                    <td>
+                        <button type="button" id="asignacion-update" class="bs-modal btn btn-sm btn-warning btn-rounded" data-form-url="{% url 'pergrup_update' integrante.id %}">
+                            <span class="fa fa-trash">Editar</span>
+                        </button>
+                          <a type="button" class="btn btn-sm btn-danger btn-rounded " href="#" onclick="eliminar_asignacion({{integrante.id}}, {{grupo.id}})">Eliminar</a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
             <br>
             <a type="button" class="btn btn-sm btn-gradient-info btn-rounded btn-fw" href="{% url 'grupo_list' %}">Regresar</a>
           </div>
-          
         </div>
     </div>
 
@@ -216,24 +217,19 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content"></div>
       </div>
-      <script type="text/javascript">
-        $(function () {
-          // Update, Read and Delete book buttons open modal with id="modal" (default)
-          // The formURL is retrieved from the data of the element
+    </div>
+  </div>
+</div>
+</div>
+<script>
+$(function () {
           $(".bs-modal").each(function () {
             $(this).modalForm({
               formURL: $(this).data('form-url')
             });
           });
         });
-      </script>
-    </div>
-  </div>
-</div>
-</div>
-
-{% block js %}
-<script>
+        
   function eliminar_asignacion(id, grupo){
     console.log(id)
     Swal.fire({
@@ -255,6 +251,4 @@
     })
   }
 </script>
-  
-{% endblock %}
 {% endblock grupoadd %}

@@ -5,6 +5,9 @@ from alfabetizacion.models import *
 
 class Eje(models.Model):
     eje_trabajo = models.CharField(max_length=220,blank= False) 
+    def __str__(self): 
+        txt="{0}"
+        return txt.format(self.eje_trabajo)
 
 #reporte de grupos 
 class ReporteGrupos(models.Model):

@@ -6,54 +6,87 @@
   {% include 'sidebar.html' %}
 <div class="main-panel">
   <div class="content-wrapper">
-    <div class="page-header">
-      <h3 class="page-title">Usuarios</h3>
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
-          <li class="breadcrumb-item"><a href="{% url 'user_list' %}">Listado</a></li>
-        </ol>
-      </nav>
+    <div class="page-header">     
+    </div>
+    <div class="row">
+      <div class="col-md-12 stretch-card grid-margin">
+        <div class="card bg-gradient-info card-img-holder text-white">
+          <div class="card-body">
+            <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image">
+            <h1 >Personas Registradas</h1>
+            <p>Listado de todas las personas registradas</p>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="col-lg-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title">Edicion de personas</h4>
-          <p class="card-description"> Listado de personas asignadas
-          </p>
-          <table class="table table-hover">
+          <span class="d-flex align-items-center purchase-popup">
+            <h4 class="card-title">Listado de personas</h4>
+              <a class="btn btn-gradient-success btn-rounded ml-auto"  > <i class="mdi mdi-file-excel-box" style="color: white;"></i> Exportar exel</a>
+          </span>
+
+          <div class="table-responsive">
+            <table class="table">
             <thead>
               <tr>
+                <th>No.</th>
                 <th>CUI</th>
-                <th>Apellidos</th>
                 <th>Nombres</th>
+                <th>Apellidos</th>
                 <th>Telefono</th>
-                <th>Direccion</th>
+                <th>Correo Electronico</th>
                 <th>Opciones</th>
               </tr>
             </thead>
             <tbody>
               {% for persona in asignadas %}
               <tr>
+                <td>{{forloop.counter}}</td>
                 <td>{{ persona.cui }}</td>
-                <td>{{ persona.primer_apellido }} {{ persona.segundo_apellido }}</td>
                 <td>{{persona.segundo_nombre}} {{ persona.primer_nombre }}</td>
+                <td>{{ persona.primer_apellido }} {{ persona.segundo_apellido }}</td>
+
+                {% if persona.telefono == ""  %}
+                <td><label class="badge badge-info btn-rounded">Sin registro</label></td>
+                {% else %}
                 <td>{{persona.telefono}}</td>
-                <td>{{persona.direccion}}</td>
+                {% endif %}
+      
+                {% if persona.correo_electronico == ""  %}
+                <td><label class="badge badge-info btn-rounded">Sin registro</label></td>
+                {% else %}
+                <td>{{persona.correo_electronico}}</td>
+                {% endif %}
                 <td>
-                    <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-warning" data-form-url="{% url 'personas_update' persona.id %}"><span class="fa fa-trash">Editar</span></button>
-                    <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-danger" data-form-url="{% url 'user_delete' persona.id %}"><span class="fa fa-trash">Eliminar</span></button>
+                    <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-warning btn-rounded"  data-form-url="{% url 'personas_update' persona.id %}"><span class="fa fa-trash">Editar</span></button>
+                    <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-danger btn-rounded" data-form-url="{% url 'user_delete' persona.id %}"><span class="fa fa-trash">Eliminar</span></button>
                 </td>
               </tr>
               {% endfor %} 
             </tbody>
           </table>
+          </div>
         </div>
       </div>
     </div>
+    <!--Pagination-->
+    {% if is_paginated %}
+      <nav aria-label="Page navigation conatiner"></nav>
+      <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
+        {% endif %}
+        {% if page_obj.has_next %}
+        <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
 
-
-    </div>
-    </div>
+        {% endif %}
+      </ul>
+      </nav>
+      {% endif %}
+    <!--Pagination-->
+      </div>
+ </div>
 </div>
 {% endblock gruposlist %}
