@@ -8,8 +8,42 @@
 
   <div class="main-panel">
     <div class="content-wrapper">
-      <h1> {{ user.get_rol_display }} - Bienvenido al sistema!</h1>
+      <div class="row">
+              <div class="col-md-4 stretch-card grid-margin">
+                <div class="card bg-gradient-danger card-img-holder text-white">
+                  <div class="card-body">
+                    <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image">
+                    <h4>Grupos Sociales
+                    </h4>
+                    <h1>Grupos Sociales</h1>
+                    <h6 class="card-text">Grupos sociales activos</h6>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 stretch-card grid-margin">
+                <div class="card bg-gradient-info card-img-holder text-white">
+                  <div class="card-body">
+                    <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image">
+                    <h4 class="font-weight-normal mb-3">Weekly Orders 
+                    </h4>
+                    <h2 class="mb-5">45,6334</h2>
+                    <h6 class="card-text">Decreased by 10%</h6>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 stretch-card grid-margin">
+                <div class="card bg-gradient-success card-img-holder text-white">
+                  <div class="card-body">
+                    <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image">
+                    <h4 class="font-weight-normal mb-3">Visitors Online 
+                    <h2 class="mb-5">95,5741</h2>
+                    <h6 class="card-text">Increased by 5%</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
     </div>
+    
   </div>
 
 

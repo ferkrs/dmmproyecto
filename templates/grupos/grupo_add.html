@@ -7,15 +7,6 @@
   {% include 'sidebar.html' %}
 <div class="main-panel">
   <div class="content-wrapper">
-    <div class="page-header">
-      <h3 class="page-title"></h3>
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item active"><a href="{% url 'index' %}">Inicio</a></li>
-          <li class="breadcrumb-item "><a href="{% url 'grupo_list' %}">Listado de grupos</a></li>
-        </ol>
-      </nav>
-    </div>
 
     <!-- Modal / Ventana / Overlay en HTML -->
     <div class="modal fade" id="modalagregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -105,7 +96,7 @@
     </div>
 
     <!-- Modal / Ventana / Overlay en HTML -->
-    <div class="modal fade" id="modalexistente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalexistente" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -156,23 +147,14 @@
             <div class="col-12">
                 <span class="d-flex align-items-center purchase-popup">
                     <h4 class="card-title">Agregar Integrantes</h4>
-<<<<<<< HEAD
                     <div class="btn-group ml-auto ">
-                      <button type="button" class="btn btn-gradient-danger btn-rounded dropdown-toggle " data-toggle="dropdown" aria-expanded="false">Agregar integrantes</button>
+                      <button type="button" class="btn btn-gradient-info btn-rounded dropdown-toggle " data-toggle="dropdown" aria-expanded="false">Agregar integrantes</button>
                       <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 44px, 0px);">
                         <a class="dropdown-item" data-toggle="modal" data-target="#modalagregar">Agregar nuevo</a>
                         <a class="dropdown-item" data-toggle="modal" data-target="#modalexistente">Agregar existente</a>
+                        <a class="dropdown-item" href="{% url 'grupo_integrantes_excel' id=grupo.id %}">Generar Exel</a>
                       </div>
                     </div>
-=======
-                    <button type="button" class="btn download-button purchase-button btn-rounded ml-auto" data-toggle="modal" data-target="#modalagregar">
-                      Agregar Nuevo
-                    </button>
-                    <button type="button" class="btn download-button purchase-button btn-rounded ml-auto" data-toggle="modal" data-target="#modalexistente">
-                      Agregar Existente
-                    </button>
-                    <a type="button" class="btn btn-gradient-dark btn-icon-text" href="{% url 'grupo_integrantes_excel' id=grupo.id %}">Generar Excel<i class="mdi mdi-cloud-download btn-icon-append"></i></a>
->>>>>>> 4e09724385ca1511f20d54e4edf4a4570bae3aaa
                 </span>
               </div>
               <div class="table-responsive">
@@ -196,12 +178,12 @@
                     <td>{{ integrante.persona.primer_nombre }} {{ integrante.persona.segundo_nombre }} {{ integrante.persona.primer_apellido }}</td>
                     <td>{{ integrante.persona.get_sexo_display }}</td>
                     {% if integrante.persona.correo_electronico == "" %}
-                    <td><label class="badge badge-info">Sin registros</label></td>
+                    <td><label class="badge badge-danger">Sin registros</label></td>
                     {% else %}
                     <td>{{integrante.persona.correo_electronico}}</td>
                     {% endif %}
                     {% if integrante.persona.telefono == "" %}
-                    <td><label class="badge badge-info">Sin registros</label></td>
+                    <td><label class="badge badge-danger">Sin registros</label></td>
                     {% else %}
                     <td>{{ integrante.persona.telefono}}</td>
                     {% endif %}
@@ -260,5 +242,9 @@ $(function () {
       }
     })
   }
+
+  $(document).ready(function() {
+    $('.existente').select2();
+});
 </script>
 {% endblock grupoadd %}

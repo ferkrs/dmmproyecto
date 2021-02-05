@@ -7,40 +7,31 @@
 <div class="main-panel">
   <div class="content-wrapper">
     <div class="page-header">
-<<<<<<< HEAD
     </div>
     <div class="row">
       <div class="col-md-12 stretch-card grid-margin">
         <div class="card bg-gradient-info card-img-holder text-white">
           <div class="card-body">
             <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image">
-            <h4 class="font-weight-normal mb-3">Comunidad: 
-            </h4>
+            <h4 class="font-weight-normal mb-3">Comunidad: </h4>
             <h1>{{comunidad.comunidad}}</h1>
           </div>
         </div>
       </div>
-=======
-      <h3 class="page-title">Fases Comunidad: {{comunidad.comunidad}}</h3>
-      <button type="button" class="file-upload-browse btn btn-gradient-primary" data-toggle="modal" data-target="#modalagregar">
-        Agregar Fase
-      </button>
-      <a type="button" class="btn btn-gradient-dark btn-icon-text" href="{% url 'alfabetizacion_fases_excel' id=comunidad.id %}">Generar Excel<i class="mdi mdi-cloud-download btn-icon-append"></i></a>
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
-          <li class="breadcrumb-item"><a href="{% url 'user_list' %}">Listado</a></li>
-        </ol>
-      </nav>
->>>>>>> 4e09724385ca1511f20d54e4edf4a4570bae3aaa
     </div>
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
               <span class="d-flex align-items-center purchase-popup">
                 <h4 class="card-title">Listado de fases</h4>
-                  <a  type="button"class="btn btn-gradient-danger btn-rounded ml-auto" data-toggle="modal" data-target="#modalagregar">Agregar fase</a>
-              </span>
+                <div class="btn-group ml-auto ">
+                  <button type="button" class="btn btn-gradient-info btn-rounded dropdown-toggle " data-toggle="dropdown" aria-expanded="false">Opciones</button>
+                  <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 44px, 0px);">
+                    <a class="dropdown-item" data-toggle="modal" data-target="#modalagregar">Agregar Fase</a>
+                    <a class="dropdown-item"href="{% url 'alfabetizacion_fases_excel' id=comunidad.id %}" >Generar Exel</a>
+                  </div>
+                </div>
+            </span>
             <div class="table-responsive">
               <table class="table">
                 <thead>

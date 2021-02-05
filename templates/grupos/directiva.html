@@ -6,17 +6,8 @@
   {% include 'sidebar.html' %}
 <div class="main-panel">
   <div class="content-wrapper">
-    <div class="page-header">
-      <h3 class="page-title"></h3>
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item active"><a href="{% url 'index' %}">Inicio</a></li>
-          <li class="breadcrumb-item"><a href="{% url 'grupo_list' %}">Listado de grupos</a></li>
-        </ol>
-      </nav>
-    </div>
+
     <!-- Modal / Ventana / Overlay en HTML -->
-<<<<<<< HEAD
     <div class="row">
       <div class="col-md-12 stretch-card grid-margin">
         <div class="card bg-gradient-info card-img-holder text-white">
@@ -28,21 +19,16 @@
       </div>
     </div>
     <div class="col-lg-12 grid-margin stretch-card">
-=======
     
     <div class="col-lg-12 grid-margin stretch-card">        
->>>>>>> 4e09724385ca1511f20d54e4edf4a4570bae3aaa
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title">Grupos Asignados</h4>
-          <p class="card-description">Listado de grupos</p>
-<<<<<<< HEAD
+          <span class="d-flex align-items-center purchase-popup">
+            <h4 class="card-title">Listado de directiva</h4>
+            <a class="btn btn-gradient-success btn-rounded ml-auto" href="{% url 'grupo_directiva_excel' id=grupo.id %}"> <i class="mdi mdi-file-excel-box" style="color: white;"></i> Exportar exel</a>
+          </span>
           <div class="table-responsive">
             <table class="table">
-=======
-          <a type="button" class="btn btn-gradient-dark btn-icon-text" href="{% url 'grupo_directiva_excel' id=grupo.id %}">Generar Excel<i class="mdi mdi-cloud-download btn-icon-append"></i></a>
-          <table class="table table-hover">
->>>>>>> 4e09724385ca1511f20d54e4edf4a4570bae3aaa
             <thead>
               <tr>
                 <th>Nombre del grupo</th>

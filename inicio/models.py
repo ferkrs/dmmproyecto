@@ -119,7 +119,7 @@ class Grupo(models.Model):
     # Paraje
     paraje = models.CharField(max_length=20,blank=True)
     # Grupo
-    nombre_grupo = models.CharField(max_length=20)
+    nombre_grupo = models.CharField(max_length=50)
 
     def __str__(self): 
         txt="{0}"

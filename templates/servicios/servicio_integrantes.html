@@ -5,17 +5,8 @@
 
 <div class="container-fluid page-body-wrapper">
   {% include 'sidebar.html' %}
-<div class="main-panel">
+  <div class="main-panel">
   <div class="content-wrapper">
-    <div class="page-header">
-      <h3 class="page-title">Agregar integrantes</h3>
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item active"><a href="{% url 'index' %}">Inicio</a></li>
-          <li class="breadcrumb-item"><a href="{% url 'grupo_list' %}">Listado de grupos</a></li>
-        </ol>
-      </nav>
-    </div>
 
     <!-- Modal / Ventana / Overlay en HTML -->
     <div class="modal fade" id="modalagregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -100,7 +91,7 @@
     </div>
 
     <!-- Modal / Ventana / Overlay en HTML -->
-    <div class="modal fade" id="modalexistente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalexistente" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -115,7 +106,7 @@
                 <h4 class="card-title"><u>Información de Persona</u></h4>
                   <div class="col-md-8">
                       <label>Seleccione una persona</label>
-                      <select class="form-control" name="persona" id="persona">
+                      <select class="form-control" name="persona" id="busacar">
                         {% for persona in personas %}
                           <option value="">
                             {{persona.cui}} - {{persona.primer_nombre}} {{persona.primer_apellido}}
@@ -133,54 +124,41 @@
           </div>
       </div>
     
-    <div class="col-lg-12 grid-margin stretch-card">
-      <div class="card">
-        <div class="card-body">
-            <h2 class="card-title">{{ servicio.get_modalidad_display }} - {{ servicio.nombre }}</h2>
-            <div class="row">
-                <div class="col-sm-6">
-                        <address>
-                          <p>Inicio:  {{ servicio.fecha_inicio }}  </p>
-                          <p>Fin:  {{ servicio.fecha_finalizacion }}  </p>
-                          <p> {{ fase.comunidad }} </p>
-                        </address>
-                </div>
-                <div class="col-sm-6">
-                    <address> 
-                    <p class="font-weight-bold">Datos Generales</p>
-                    <p> Alfabetizadora: {{ fase.nombre_alfabetizadora }} -  Ciclo: {{ fase.ciclo }}</p>
-                    </address>
-                </div>
-     
-            </div>
+    
+    <div class="row">
+      <div class="col-md-12 stretch-card grid-margin">
+        <div class="card bg-gradient-info card-img-holder text-white">
+          <div class="card-body">
+            <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image">
+            <h4>Inicio: {{ servicio.fecha_inicio }}, Finalización: {{ servicio.fecha_finalizacion }} </h4>
+            <h1>{{ servicio.get_modalidad_display }}: {{ servicio.nombre }} </h1>
+            <p>Dias: {{ servicio.get_de_display }} a {{ servicio.get_a_display }} | Horario: {{ servicio.hora_inicio}} a {{servicio.hora_final}} </p>
+          </div>
         </div>
       </div>
     </div>
-
-    <div class="col-lg-12  col-sm-12 grid-margin stretch-card">
-        <div class="card">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
           <div class="card-body">
-            <div class="col-12">
-                <span class="d-flex align-items-center purchase-popup">
-                    <h4 class="card-title">Agregar Integrantes</h4>
-                    <button type="button" class="btn download-button purchase-button btn-rounded ml-auto" data-toggle="modal" data-target="#modalagregar">
-                      Agregar Nuevo
-                    </button>
-                    <button type="button" class="btn download-button purchase-button btn-rounded ml-auto" data-toggle="modal" data-target="#modalexistente">
-                      Agregar Existente
-                    </button>
-                    <a type="button" class="btn btn-gradient-dark btn-icon-text" href="{% url 'integrantes_servicio_excel' id=servicio.id %}">Generar Excel<i class="mdi mdi-cloud-download btn-icon-append"></i></a>
-                </span>
+            <span class="d-flex align-items-center purchase-popup">
+              <h4 class="card-title">Listado de integrantes</h4>
+              <div class="btn-group ml-auto ">
+                <button type="button" class="btn btn-gradient-info btn-rounded dropdown-toggle " data-toggle="dropdown" aria-expanded="false">Opciones</button>
+                <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 44px, 0px);">
+                  <a class="dropdown-item" data-toggle="modal" data-target="#modalagregar">Agregar nuevo</a>
+                  <a class="dropdown-item" data-toggle="modal" data-target="#modalexistente">Agregar existente</a>
+                  <a class="dropdown-item"href="{% url 'integrantes_servicio_excel' id=servicio.id %}" >Generar Exel</a>
+                </div>
               </div>
-
-            <table class="table table-striped">
+          </span>
+          <div class="table-responsive">
+            <table class="table">
               <thead>
                 <tr>
                   <th>No. </th>
                   <th>CUI</th>
                   <th>Nombre</th>
-                  <th>Sexo</th>
-                  <th>Fecha Nacimiento</th>
+                  <th>Direccion</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -189,14 +167,13 @@
                 <tr>
                   <td>{{ forloop.counter }}</td>
                   <td>{{ integrante.cui }}</td>
-                  <td>{{ integrante.primer_nombre }} {{ integrante.persona__primer_apellido }}</td>
-                  <td>{{ integrante.get_sexo_display }}</td>
-                  <td>{{ integrante.fecha_nacimiento}}</td>
+                  <td>{{ integrante.primer_nombre }} {{ integrante.segundo_nombre}} {{ integrante.primer_apellido}} {{ integrante.segundo_apellido}} </td>
+                  <td>{{ integrante.direccion }}</td>
                   <td>
-                    <button type="button" id="asignacion-update" class="bs-modal btn btn-sm btn-warning" data-form-url="{% url 'personas_update' integrante.id %}">
+                    <button type="button" id="asignacion-update" class="bs-modal btn btn-sm btn-warning btn-rounded" data-form-url="{% url 'personas_update' integrante.id %}">
                       <span class="fa fa-trash">Editar</span>
                     </button>
-                    <a type="button" class="btn btn-sm btn-danger" href="#" onclick="eliminar_asignacion({{integrante.id}}, {{servicio.id}})">Eliminar</a>
+                    <a type="button" class="btn btn-sm btn-danger btn-rounded" href="#" onclick="eliminar_asignacion({{integrante.id}}, {{servicio.id}})">Eliminar</a>
                   </td>
                 </tr>
                 {% endfor %}
@@ -238,6 +215,9 @@
 </div>
 
 <script type="text/javascript">
+$(document).ready(function() {
+    $("#buscar").select2();
+});
   $(function () {
     // Update, Read and Delete book buttons open modal with id="modal" (default)
     // The formURL is retrieved from the data of the element

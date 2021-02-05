@@ -104,7 +104,7 @@
     </div>
 
     <!-- Modal / Ventana / Overlay en HTML -->
-    <div class="modal fade" id="modalexistente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalexistente" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -119,11 +119,9 @@
                 <h4 class="card-title"><u>Información de Persona</u></h4>
                   <div class="col-md-8">
                       <label>Seleccione una persona</label>
-                      <select class="form-control" name="persona" id="persona">
+                      <select class="form-control buscar" name="persona" id="buscar" style="width: 100%;">
                         {% for persona in personas %}
-                          <option value="">
-                            {{persona.cui}} - {{persona.primer_nombre}} {{persona.primer_apellido}}
-                          </option>
+                          <option value="{{persona.id}}">{{persona.cui}}-{{persona.primer_nombre}} {{persona.segundo_apellido}} </option>
                         {% endfor %}
                       </select>
                   </div>
@@ -143,35 +141,20 @@
           <div class="card-body">
             
             <div class="col-12">
-<<<<<<< HEAD
               <span class="d-flex align-items-center purchase-popup">
                   <h4 class="card-title">Agregar Integrantes</h4>
                   <div class="btn-group ml-auto ">
-                    <button type="button" class="btn btn-gradient-danger btn-rounded dropdown-toggle " data-toggle="dropdown" aria-expanded="false">Agregar integrantes</button>
+                    <button type="button" class="btn btn-gradient-info btn-rounded dropdown-toggle " data-toggle="dropdown" aria-expanded="false">Opciones</button>
                     <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 44px, 0px);">
                       <a class="dropdown-item" data-toggle="modal" data-target="#modalagregar">Agregar nuevo</a>
                       <a class="dropdown-item" data-toggle="modal" data-target="#modalexistente">Agregar existente</a>
+                      <a class="dropdown-item" href="{% url 'fase_integrantes_excel' id=fase.id %}">Generar Exel</a>
                     </div>
                   </div>
               </span>
             </div>
-              <div class="table-responsive">
-                <table class="table">
-=======
-                <span class="d-flex align-items-center purchase-popup">
-                    <h4 class="card-title">Agregar Integrantes</h4>
-                    <button type="button" class="btn download-button purchase-button btn-rounded ml-auto" data-toggle="modal" data-target="#modalagregar">
-                      Agregar Nuevo
-                    </button>
-                    <button type="button" class="btn download-button purchase-button btn-rounded ml-auto" data-toggle="modal" data-target="#modalexistente">
-                      Agregar Existente
-                    </button>
-                    <a type="button" class="btn btn-gradient-dark btn-icon-text" href="{% url 'fase_integrantes_excel' id=fase.id %}">Generar Excel<i class="mdi mdi-cloud-download btn-icon-append"></i></a>
-                </span>
-              </div>
-
-            <table class="table table-striped">
->>>>>>> 4e09724385ca1511f20d54e4edf4a4570bae3aaa
+          <div class="table-responsive">
+            <table class="table">
               <thead>
                 <tr>
                   <th>No.</th>
@@ -201,11 +184,7 @@
                     <button type="button" id="asignacion-update" class="bs-modal btn btn-sm btn-warning btn-rounded " data-form-url="{% url 'personas_update' integrante.id %}">
                       <span class="fa fa-trash">Editar</span>
                     </button>
-<<<<<<< HEAD
                     <a type="button" class="btn btn-sm btn-danger btn-rounded" href="#" onclick="eliminar_asignacion({{integrante.id}}, {{grupo.id}})">Eliminar</a>
-=======
-                    <a type="button" class="btn btn-sm btn-danger" href="#" onclick="eliminar_asignacion({{integrante.id}}, {{fase.id}})">Eliminar</a>
->>>>>>> 4e09724385ca1511f20d54e4edf4a4570bae3aaa
                   </td>
                 </tr>
                 {% endfor %}
@@ -250,6 +229,9 @@
 </div>
 
 <script type="text/javascript">
+$(document).ready(function() {
+    $("#buscar").select2();
+});
   $(function () {
     // Update, Read and Delete book buttons open modal with id="modal" (default)
     // The formURL is retrieved from the data of the element
@@ -259,6 +241,7 @@
       });
     });
   });
+
 </script>
   
 {% endblock %}

@@ -6,22 +6,26 @@
   {% include 'sidebar.html' %}
 <div class="main-panel">
   <div class="content-wrapper">
-    <div class="page-header">
-      <h3 class="page-title">Listado de servicios</h3>
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
-          <li class="breadcrumb-item"><a href="{% url 'grupo_list' %}">Listado de servicios</a></li>
-        </ol>
-      </nav>
+    <div class="row">
+      <div class="col-md-12 stretch-card grid-margin">
+        <div class="card bg-gradient-info card-img-holder text-white">
+          <div class="card-body">
+            <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image">
+            <h1>Servicios</h1>
+            <p>Listado de servicios</p>
+          </div>
+        </div>
+      </div>
     </div>
-    
     <div class="col-lg-12  col-sm-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title">Servicios</h4>
-          <p class="card-description">Listado de servicios</p>
-          <table class="table table-striped">
+          <span class="d-flex align-items-center purchase-popup">
+            <h4 class="card-title">Listado de servicios</h4>
+              <a class="btn btn-gradient-info btn-rounded ml-auto" href="/grupos/add">Agregar Servicios</a>
+          </span>
+          <div class="table-responsive">
+            <table class="table">
             <thead>
               <tr>
                 <th>No. </th>
@@ -29,7 +33,7 @@
                 <th>Nombre</th>
                 <th>Dias</th>
                 <th>Horario</th>
-                <th>Integrantes</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -38,24 +42,18 @@
                 <td>{{curso.id}}</td>
                 <td>{{curso.get_modalidad_display}}</td>
                 <td>{{curso.nombre}}</td>
-                <td>
-                  De: <label class="badge badge-danger">{{curso.get_de_display}} </label> a: <label class="badge badge-danger">{{curso.get_a_display}}</label></td>
-                <td> De: <label class="text-success">{{curso.hora_inicio}}</label> a: <label class="text-success"> {{curso.hora_final}}</label></td>
-                <td><a type="button" class="btn btn-sm btn-primary" href="/servicios/integrantes/{{curso.id}}">Integrantes</a></td>
-                  De: <label class="badge badge-success">{{curso.get_de_display}} </label> a: <label class="badge badge-success">{{curso.get_a_display}}</label>
-                  </td>
+                <td>De: <label class="badge badge-success">{{curso.get_de_display}} </label> a: <label class="badge badge-success">{{curso.get_a_display}}</label></td>
+                <td>De: <label class="badge badge-info">{{curso.hora_inicio}}</label> a: <label class="badge badge-info"> {{curso.hora_final}}</label></td>
                 <td> 
-                  De: <label class="badge badge-info">{{curso.hora_inicio}}</label> a: <label class="badge badge-info"> {{curso.hora_final}}</label>
-                </td>
-                <td> 
-                  <a type="button" class="btn btn-sm btn-success" href="# ">Agregar</a>
-                  <a type="button" class="btn btn-sm btn-danger" href="#" onclick="eliminar_servicio({{curso.id}})">Eliminar</a>
-
+                  <a type="button" class="btn btn-sm btn-info btn-rounded" href="/servicios/integrantes/{{curso.id}}">Integrantes</a>
+                  <a type="button" class="btn btn-sm btn-danger btn-rounded" href="#" onclick="eliminar_servicio({{curso.id}})">Eliminar</a>
+                  <a type="button" class="btn btn-sm btn-warning btn-rounded" href="#">Editar</a>
                 </td>
               </tr>
               {% endfor %} 
             </tbody>
           </table>
+        </div>
         </div>
       </div>
     </div>

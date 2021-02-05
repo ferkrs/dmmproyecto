@@ -13,9 +13,8 @@
         <div class="card bg-gradient-info card-img-holder text-white">
           <div class="card-body">
             <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image">
-            <h4 class="font-weight-normal mb-3">Asignacion de grupos sociales: 
-            </h4>
-            <h1 class="mb-5">Grupos Sociales</h1>
+            <h4>Asignacion de grupos sociales:</h4>
+            <h1>Grupos Sociales</h1>
           </div>
         </div>
       </div>
@@ -25,7 +24,7 @@
         <div class="card-body">
           <span class="d-flex align-items-center purchase-popup">
             <h4 class="card-title">Listado de grupos existentes</h4>
-              <a class="btn btn-gradient-danger btn-rounded ml-auto" href="{% url 'grupo_add' %}">Agregar Grupos</a>
+              <a class="btn btn-gradient-info btn-rounded ml-auto" data-toggle="modal" data-target="#modalgrupo">Agregar Grupos</a>
           </span>
           <div class="table-responsive">
             <table class="table">
@@ -68,6 +67,67 @@
   </div>
 </div>
 </div>
+
+<div class="modal fade" id="modalgrupo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Agregar grupo</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+        <form class="forms-sample" method="POST">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-md-6">
+              <label>Modalidad:</label>
+            {{form.modalidad}}
+            </div>
+            <div class="col-md-6">
+              <label>Nombre:</label>
+            {{form.nombre}}
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-6">
+              <label>Fecha inicio:</label>
+              {{form.fecha_inicio}}
+            </div>
+            <div class="col-md-6">
+              <label>Fecha Finalizacion:</label>
+            {{form.fecha_finalizacion}}
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-3">
+              <label>Fecha inicio:</label>
+              {{form.hora_inicio}}
+            </div>
+            <div class="col-md-3">
+              <label>Fecha Finalizacion:</label>
+            {{form.hora_final}}
+            </div>
+            <div class="col-md-3">
+              <label>De:</label>
+            {{form.de}}
+            </div>
+            <div class="col-md-3">
+              <label>A:</label>
+              {{form.a}}
+            </div>
+          </div>
+          <br>
+          <a type="button" class="btn btn-light" href="{% url 'grupo_list' %}">Cancelar</a>
+          <button type="submit" class="btn btn-gradient-primary mr-2">Guardar</button>
+        </form>
+      </div>
+    </div>
+</div>
+
 
 {% block js %}
 <script>

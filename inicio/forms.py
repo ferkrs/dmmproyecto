@@ -207,7 +207,7 @@ class AsignacionExistenteGrupoForm(forms.ModelForm):
             "puesto": "Puesto"
         }
         widgets = {
-            'persona' :forms.Select(attrs={'class': 'form-control'}),
+            'persona' :forms.Select(attrs={'class': 'form-control existente','style':"width: 100%;"}),
             'puesto' :forms.Select(attrs={'class': 'form-control'}),
         }
 
