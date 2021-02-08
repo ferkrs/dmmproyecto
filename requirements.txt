@@ -1,7 +1,13 @@
 Django==2.2.9
 django-bootstrap-modal-forms==2.0.1
+django-excel==0.0.10
 django-widget-tweaks==1.4.8
+lml==0.1.0
 mysqlclient==2.0.2
 Pillow==8.0.1
+pyexcel==0.6.6
+pyexcel-io==0.6.4
+pyexcel-webio==0.1.4
 pytz==2020.4
 sqlparse==0.4.1
+texttable==1.6.3

@@ -23,10 +23,9 @@
     </div>
     <!-- Modal / Ventana / Overlay en HTML -->
     <div class="modal fade" id="modalagregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-dialog modal-sm-12" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h3 class="modal-title" id="exampleModalLabel">Nuevo Integrante</h3>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -34,58 +33,63 @@
           <div class="modal-body">
             <form method="post" action="{% url 'fase_integrantes' fase.id %}" class="pt-3">
               {% csrf_token %}
-              <h4 class="card-title"><u>Información de Persona</u></h4>
+              <h3 class="modal-title" id="exampleModalLabel">Nuevo Integrante</h3>
+              <h4 class="card-title">Información del nuevo integrante</h4>
                 <div class="row">
-                    <div class="col-md-10">
+                    <div class="col-md-12">
                       <label for="">CUI</label>
                       {{formPersona.cui}}
                     </div>
                 </div>
                 <br>
                 <div class="row">
-                  <div class="col-md-4">
+                  <div class="col-md-6">
                     <label>Primer Nombre</label>
                     {{formPersona.primer_nombre}}
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-6">
                     <label>Segundo Nombre</label>
                     {{formPersona.segundo_nombre}}
                   </div>
-                  <div class="col-md-4">
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
                     <label>Tercer Nombre</label>
                     {{formPersona.tercer_nombre}}
                   </div>
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <label>Primer Apellido</label>
                       {{formPersona.primer_apellido}}
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <label>Segundo Apellido</label>
                       {{formPersona.segundo_apellido}}
                     </div>
-                    <div class="col-md-4">
+                    <br>
+                    <div class="col-md-12">
                       <label>Apellido Casada</label>
                       {{formPersona.apellido_casada}}
                     </div>
                   </div>
                 <br>
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-md-6">
                       <label for="">Fecha Nacimiento</label>
                       {{formPersona.fecha_nacimiento}}
                     </div>
-                    <div class="col-md-2">
-                      <label for="">Sexo</label>
-                      {{formPersona.sexo}}
-                    </div>
-                    <div class="col-md-4">
+
+                    <div class="col-md-6">
                       <label for="">Correo Electrónico</label>
                       {{formPersona.correo_electronico}}
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
+                      <label for="">Sexo</label>
+                      {{formPersona.sexo}}
+                    </div>
+                    <div class="col-md-6">
                       <label for="">Dirección</label>
                       {{formPersona.direccion}}
                     </div>
@@ -95,8 +99,8 @@
                 <br>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                  <button type="submit" class="btn btn-primary">Agregar</button>
+                  <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal">Cerrar</button>
+                  <button type="submit" class="btn btn-info btn-rounded">Agregar</button>
                 </div>
               </form>
           </div>
@@ -105,10 +109,9 @@
 
     <!-- Modal / Ventana / Overlay en HTML -->
     <div class="modal fade" id="modalexistente" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-sm-12" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h3 class="modal-title" id="exampleModalLabel">Nuevo Integrante</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -116,10 +119,13 @@
             <div class="modal-body">
               <form method="post" action="{}" class="pt-3">
                 {% csrf_token %}
-                <h4 class="card-title"><u>Información de Persona</u></h4>
-                  <div class="col-md-8">
+                <h3 class="modal-title" id="exampleModalLabel">Integrantes existentes</h3>
+                <h4 class="card-title">Información de personas existentes</h4>
+                  <div class="col-md-12">
                       <label>Seleccione una persona</label>
+                      
                       <select class="form-control buscar" name="persona" id="buscar" style="width: 100%;">
+                          <option value="0">Seleccione</option>
                         {% for persona in personas %}
                           <option value="{{persona.id}}">{{persona.cui}}-{{persona.primer_nombre}} {{persona.segundo_apellido}} </option>
                         {% endfor %}
@@ -127,8 +133,8 @@
                   </div>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Agregar</button>
+                    <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-info btn-rounded">Agregar</button>
                   </div>
                 </form>
             </div>

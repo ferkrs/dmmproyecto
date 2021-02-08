@@ -68,11 +68,10 @@
             <a type="button" class="btn btn-sm btn-info btn-rounded btn-fw" href="{% url 'alfabetizacion_list' %}">Regresar</a>
         </div>
     </div>
-    <div class="modal fade" id="modalagregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
+    <div class="modal fade" id="modalagregar" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm-12" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h3 class="modal-title" id="exampleModalLabel">Nueva Fase: {{comunidad.comunidad}}</h3>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -80,27 +79,29 @@
           <div class="modal-body">
             <form method="POST" action="{% url 'fases_crear' comunidad.id %}" class="pt-3">
               {% csrf_token %}
-              <h4 class="card-title"><u>Información de Fase</u></h4>
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-12">
+                      <h4 class="modal-title" id="exampleModalLabel">Comunidad Seleccionada: {{comunidad.comunidad}}</h4>
+                      <br>
                       <label for="">Nombre de Alfabetizador</label>
                       {{formFase.nombre_alfabetizadora}}
                     </div>
                 </div>
                 <br>
                 <div class="row">
-                  <div class="col-md-4">
+                  <div class="col-md-6">
                     <label for="">Ciclo de Fase</label>
                     {{formFase.ciclo}}
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-6">
                     <label for="">Fase</label>
                     {{formFase.fase}}
                   </div>
               </div>
+              
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary">Agregar</button>
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                  <button type="submit" class="btn btn-info btn-rounded">Agregar</button>
+                  <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal">Cerrar</button>
                 </div>
             </form>
           </div>
