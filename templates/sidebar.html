@@ -30,32 +30,17 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#grupos" aria-expanded="false" aria-controls="ui-basic">
+        <a class="nav-link" href="{% url 'grupo_list' %}">
           <span class="menu-title">Grupos Sociales</span>
-          <i class="menu-arrow"></i>
           <i class="mdi mdi mdi-account-multiple-outline menu-icon"></i>
         </a>
-        <div class="collapse" id="grupos">
-          <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="{% url 'grupo_add' %}">Aperturar Grupo</a></li>
-            <li class="nav-item"> <a class="nav-link" href="{% url 'grupo_list' %}">Ver grupos</a></li>
-          </ul> 
-        </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#servicios" aria-expanded="false" aria-controls="general-pages">
+        <a class="nav-link" href="{% url 'servicio_list' %}">
           <span class="menu-title">Servicios</span>
-          <i class="menu-arrow"></i>
           <i class="mdi mdi mdi-library-books menu-icon"></i>
         </a>
-        <div class="collapse" id="servicios">
-          <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="{% url 'servicio_crear' %}">Crear grupo</a></li>
-            <li class="nav-item"> <a class="nav-link" href="{% url 'servicio_list' %}">Listado de servicios</a></li>
-          </ul>
-        </div>
-      </li>
-      
+      </li>     
       <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#reportes" aria-expanded="false" aria-controls="general-pages">
           <span class="menu-title">Reportes</span>

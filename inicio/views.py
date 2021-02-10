@@ -119,9 +119,10 @@ class PersonaUpdateView(BSModalUpdateView):
 
 """
 #funcion de listar
-class GruposList(generic.ListView):
-    queryset = Grupo.objects.all()
-    template_name = 'grupos/grupos_list.html'
+def grupo_list(request):
+    grupos = Grupo.objects.all()
+    form = GrupoForm
+    return render(request, 'grupos/grupos_list.html', {'grupos': grupos, 'form': form})
 
 #funcion de consulta de directiva by id
 def directiva(request, id): 
@@ -146,12 +147,9 @@ def grupo_crear(request):
             try:  
                 form.save()
                 messages.success(request,"Grupo creado correctamente")
-                return redirect('grupo_list')
             except:  
                 pass
-    else:
-        form = GrupoForm()
-    return render(request, 'grupos/grupos_add.html', {'form': form})
+        return redirect('grupo_list')
 
 class GrupoUpdateView(BSModalUpdateView):
     model = Grupo

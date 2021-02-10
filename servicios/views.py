@@ -11,9 +11,9 @@ from django.contrib import messages
 from datetime import datetime
 import django_excel as excel
 
-class CursoList(generic.ListView):
-    queryset = Curso.objects.all()
-    template_name = 'servicios/servicios_list.html'
+def servicio_list(request):
+    servicios = Curso.objects.all()
+    return render(request, 'servicios/servicios_list.html', {'servicios': servicios, 'form': CursoForm})
 
 def servicio_crear(request):
     if request.method == 'POST':
@@ -26,9 +26,6 @@ def servicio_crear(request):
             except:  
                 pass
                 return redirect('servicio_list') 
-    else:
-        form = CursoForm()
-    return render(request, 'servicios/servicios_add.html', {'form': form})
 
 def servicio_integrantes(request, id):
     if request.method == "POST":
@@ -50,6 +47,17 @@ def servicio_integrantes(request, id):
         # Integrantes
         integrantes = Curso.objects.get(pk=id).integrantes.all()
         return render(request,'servicios/servicio_integrantes.html', {'integrantes': integrantes, 'servicio': servicio, 'formPersona': formPersona})
+
+def servicio_existente(request, id):
+    if request.method == "POST":
+        try:
+            # Form Persona
+            persona = Persona.objects.get(pk=request.POST['persona'])
+            Curso.objects.get(pk=id).integrantes.add(persona)
+            return redirect('/servicios/integrantes/'+str(id))
+        except Exception as e:
+            print(e)
+            return redirect('/servicios/integrantes/'+str(id))
 
 def eliminar_integrante(request, id, servicio):
     # Obtener persona según ID

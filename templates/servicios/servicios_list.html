@@ -22,7 +22,7 @@
         <div class="card-body">
           <span class="d-flex align-items-center purchase-popup">
             <h4 class="card-title">Listado de servicios</h4>
-              <a class="btn btn-gradient-info btn-rounded ml-auto" href="/grupos/add">Agregar Servicios</a>
+              <a class="btn btn-gradient-info btn-rounded ml-auto" data-toggle="modal" data-target="#modalgrupo">Agregar Servicios</a>
           </span>
           <div class="table-responsive">
             <table class="table">
@@ -37,7 +37,7 @@
               </tr>
             </thead>
             <tbody>
-              {% for curso in curso_list %}
+              {% for curso in servicios %}
               <tr>
                 <td>{{curso.id}}</td>
                 <td>{{curso.get_modalidad_display}}</td>
@@ -60,6 +60,65 @@
   </div>
 </div>
 </div>
+<div class="modal fade" id="modalgrupo"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="exampleModalLabel">Agregar grupo</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="{% url 'servicio_crear' %}" class="pt-3">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-md-6">
+                <label>Modalidad:</label>
+              {{form.modalidad}}
+              </div>
+              <div class="col-md-6">
+                <label>Nombre:</label>
+              {{form.nombre}}
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Fecha inicio:</label>
+                {{form.fecha_inicio}}
+              </div>
+              <div class="col-md-6">
+                <label>Fecha Finalizacion:</label>
+              {{form.fecha_finalizacion}}
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-3">
+                <label>Fecha inicio:</label>
+                {{form.hora_inicio}}
+              </div>
+              <div class="col-md-3">
+                <label>Fecha Finalizacion:</label>
+              {{form.hora_final}}
+              </div>
+              <div class="col-md-3">
+                <label>De:</label>
+              {{form.de}}
+              </div>
+              <div class="col-md-3">
+                <label>A:</label>
+                {{form.a}}
+              </div>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-info btn-rounded">Agregar</button>
+            <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal">Cerrar</button>
+          </form>
+        </div>
+      </div>
+  </div>
 {% block js %}
 <script>
   function eliminar_servicio(id){

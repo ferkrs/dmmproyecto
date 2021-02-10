@@ -94,6 +94,18 @@ def integrantes_fase(request, id):
         integrantes = MujeresAlfa.objects.get(pk=id).integrantes.all()
         return render(request,'alfabetizacion/integrantes_fase.html', {'integrantes': integrantes, 'fase': fase, 'formPersona': formPersona, 'personas': personas})
 
+def existente_fase(request, id):
+    if request.method == "POST":
+        try:
+            # Obtener persona
+            persona = Persona.objects.get(pk=request.POST['persona'])
+            MujeresAlfa.objects.get(pk=id).integrantes.add(persona)
+            messages.success(request,"Integrante agregado correctamente")
+            return redirect('/alfabetizacion/fases/'+str(id)+'/integrantes')
+        except Exception as e:
+            print(e)
+            return redirect('/alfabetizacion/fases/'+str(id)+'/integrantes')
+
 def eliminar_integrante(request, id, grupo):
     # Obtener persona según ID
     persona = Persona.objects.get(pk=id)

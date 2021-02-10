@@ -101,7 +101,7 @@
                 </button>
             </div>
             <div class="modal-body">
-              <form method="post" action="{}" class="pt-3">
+              <form method="post" action="{% url 'servicio_existentes' servicio.id %}" class="pt-3">
                 {% csrf_token %}
                 <h3 class="modal-title" id="exampleModalLabel">Nuevo Integrante</h3>
                 <h4 class="card-title">Información de Persona</h4>

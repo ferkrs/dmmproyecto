@@ -117,7 +117,7 @@
                 </button>
             </div>
             <div class="modal-body">
-              <form method="post" action="{}" class="pt-3">
+              <form method="post" action="{% url 'fase_existente' fase.id %}" class="pt-3">
                 {% csrf_token %}
                 <h3 class="modal-title" id="exampleModalLabel">Integrantes existentes</h3>
                 <h4 class="card-title">Información de personas existentes</h4>
@@ -190,7 +190,7 @@
                     <button type="button" id="asignacion-update" class="bs-modal btn btn-sm btn-warning btn-rounded " data-form-url="{% url 'personas_update' integrante.id %}">
                       <span class="fa fa-trash">Editar</span>
                     </button>
-                    <a type="button" class="btn btn-sm btn-danger btn-rounded" href="#" onclick="eliminar_asignacion({{integrante.id}}, {{grupo.id}})">Eliminar</a>
+                    <a type="button" class="btn btn-sm btn-danger btn-rounded" href="#" onclick="eliminar_asignacion({{integrante.id}}, {{fase.id}})">Eliminar</a>
                   </td>
                 </tr>
                 {% endfor %}

@@ -19,7 +19,7 @@ urlpatterns = [
     # Grupos Routes
     path('grupos/add', grupo_crear, name='grupo_add'),
     path('grupos', grupo_crear, name='grupos'),
-    path('grupos/list', views.GruposList.as_view(), name='grupo_list'),
+    path('grupos/list', grupo_list, name='grupo_list'),
     path('grupos/update/<int:pk>', views.GrupoUpdateView.as_view(), name='grupo_update'),
     path('grupos-delete/<int:id>', views.GrupoDelete, name='grupos_delete'),
     path('grupos/directiva/<int:id>', views.directiva, name='grupos_directiva'),

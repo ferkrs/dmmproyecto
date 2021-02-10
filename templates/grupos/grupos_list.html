@@ -40,7 +40,7 @@
               </tr>
             </thead>
             <tbody>
-              {% for grupo in grupo_list %}
+              {% for grupo in grupos %}
               <tr>
                 <td>{{forloop.counter}}</td>
                 <td>{{grupo.nombre_grupo }}</td>
@@ -69,7 +69,7 @@
 </div>
 
 <div class="modal fade" id="modalgrupo"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h3 class="modal-title" id="exampleModalLabel">Agregar grupo</h3>
@@ -78,52 +78,77 @@
           </button>
       </div>
       <div class="modal-body">
-        <form class="forms-sample" method="POST">
+        <form method="POST" action="{% url 'grupo_add' %}" class="pt-3">
           {% csrf_token %}
+          <h4 class="card-title">Identificador de grupo</h4>
           <div class="row">
-            <div class="col-md-6">
-              <label>Modalidad:</label>
-            {{form.modalidad}}
-            </div>
-            <div class="col-md-6">
-              <label>Nombre:</label>
-            {{form.nombre}}
-            
+            <div class="col-md-12">
+              <label> Nombre del grupo</label>
+              {{form.nombre_grupo}}
             </div>
           </div>
           <br>
+          <h4 class="card-title">Datos de ubicacion</h4>
+          <p class="card-description">Ubicacion de los grupos</p>
+          <br>
           <div class="row">
-            <div class="col-md-6">
-              <label>Fecha inicio:</label>
-              {{form.fecha_inicio}}
+            <div class="col-md-4">
+              <label>Departamento</label>
+              {{form.departamento}}
             </div>
-            <div class="col-md-6">
-              <label>Fecha Finalizacion:</label>
-            {{form.fecha_finalizacion}}
+            <div class="col-md-4">
+              <label>Municipio</label>
+              {{form.municipio}}
+            </div>
+            <div class="col-md-4">
+              <label>Identificador</label>
+              {{form.identificador}}
             </div>
           </div>
+            <!-- Dejamos el espacio para la funcion en js-->
+          <!-- Area urbana-->
           <br>
           <div class="row">
             <div class="col-md-3">
-              <label>Fecha inicio:</label>
-              {{form.hora_inicio}}
+              <label>Zona</label>
+              {{form.zona}}
             </div>
+
             <div class="col-md-3">
-              <label>Fecha Finalizacion:</label>
-            {{form.hora_final}}
+              <label>Canton</label>
+              {{form.canton}}
             </div>
+
             <div class="col-md-3">
-              <label>De:</label>
-            {{form.de}}
+              <label>Sector</label>
+              {{form.sector}}
             </div>
+
             <div class="col-md-3">
-              <label>A:</label>
-              {{form.a}}
+              <label>Canton</label>
+              {{form.canton}}
+            </div>
+
+          </div>
+          <br>
+          <!--Este es el espacio para area rural-->
+          <div class="row">
+            <div class="col-md-4">
+              <label>Aldea</label>
+              {{form.aldeas}}
+            </div>
+            <div class="col-md-4">
+              <label>Caserio</label>
+              {{form.caserio}}
+            </div>
+            <div class="col-md-4">
+              <label>Canton / Paraje </label>
+              {{form.paraje}}
             </div>
           </div>
           <br>
-          <a type="button" class="btn btn-light" href="{% url 'grupo_list' %}">Cancelar</a>
-          <button type="submit" class="btn btn-gradient-primary mr-2">Guardar</button>
+          <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-info btn-rounded">Agregar</button>
         </form>
       </div>
     </div>

@@ -4,8 +4,9 @@ from django.urls import path
 
 urlpatterns = [
     path('servicios/crear', servicio_crear, name='servicio_crear'),
-    path('servicios/list', views.CursoList.as_view(), name='servicio_list'),
+    path('servicios/list', servicio_list, name='servicio_list'),
     path('servicios/integrantes/<int:id>', views.servicio_integrantes, name="servicio_integrantes"),
+    path('servicios/existentes/<int:id>', servicio_existente, name="servicio_existentes"),
     path('servicios/integrantes/<int:id>/<int:servicio>/delete', views.eliminar_integrante, name="servicio_integrantes_eliminar"),
     path('servicios-delete/<int:id>', views.ServicioDelete, name='servicio_delete'),
     # Excel
