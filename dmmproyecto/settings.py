@@ -78,6 +78,7 @@ DATABASES = {
         'USER': 'dmmmunishecana',
         'PASSWORD':'dmmproyecto2021',
         'HOST': 'dmmmunishecana.mysql.pythonanywhere-services.com',
+
     }
 }
 

@@ -1,5 +1,5 @@
 {% include 'base.html' %}
-{% block grupoadd  %} 
+{% block grupoadd  %}
 {% load staticfiles %}
 {% include 'navbar.html' %}
 
@@ -22,7 +22,7 @@
       </div>
     </div>
     <!-- Modal / Ventana / Overlay en HTML -->
-    <div class="modal fade" id="modalagregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalagregar" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-sm-12" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -90,8 +90,8 @@
                       {{formPersona.sexo}}
                     </div>
                     <div class="col-md-6">
-                      <label for="">Dirección</label>
-                      {{formPersona.direccion}}
+                      <label for="">Telefono</label>
+                      {{formPersona.telefono}}
                     </div>
                 </div>
                 <div class="row">
@@ -117,17 +117,17 @@
                 </button>
             </div>
             <div class="modal-body">
-              <form method="post" action="{}" class="pt-3">
+              <form method="post" action="{% url 'fase_existente' fase.id %}" class="pt-3">
                 {% csrf_token %}
                 <h3 class="modal-title" id="exampleModalLabel">Integrantes existentes</h3>
                 <h4 class="card-title">Información de personas existentes</h4>
                   <div class="col-md-12">
                       <label>Seleccione una persona</label>
-                      
+
                       <select class="form-control buscar" name="persona" id="buscar" style="width: 100%;">
                           <option value="0">Seleccione</option>
                         {% for persona in personas %}
-                          <option value="{{persona.id}}">{{persona.cui}}-{{persona.primer_nombre}} {{persona.segundo_apellido}} </option>
+                          <option value="{{persona.id}}">{{persona.cui}} {{persona.primer_nombre}} {{persona.segundo_apellido}} {{ integrante.primer_apellido }} </option>
                         {% endfor %}
                       </select>
                   </div>
@@ -140,12 +140,12 @@
             </div>
           </div>
       </div>
-  
+
 
     <div class="col-lg-12  col-sm-12 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
-            
+
             <div class="col-12">
               <span class="d-flex align-items-center purchase-popup">
                   <h4 class="card-title">Agregar Integrantes</h4>
@@ -166,7 +166,7 @@
                   <th>No.</th>
                   <th>CUI</th>
                   <th>Nombre</th>
-                  <th>Sexo</th>
+                  <th>Correo Electronico</th>
                   <th>Telefono</th>
                   <th>Acciones</th>
                 </tr>
@@ -177,20 +177,23 @@
                   <td>{{ forloop.counter }}</td>
                   <td>{{ integrante.cui }}</td>
                   <td>{{ integrante.primer_nombre }} {{ integrante.segundo_nombre }} {{ integrante.primer_apellido }}  </td>
-                  <td>{{ integrante.get_sexo_display }}</td>
-                  
-                  {% if integrante.telefono == "" %}
-                  <td><label class="badge badge-info btn-rounded">Sin registro</label></td>
-                  {% else %}
-                  <td>{{ integrante.telefono}}</td>
-                  {% endif %}
+                {% if integrante.correo_electronico == "" %}
+                    <td><label class="badge badge-danger btn-rounded">Sin registro</label></td>
+                {%else%}
+                      <td>{{ integrante.correo_electronico }}</td>
+                {% endif %}
 
-                    
+                {% if integrante.telefono == "" %}
+                    <td><label class="badge badge-danger btn-rounded">Sin registro</label></td>
+                {% else %}
+                    <td>{{ integrante.telefono}}</td>
+                {% endif %}
+
                   <td>
                     <button type="button" id="asignacion-update" class="bs-modal btn btn-sm btn-warning btn-rounded " data-form-url="{% url 'personas_update' integrante.id %}">
                       <span class="fa fa-trash">Editar</span>
                     </button>
-                    <a type="button" class="btn btn-sm btn-danger btn-rounded" href="#" onclick="eliminar_asignacion({{integrante.id}}, {{grupo.id}})">Eliminar</a>
+                    <a type="button" class="btn btn-sm btn-danger btn-rounded" href="#" onclick="eliminar_asignacion({{integrante.id}}, {{fase.id}})">Eliminar</a>
                   </td>
                 </tr>
                 {% endfor %}
@@ -201,6 +204,18 @@
             <a type="button" class="btn btn-sm btn-info btn-rounded btn-fw" href="javascript: history.go(-1)">Regresar</a>
           </div>
         </div>
+        {% if is_paginated %}
+          <nav aria-label="Page navigation conatiner"></nav>
+          <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
+            {% endif %}
+            {% if page_obj.has_next %}
+            <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
+            {% endif %}
+          </ul>
+          </nav>
+        {% endif %}
     </div>
   </div>
 </div>
@@ -249,6 +264,6 @@ $(document).ready(function() {
   });
 
 </script>
-  
+
 {% endblock %}
 {% endblock grupoadd %}

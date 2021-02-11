@@ -1,5 +1,5 @@
 {% include 'base.html' %}
-{% block grupoadd  %} 
+{% block grupoadd  %}
 {% load staticfiles %}
 {% include 'navbar.html' %}
 
@@ -73,8 +73,8 @@
                       {{formPersona.correo_electronico}}
                     </div>
                     <div class="col-md-6">
-                      <label for="">Dirección</label>
-                      {{formPersona.direccion}}
+                      <label for="">Telefono</label>
+                      {{formPersona.telefono}}
                     </div>
                 </div>
                 <div class="row">
@@ -95,23 +95,22 @@
         <div class="modal-dialog modal-md-12" role="document">
           <div class="modal-content">
             <div class="modal-header">
-            
+
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-              <form method="post" action="{}" class="pt-3">
+              <form method="post" action="{% url 'servicio_existentes' servicio.id %}" class="pt-3">
                 {% csrf_token %}
                 <h3 class="modal-title" id="exampleModalLabel">Nuevo Integrante</h3>
                 <h4 class="card-title">Información de Persona</h4>
                   <div class="col-md-12">
                       <label>Seleccione una persona</label>
-                      <select class="form-control" name="persona" id="busacar">
+                      <select class="form-control" name="persona" id="search" style="width: 100%;">
+                          <option value="0">Seleccione</option>
                         {% for persona in personas %}
-                          <option value="">
-                            {{persona.cui}} - {{persona.primer_nombre}} {{persona.primer_apellido}}
-                          </option>
+                          <option value="{{persona.id}}">{{persona.cui}} {{persona.primer_nombre}} {{persona.segundo_apellido}} {{ integrante.primer_apellido }} </option>
                         {% endfor %}
                       </select>
                   </div>
@@ -124,8 +123,8 @@
             </div>
           </div>
       </div>
-    
-    
+
+
     <div class="row">
       <div class="col-md-12 stretch-card grid-margin">
         <div class="card bg-gradient-info card-img-holder text-white">
@@ -159,7 +158,8 @@
                   <th>No. </th>
                   <th>CUI</th>
                   <th>Nombre</th>
-                  <th>Direccion</th>
+                  <th>Correo Electronico</th>
+                  <th>Telefono</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -169,7 +169,17 @@
                   <td>{{ forloop.counter }}</td>
                   <td>{{ integrante.cui }}</td>
                   <td>{{ integrante.primer_nombre }} {{ integrante.segundo_nombre}} {{ integrante.primer_apellido}} {{ integrante.segundo_apellido}} </td>
-                  <td>{{ integrante.direccion }}</td>
+                {% if integrante.correo_electronico == "" %}
+                    <td><label class="badge badge-danger btn-rounded">Sin registro</label></td>
+                {%else%}
+                      <td>{{ integrante.correo_electronico }}</td>
+                {% endif %}
+
+                {% if integrante.telefono == "" %}
+                    <td><label class="badge badge-danger btn-rounded">Sin registro</label></td>
+                {% else %}
+                    <td>{{ integrante.telefono}}</td>
+                {% endif %}
                   <td>
                     <button type="button" id="asignacion-update" class="bs-modal btn btn-sm btn-warning btn-rounded" data-form-url="{% url 'personas_update' integrante.id %}">
                       <span class="fa fa-trash">Editar</span>
@@ -181,6 +191,8 @@
               </tbody>
             </table>
           </div>
+          <br>
+        <a type="button" class="btn btn-sm btn-info btn-rounded btn-fw" href="{% url 'servicio_list' %}">Regresar</a>
         </div>
     </div>
   </div>
@@ -217,7 +229,7 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-    $("#buscar").select2();
+    $("#search").select2();
 });
   $(function () {
     // Update, Read and Delete book buttons open modal with id="modal" (default)
@@ -229,6 +241,6 @@ $(document).ready(function() {
     });
   });
 </script>
-  
+
 {% endblock %}
 {% endblock grupoadd %}

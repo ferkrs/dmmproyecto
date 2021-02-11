@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import *
 from django.views import generic
 from .forms import *
+from django.core.paginator import Paginator
 from inicio.forms import PersonaForm
 from django.shortcuts import render, redirect
 from bootstrap_modal_forms.generic import (
@@ -36,7 +37,7 @@ class ComunidadUpdateView(BSModalUpdateView):
 
 def comunidades_list(request):
     comunidades = Comunidad.objects.all()
-    formComunidad = ComunidadForm 
+    formComunidad = ComunidadForm
     return render(request, 'alfabetizacion/comunidades_list.html', {'comunidades': comunidades, 'formComunidad': formComunidad})
 
 # Listado de Fases de comunidad
@@ -92,7 +93,20 @@ def integrantes_fase(request, id):
         fase = MujeresAlfa.objects.get(pk=id)
         # Integrantes
         integrantes = MujeresAlfa.objects.get(pk=id).integrantes.all()
+        paginator = Paginator(integrantes, 1)
         return render(request,'alfabetizacion/integrantes_fase.html', {'integrantes': integrantes, 'fase': fase, 'formPersona': formPersona, 'personas': personas})
+
+def existente_fase(request, id):
+    if request.method == "POST":
+        try:
+            # Obtener persona
+            persona = Persona.objects.get(pk=request.POST['persona'])
+            MujeresAlfa.objects.get(pk=id).integrantes.add(persona)
+            messages.success(request,"Integrante agregado correctamente")
+            return redirect('/alfabetizacion/fases/'+str(id)+'/integrantes')
+        except Exception as e:
+            print(e)
+            return redirect('/alfabetizacion/fases/'+str(id)+'/integrantes')
 
 def eliminar_integrante(request, id, grupo):
     # Obtener persona según ID
@@ -113,7 +127,7 @@ def fases_excel(request, id):
         'Ciclo',
         'Integrantes',
         'Fase'
-    ]) 
+    ])
     # Obtener registros del modelo
     comunidad = Comunidad.objects.get(pk=id)
     fases = MujeresAlfa.objects.filter(comunidad__id=id)
@@ -149,8 +163,8 @@ def integrantes_fase_excel(request, id):
         'Segundo Apellido',
         'Apellido Casada',
         'Fecha Nacimiento',
-        'Dirección'
-    ]) 
+        'Telefono'
+    ])
     # Obtener registros del modelo
     fase = MujeresAlfa.objects.get(pk=id)
     integrantes = MujeresAlfa.objects.get(pk=id).integrantes.all()
@@ -167,7 +181,7 @@ def integrantes_fase_excel(request, id):
             persona.segundo_apellido,
             persona.apellido_casada,
             str(persona.fecha_nacimiento),
-            persona.direccion
+            persona.telefono,
         ])
         count = count + 1
     today = datetime.now()

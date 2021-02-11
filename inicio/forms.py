@@ -66,9 +66,10 @@ class GrupoForm(forms.ModelForm):
             'zona',
             'caserio',
             'canton',
-            'sector', 
+            'sector',
             'aldeas',
             'paraje',
+            'direccion_alternativa',
         ]
         labels = {
             'nombre_grupo':'Nombre del grupo',
@@ -78,22 +79,24 @@ class GrupoForm(forms.ModelForm):
             'zona':'Zona',
             'caserio':'Caserio',
             'canton':'Cantón',
-            'sector':'Sector', 
+            'sector':'Sector',
             'aldeas':'Aledeas',
             'paraje':'Paraje',
+            'direccion_alternativa':'Direccion Alternativa',
         }
         widgets = {
-            'nombre_grupo': forms.TextInput(attrs={'class': 'form-control '}),  
+            'nombre_grupo': forms.TextInput(attrs={'class': 'form-control '}),
             'departamento' :forms.Select(attrs={'class': 'form-control'}),
             'municipio' :forms.Select(attrs={'class': 'form-control'}),
-            'identificador' :forms.Select(attrs={'class': 'form-control', 'onchange' : 'identificador(this.value);' }),
+            'identificador' :forms.Select(attrs={'class': 'form-control', 'onchange' : "myFunction(this.value);" }),
             'zona' :forms.Select(attrs={'class': 'form-control'}),
             'caserio' :forms.Select(attrs={'class': 'form-control'}),
             'sector' :forms.Select(attrs={'class': 'form-control'}),
             'canton' :forms.Select(attrs={'class': 'form-control'}),
             'aldeas' :forms.Select(attrs={'class': 'form-control'}),
-            'paraje': forms.TextInput(attrs={'class': 'form-control '}),   
-           
+            'paraje':forms.Select(attrs={'class': 'form-control','id':"buscar_paraje"}),
+            'direccion_alternativa':forms.TextInput(attrs={'class': 'form-control '}),
+
         }
 
 class GrupoModalForm(BSModalModelForm):
@@ -107,7 +110,7 @@ class GrupoModalForm(BSModalModelForm):
             'zona',
             'caserio',
             'canton',
-            'sector', 
+            'sector',
             'aldeas',
             'paraje',
         ]
@@ -119,12 +122,12 @@ class GrupoModalForm(BSModalModelForm):
             'zona':'Zona',
             'caserio':'Caserio',
             'canton':'Cantón',
-            'sector':'Sector', 
+            'sector':'Sector',
             'aldeas':'Aledeas',
             'paraje':'Paraje',
         }
         widgets = {
-            'nombre_grupo': forms.TextInput(attrs={'class': 'form-control '}),  
+            'nombre_grupo': forms.TextInput(attrs={'class': 'form-control '}),
             'departamento' :forms.Select(attrs={'class': 'form-control'}),
             'municipio' :forms.Select(attrs={'class': 'form-control'}),
             'identificador' :forms.Select(attrs={'class': 'form-control'}),
@@ -133,8 +136,8 @@ class GrupoModalForm(BSModalModelForm):
             'sector' :forms.Select(attrs={'class': 'form-control'}),
             'canton' :forms.Select(attrs={'class': 'form-control'}),
             'aldeas' :forms.Select(attrs={'class': 'form-control'}),
-            'paraje': forms.TextInput(attrs={'class': 'form-control '}),   
-           
+            'paraje': forms.TextInput(attrs={'class': 'form-control '}),
+
         }
 
 class PersonaForm(forms.ModelForm):
@@ -180,6 +183,7 @@ class PersonaForm(forms.ModelForm):
             'sexo' :forms.Select(attrs={'class': 'form-control', 'required': True}),
             'direccion': forms.TextInput(attrs={'class': 'form-control ', 'required': True}),
             'correo_electronico': forms.TextInput(attrs={'class': 'form-control '}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control '}),
         }
 
 class AsignacionPersonaGrupoForm(forms.ModelForm):
