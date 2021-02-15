@@ -16,6 +16,7 @@ urlpatterns = [
     # Personas Routes
     path('personas/list', views.personas_list, name='personas_list'),
     path('personas/update/<int:pk>', views.PersonaUpdateView.as_view(), name='personas_update'),
+    #path('personas-delete/<int:id>', views.eliminar_persona, name='personas_delete'),
     # Grupos Routes
     path('grupos/add', grupo_crear, name='grupo_add'),
     path('grupos', grupo_crear, name='grupos'),

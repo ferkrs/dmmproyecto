@@ -94,7 +94,7 @@ class GrupoForm(forms.ModelForm):
             'sector' :forms.Select(attrs={'class': 'form-control'}),
             'canton' :forms.Select(attrs={'class': 'form-control'}),
             'aldeas' :forms.Select(attrs={'class': 'form-control'}),
-            'paraje':forms.Select(attrs={'class': 'form-control','id':"buscar_paraje"}),
+            'paraje':forms.Select(attrs={'class': 'form-control'}),
             'direccion_alternativa':forms.TextInput(attrs={'class': 'form-control '}),
 
         }

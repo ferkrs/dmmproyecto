@@ -43,7 +43,7 @@
               {% if datos.puesto > 0 %}
               <td>{{datos.grupo}}</td>
               <td><label class="badge badge-gradient-success">{{datos.get_puesto_display}}</td>
-                <td>{{datos.persona}}</td>
+                <td>{{datos.full_name}}</td>
                 {% if datos.tel_persona == "" %}
                  <td><label class="badge badge-danger btn-rounded">Sin registro</label></td>
                 {%else%}
