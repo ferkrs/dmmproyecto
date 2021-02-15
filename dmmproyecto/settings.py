@@ -74,11 +74,10 @@ WSGI_APPLICATION = 'dmmproyecto.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dmm',
-        'USER': 'root',
-        'PASSWORD':'database',
-        'HOST': 'localhost',
-        'PORT': '3306'
+        'NAME': 'dmmmunishecana$dmmproyecto',
+        'USER': 'dmmmunishecana',
+        'PASSWORD':'dmmproyecto2021',
+        'HOST': 'dmmmunishecana.mysql.pythonanywhere-services.com',
     }
 }
 
