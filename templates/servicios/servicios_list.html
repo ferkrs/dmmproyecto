@@ -43,8 +43,8 @@
                 <td>{{curso.id}}</td>
                 <td>{{curso.get_modalidad_display}}</td>
                 <td>{{curso.nombre}}</td>
-                <td>De: <label class="badge badge-success">{{curso.get_de_display}} </label> a: <label class="badge badge-success">{{curso.get_a_display}}</label></td>
-                <td>De: <label class="badge badge-info">{{curso.hora_inicio}}</label> a: <label class="badge badge-info"> {{curso.hora_final}}</label></td>
+                <td>Dias: <label class="badge badge-success">{{curso.get_de_display}} </label> y <label class="badge badge-success">{{curso.get_a_display}}</label></td>
+                <td>Hoario: <label class="badge badge-info">{{curso.hora_inicio}}</label> a: <label class="badge badge-info"> {{curso.hora_final}}</label></td>
                 <td> <a type="button" class="btn btn-sm btn-info btn-rounded" href="/servicios/integrantes/{{curso.id}}">Integrantes</a></td>
                 <td>
                   <a type="button" class="btn btn-sm btn-warning btn-rounded" href="#">Editar</a>
@@ -74,7 +74,7 @@
           <form method="POST" action="{% url 'servicio_crear' %}" class="pt-3">
             {% csrf_token %}
             <div class="row">
-             <h3 class="modal-title" id="exampleModalLabel">Agregar servicios</h3>
+             <h3 class="modal-title" id="exampleModalLabel">Agregar un nuevo servicio</h3>
               <div class="col-md-12">
                 <label>Modalidad:</label>
               {{form.modalidad}}
@@ -97,20 +97,20 @@
             </div>
             <br>
             <div class="row">
-              <div class="col-md-3">
-                <label>Fecha inicio:</label>
+              <div class="col-md-6">
+                <label>Hora de inicio:</label>
                 {{form.hora_inicio}}
               </div>
-              <div class="col-md-3">
-                <label>Fecha Finalizacion:</label>
+              <div class="col-md-6">
+                <label>Hora de finalizacion:</label>
               {{form.hora_final}}
               </div>
-              <div class="col-md-3">
-                <label>De:</label>
+              <div class="col-md-6">
+                <label>Dias: </label>
               {{form.de}}
               </div>
-              <div class="col-md-3">
-                <label>A:</label>
+              <div class="col-md-6">
+                <label>y</label>
                 {{form.a}}
               </div>
             </div>

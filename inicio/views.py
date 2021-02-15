@@ -12,12 +12,12 @@ from django.http import HttpResponse
 from datetime import datetime
 from django.db.models import Count
 # Modelos
-from .models import *  
+from .models import *
 # Formularios
 from .forms import (
-    GrupoForm, 
-    RegisterForm, 
-    UserModelForm, 
+    GrupoForm,
+    RegisterForm,
+    UserModelForm,
     PersonaForm,
     PersonaModalForm,
     AsignacionPersonaGrupoForm,
@@ -36,10 +36,10 @@ import django_excel as excel
 
 # Index view
 @login_required
-def index(request): 
+def index(request):
     return render(request,'index.html')
 
-""" 
+"""
 
 *****    VISTAS USERS    *****
 
@@ -96,7 +96,7 @@ def logout_view(request):
     logout(request)
     return redirect('accounts/login')
 
-""" 
+"""
 
 *****    VISTAS PERSONAS    *****
 
@@ -114,7 +114,16 @@ class PersonaUpdateView(BSModalUpdateView):
     success_message = 'La información fue editada correctamente.'
     success_url = reverse_lazy('personas_list')
 
-""" 
+#def eliminar_persona(request, id):
+#    persona = Persona.objects.get(id=id)
+#    try:
+#        persona.delete()
+#    except:
+#        pass
+#    return redirect('persona_list')
+
+
+"""
 
 *****    VISTAS GRUPOS    *****
 
@@ -126,18 +135,17 @@ def grupo_list(request):
     return render(request, 'grupos/grupos_list.html', {'grupos': grupos, 'form': form})
 
 #funcion de consulta de directiva by id
-def directiva(request, id): 
+def directiva(request, id):
     datos = AsignacionPersonaGrupo.objects.filter(grupo=id).order_by('puesto')
     grupo_actual = Grupo.objects.get(pk=id)
     return render(request, 'grupos/directiva.html', {'datos': datos, 'grupo': grupo_actual})
 
-#Funcion de borrar  
+#Funcion de borrar
 def GrupoDelete(request, id):
     grupo = Grupo.objects.get(id=id)
-    #Falta agregar la concicion de que el usuario esta seguro de borrar
     try:
         grupo.delete()
-    except: 
+    except:
         pass
     return redirect('grupo_list')
 #Grupo Crear
@@ -145,10 +153,10 @@ def grupo_crear(request):
     if request.method == 'POST':
         form = GrupoForm(request.POST)
         if form.is_valid():
-            try:  
+            try:
                 form.save()
                 messages.success(request,"Grupo creado correctamente")
-            except:  
+            except:
                 pass
         return redirect('grupo_list')
 
@@ -158,7 +166,7 @@ class GrupoUpdateView(BSModalUpdateView):
     form_class = GrupoModalForm
     success_message = 'Grupo editado correctamente.'
     success_url = reverse_lazy('grupo_list')
-""" 
+"""
 
 *****    VISTAS ASIGNACION DE INTEGRANTES    *****
 
@@ -223,7 +231,7 @@ def eliminar_integrante(request, id, grupo):
     integrante = AsignacionPersonaGrupo.objects.filter(id=id)
     try:
         integrante.delete()
-    except: 
+    except:
         pass
     return redirect('/grupos/addpersonas/'+str(grupo))
 
@@ -254,7 +262,7 @@ def generar_excel(request):
         'Apellido Casada',
         'Fecha Nacimiento',
         'Dirección'
-    ]) 
+    ])
     # Obtener registros del modelo
     personas = Persona.objects.all()
     count = 0
@@ -296,7 +304,7 @@ def integrantes_grupo_excel(request, id):
         'Apellido Casada',
         'Fecha Nacimiento',
         'Dirección'
-    ]) 
+    ])
     # Obtener registros del modelo
     grupo_actual = Grupo.objects.get(id=id)
     integrantes = AsignacionPersonaGrupo.objects.filter(grupo=grupo_actual)
@@ -340,7 +348,7 @@ def directiva_grupo_excel(request, id):
         'Fecha Nacimiento',
         'Dirección',
         'Puesto'
-    ]) 
+    ])
     # Obtener registros del modelo
     grupo_actual = Grupo.objects.get(id=id)
     integrantes = AsignacionPersonaGrupo.objects.filter(grupo=grupo_actual).exclude(puesto=0).order_by('puesto')
@@ -369,4 +377,3 @@ def directiva_grupo_excel(request, id):
 
     return excel.make_response(sheet, "xlsx", file_name="directiva-"+grupo_actual.nombre_grupo+"-"+strToday+".xlsx")
 
-    

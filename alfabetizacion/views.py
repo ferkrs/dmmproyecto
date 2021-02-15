@@ -35,6 +35,14 @@ class ComunidadUpdateView(BSModalUpdateView):
     success_message = 'La información fue editada correctamente.'
     success_url = reverse_lazy('alfabetizacion_list')
 
+def eliminar_comunidad(request, id):
+    comunidad = Comunidad.objects.get(id=id)
+    try:
+        comunidad.delete()
+    except:
+        pass
+    return redirect('alfabetizacion_list')
+
 def comunidades_list(request):
     comunidades = Comunidad.objects.all()
     formComunidad = ComunidadForm
@@ -45,6 +53,7 @@ def comunidad_fases_list(request, id):
     formFase = FaseForm
     comunidad = Comunidad.objects.get(pk=id)
     fases = MujeresAlfa.objects.filter(comunidad__id=id, finalizado=False)
+    paginator = Paginator(comunidad, 1)
     return render(request, 'alfabetizacion/comunidad_fases.html', {'fases': fases, 'comunidad': comunidad, 'formFase': formFase})
 
 def crear_fase(request, id):
@@ -129,6 +138,14 @@ def eliminar_integrante(request, id, grupo):
     MujeresAlfa.objects.get(pk=grupo).integrantes.remove(persona)
     return redirect('/alfabetizacion/fases/'+str(grupo)+'/integrantes')
 
+def eliminar_comunidad(request, id):
+    # Obtener persona según ID
+    comunidad = Comunidad.objects.get(id=id)
+    try:
+        comunidad.delete()
+    except:
+        pass
+    return redirect('alfabetizacion_list')
 """
     GENERACION A EXCEL
 """

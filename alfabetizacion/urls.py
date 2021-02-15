@@ -6,6 +6,7 @@ urlpatterns = [
     # User Routes
     path('alfabetizacion/list', views.comunidades_list, name='alfabetizacion_list'),
     path('alfabetizacion/crear', views.comunidad_create, name='alfabetizacion_create'),
+    path('alfabetizacion/eliminar-comunidad/<int:id>', views.eliminar_comunidad, name='eliminar_comunidad'),
     path('alfabetizacion/editar/<int:pk>', views.ComunidadUpdateView.as_view(), name='alfabetizacion_edit'),
     path('alfabetizacion/fases/crear/<int:id>', views.crear_fase, name='fases_crear'),
     path('alfabetizacion/fases/editar/<int:pk>', views.FaseUpdateView.as_view(), name='fases_edit'),

@@ -11,17 +11,19 @@
     <link rel="stylesheet" href="{% static 'vendors/mdi/css/materialdesignicons.min.css' %}">
     <link rel="stylesheet" href="{% static 'vendors/css/vendor.bundle.base.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/myStyles.css' %}">
+
+
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   </head>
   <body>
     {% block content %}
-    
+
     {% endblock content %}
-    
+
     <div class="container-scroller">
-      
-      
+
+
     </div>
     <script src="{% static 'js/jquery-2.0.0.min.js' %}"></script>
     <script src="{% static 'vendors/js/vendor.bundle.base.js' %}"></script>
@@ -38,7 +40,7 @@
 
     {% if messages %}
       {% for m in messages  %}
-        <script> 
+        <script>
           Swal.fire({
             icon: 'success',
             title: '{{m}}',
@@ -48,6 +50,6 @@
         </script>
       {% endfor %}
     {% endif %}
-  
+
   </body>
   </html>

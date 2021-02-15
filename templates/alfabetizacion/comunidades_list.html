@@ -44,14 +44,35 @@
                     <td>{{ comu.comunidad }}</td>
                     <td><a type="button" class="btn btn-sm btn-info btn-rounded " href="{% url 'alfabetizacion_fases' id=comu.id %}">Fases</a></td>
                     <td>
-                      <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-warning btn-rounded" data-form-url="{% url 'alfabetizacion_edit' comu.id %}"><span class="fa fa-trash">Editar</span></button>
-                      <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-danger btn-rounded" >Eliminar</button>
+                        <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-warning btn-rounded" data-form-url="{% url 'alfabetizacion_edit' comu.id %}"><span class="fa fa-trash">Editar</span></button>
+                        <a type="button" class="btn btn-sm btn-danger btn-rounded" href="#" onclick="eliminar_comunidad({{comu.id}})">Eliminar</a>
                     </td>
                 </tr>
                 {% endfor %}
                 </tbody>
             </table>
         </div>
+        <!-- Paginacion -->
+        <div class="container p-4">
+            <div class="pagination justify-content-center">
+                <span class="step-links">
+                  {% if movies.has_previous %}
+                      <a href="?page=1">&laquo; first</a>
+                      <a href="?page={{ movies.previous_page_number }}">previous</a>
+                  {% endif %}
+
+                    <span class="current">
+                        Page {{ movies.number }} of {{ movies.paginator.num_pages }}
+                    </span>
+
+                  {% if movies.has_next %}
+                      <a href="?page={{ movies.next_page_number }}">next</a>
+                      <a href="?page={{ movies.paginator.num_pages }}">last &raquo;</a>
+                  {% endif %}
+                </span>
+            </div>
+        </div>
+        <!-- Paginacion -->
     </div>
     <div class="modal fade" id="modalagregar" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm-12" role="document">
@@ -86,6 +107,26 @@
 </div>
 
 <script type="text/javascript">
+  function eliminar_comunidad(id){
+      console.log(id)
+    Swal.fire({
+      title: 'Esta seguro de eliminar comunidad?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Eliminar'
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        window.location.href ="/alfabetizacion/eliminar-comunidad/"+id;
+        Swal.fire(
+          'Se ha eliminado el integrante correctamente!',
+        )
+      }
+    })
+  }
   $(function () {
     // Update, Read and Delete book buttons open modal with id="modal" (default)
     // The formURL is retrieved from the data of the element

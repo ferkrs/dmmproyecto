@@ -48,8 +48,11 @@ class Persona(models.Model):
     # Correo electronico
     correo_electronico = models.EmailField(max_length=100, blank=True, null=False)
     def __str__(self):
-        txt="{0} {1} {2} {3}"
+        txt="{0} {1} {2} {3} {4}"
         return txt.format(self.cui, self.primer_nombre, self.segundo_nombre, self.primer_apellido, self.segundo_apellido)
+    def nombre_completo(self):
+        txt="{0} {1} {2} {3}"
+        return txt.format(self.primer_nombre, self.segundo_nombre, self.primer_apellido, self.segundo_apellido)
     def telefono_persona(self):
         txt="{0}"
         return txt.format(self.telefono)
@@ -173,7 +176,9 @@ class AsignacionPersonaGrupo(models.Model):
     puesto = models.IntegerField(choices=DIRECTIVA, null=False, blank=False, default=0)
     # Grupo al que pertenece
     grupo = models.ForeignKey(Grupo, on_delete= models.CASCADE,related_name='grupo_directiva',null=False, blank=False)
-
+    def full_name(self):
+        txt ="{0}"
+        return txt.format(self.persona.nombre_completo())
     def persona_puesto(self):
         txt="({0} Puesto: {1} )"
         return txt.format(self.persona, self.puesto)
