@@ -22,7 +22,6 @@ class ReporteGrupos(models.Model):
     fecha_finalizacion = models.DateField(blank= True, null=True)
     user = models.ForeignKey(Usuario, on_delete= models.CASCADE,related_name='usuario_grupo', null=False, blank=False)
 
-
 class ReporteServicios(models.Model):
     eje_trabajo = models.ForeignKey(Eje, on_delete= models.CASCADE,related_name='eje_servicios', null=False, blank=False)
     servicio = models.ForeignKey(Curso, on_delete= models.CASCADE,related_name='curso_id', null=False, blank=False)

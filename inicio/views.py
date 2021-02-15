@@ -10,6 +10,7 @@ from django.views import generic
 from django.views.generic import ListView, TemplateView
 from django.http import HttpResponse
 from datetime import datetime
+from django.db.models import Count
 # Modelos
 from .models import *  
 # Formularios
@@ -120,7 +121,7 @@ class PersonaUpdateView(BSModalUpdateView):
 """
 #funcion de listar
 def grupo_list(request):
-    grupos = Grupo.objects.all()
+    grupos = Grupo.objects.annotate(num_integrantes=Count('grupo_directiva__persona'))
     form = GrupoForm
     return render(request, 'grupos/grupos_list.html', {'grupos': grupos, 'form': form})
 

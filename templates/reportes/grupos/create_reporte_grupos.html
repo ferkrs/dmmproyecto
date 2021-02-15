@@ -52,22 +52,18 @@
               </div>
               <br>
               <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4">
                   <label>No. Beneficiados:</label>
                   {{reporteg.beneficiados}}
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-4">
                   <label>Fecha de inicio: </label>
                   {{reporteg.fecha_inicio}}
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                   <label>Fecha de Finalizacion:</label>
                   {{reporteg.fecha_finalizacion}}
-                </div>
-                <div class="col-md-3">
-                  <label>Responsable:</label>
-                  {{reporteg.user}}
                 </div>
               </div>
               <br>
@@ -83,33 +79,39 @@
       <div class="col-12 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
-            <h4 class="card-title">Estado de reportes</h4>
+            <h4 class="card-title">Estado de mis reportes</h4>
             <p class="card-description">Ingrese el reporte del grupo</p>
             <div class="table-responsive">
               <table class="table">
               <thead>
                 <tr>
                   <th>No. </th>
-                  <th>CUI</th>
-                  <th>Nombre</th>
-                  <th>Sexo</th>
-                  <th>Correo Electronico</th>
+                  <th>Eje de Trabajo</th>
+                  <th>Grupo</th>
+                  <th>Proyecto</th>
+                  <th>Beneficiados</th>
+                  <th>Presupuesto</th>
+                  <th>Inicio</th>
+                  <th>Finalizacion</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                  {% for integrante in integrantes %}
+                  {% for reporte in mis_reportes %}
                 <tr>
                   <td>{{ forloop.counter }}</td>
-                  <td>{{ integrante.persona.cui }}</td>
-                  <td>{{ integrante.persona.primer_nombre }} {{ integrante.persona__primer_apellido }}</td>
-                  <td>{{ integrante.persona.get_sexo_display }}</td>
-                  <td>{{ integrante.persona.correo_electronico}}</td>
+                  <td>{{ reporte.eje_trabajo }}</td>
+                  <td>{{ reporte.grupo }}</td>
+                  <td>{{ reporte.nombre_proyecto }}</td>
+                  <td>{{ reporte.beneficiados}}</td>
+                  <td>{{ reporte.presupuesto}}</td>
+                  <td>{{ reporte.fecha_inicio}}</td>
+                  <td>{{ reporte.fecha_finalizacion}}</td>
                   <td>
-                      <button type="button" id="asignacion-update" class="bs-modal btn btn-sm btn-warning btn-rounded" data-form-url="{% url 'pergrup_update' integrante.id %}">
+                      <button type="button" id="asignacion-update" class="bs-modal btn btn-sm btn-warning btn-rounded" data-form-url="{% url 'reporte_grupo_update' reporte.id %}">
                           <span class="fa fa-trash">Editar</span>
                       </button>
-                        <a type="button" class="btn btn-sm btn-danger btn-rounded " href="#" onclick="eliminar_asignacion({{integrante.id}}, {{grupo.id}})">Eliminar</a>
+                      <a type="button" class="btn btn-sm btn-danger btn-rounded" href="#" onclick="eliminar_reporte({{reporte.id}})">Eliminar</a>
                   </td>
                 </tr>
                 {% endfor %}
@@ -119,9 +121,45 @@
           </div>
         </div>
       </div>
-      
+      <div class="modal fade" tabindex="-1" role="dialog" id="modal">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content"></div>
+          </div>
+        </div>
+   
+        <script type="text/javascript">
+          $(function () {
+            $(".bs-modal").each(function () {
+              $(this).modalForm({
+                formURL: $(this).data('form-url')
+              });
+            });
+          });
+        </script>
     </div>
   </div>
 </div>
 </div>
+
+<script>
+    function eliminar_reporte(id){
+      Swal.fire({
+        title: 'Desea eliminar el reporte?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Eliminar'
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          window.location.href ="/reportegrupos/delete/"+id
+          Swal.fire(
+            'Se ha eliminado el reporte correctamente!',
+          )
+        }
+      })
+    }
+  </script>
 {% endblock reporte_grupo %}

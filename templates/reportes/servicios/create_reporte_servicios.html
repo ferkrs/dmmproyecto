@@ -35,7 +35,7 @@
               </div>
               <br>
               <div class="row">
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-3">
                   <label>Presupuesto:</label>
                   <div class="input-group">
                     <div class="input-group-prepend">
@@ -44,7 +44,7 @@
                     {{reportes.presupuesto}}
                   </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                   <label>No. Beneficiados:</label>
                   {{reportes.beneficiados}}
                 </div>
@@ -56,10 +56,6 @@
                 <div class="col-md-3">
                   <label>Fecha de Finalizacion:</label>
                   {{reportes.fecha_finalizacion}}
-                </div>
-                <div class="col-md-2">
-                  <label>Responsable:</label>
-                  {{reportes.user}}
                 </div>
               </div>
               <div class="row">
@@ -80,6 +76,85 @@
         </div>
       </div>
     </div>
+    <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Estado de mis reportes</h4>
+              <p class="card-description">Ingrese el reporte del grupo</p>
+              <div class="table-responsive">
+                <table class="table">
+                <thead>
+                  <tr>
+                    <th>No. </th>
+                    <th>Eje de Trabajo</th>
+                    <th>Servicio</th>
+                    <th>Beneficiados</th>
+                    <th>Presupuesto</th>
+                    <th>Inicio</th>
+                    <th>Finalizacion</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for reporte in mis_reportes %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ reporte.eje_trabajo }}</td>
+                    <td>{{ reporte.servicio }}</td>
+                    <td>{{ reporte.beneficiados}}</td>
+                    <td>{{ reporte.presupuesto}}</td>
+                    <td>{{ reporte.fecha_inicio}}</td>
+                    <td>{{ reporte.fecha_finalizacion}}</td>
+                    <td>
+                        <button type="button" id="asignacion-update" class="bs-modal btn btn-sm btn-warning btn-rounded" data-form-url="{% url 'reporte_servicio_update' reporte.id %}">
+                            <span class="fa fa-trash">Editar</span>
+                        </button>
+                          <a type="button" class="btn btn-sm btn-danger btn-rounded " href="#" onclick="eliminar_reporte({{reporte.id}})">Eliminar</a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" tabindex="-1" role="dialog" id="modal">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content"></div>
+            </div>
+          </div>
+     
+          <script type="text/javascript">
+            $(function () {
+              $(".bs-modal").each(function () {
+                $(this).modalForm({
+                  formURL: $(this).data('form-url')
+                });
+              });
+            });
+
+            function eliminar_reporte(id){
+              Swal.fire({
+                title: 'Desea eliminar el reporte?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Eliminar'
+              })
+              .then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href ="/reporteservicios/delete/"+id
+                  Swal.fire(
+                    'Se ha eliminado el reporte correctamente!',
+                  )
+                }
+              })
+            }
+          </script>
   </div>
 </div>
 </div>

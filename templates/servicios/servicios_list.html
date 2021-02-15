@@ -46,8 +46,8 @@
                 <td>De: <label class="badge badge-info">{{curso.hora_inicio}}</label> a: <label class="badge badge-info"> {{curso.hora_final}}</label></td>
                 <td> 
                   <a type="button" class="btn btn-sm btn-info btn-rounded" href="/servicios/integrantes/{{curso.id}}">Integrantes</a>
-                  <a type="button" class="btn btn-sm btn-danger btn-rounded" href="#" onclick="eliminar_servicio({{curso.id}})">Eliminar</a>
                   <a type="button" class="btn btn-sm btn-warning btn-rounded" href="#">Editar</a>
+                  <a type="button" class="btn btn-sm btn-danger btn-rounded" href="#" onclick="eliminar_servicio({{curso.id}})">Eliminar</a>
                 </td>
               </tr>
               {% endfor %} 

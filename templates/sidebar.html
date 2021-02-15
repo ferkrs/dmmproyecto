@@ -49,8 +49,12 @@
         </a>
         <div class="collapse" id="reportes">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="{% url 'reporte_grupo' %}">Reporte de servicio</a></li>
-            <li class="nav-item"> <a class="nav-link" href="{% url 'reporte_servicio' %}">Reporte de grupos</a></li>              
+            <li class="nav-item"> <a class="nav-link" href="{% url 'reporte_grupo' %}">Reporte de grupos</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'reporte_servicio' %}">Reporte de servicios</a></li>
+            {% if user.rol == 0 %}
+              <li class="nav-item"> <a class="nav-link" href="{% url 'reporte_grupos_admin' %}">Reportes Grupos Administrador</a></li>
+              <li class="nav-item"> <a class="nav-link" href="{% url 'reporte_servicios_admin' %}">Reportes Servicios Administrador</a></li>
+            {% endif %}
           </ul>
         </div>
       </li>

@@ -1,0 +1,124 @@
+{% include 'base.html' %}
+{% block gruposlist  %}
+{% load staticfiles %}
+{% include 'navbar.html' %}
+<div class="container-fluid page-body-wrapper">
+  {% include 'sidebar.html' %}
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-md-12 stretch-card grid-margin">
+        <div class="card bg-gradient-info card-img-holder text-white">
+          <div class="card-body">
+            <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image">
+            <h1 >Reportes Servicios</h1>
+            <p>Administrador</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <span class="d-flex align-items-center purchase-popup">
+            <h4 class="card-title">Listado de Reportes</h4>
+              <a class="btn btn-gradient-success btn-rounded ml-auto" href="{% url 'generar_excel' %}"  > <i class="mdi mdi-file-excel-box" style="color: white;"></i> Exportar exel</a>
+          </span>
+          <form method="POST" action="{% url 'reporte_servicios_admin' %}" class="pt-3">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-md-4">
+                <label>Eje de trabajo</label>  
+                <select class="form-control buscarEje" name="eje" id="buscarEje" style="width: 100%;">
+                  <option value="-5">Seleccione</option>
+                  {% for eje in ejes %}
+                    <option value="{{eje.id}}">{{eje.eje_trabajo}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-4">
+                  <label>Tipos de Servicio</label>  
+                  <select class="form-control responsable" name="servicio_seleccionado" id="servicio_seleccionado" style="width: 100%;">
+                      <option value="-5">Seleccione</option>
+                    {% for tipo in tipos_servicios %}
+                      <option value="{{tipo.id}}">{{tipo.nombre}}</option>
+                    {% endfor %}
+                  </select>
+              </div>
+              <div class="col-md-4">
+                  <label>Responsable</label>  
+                  <select class="form-control responsable" name="responsable" id="responsable" style="width: 100%;">
+                      <option value="-5">Seleccione</option>
+                    {% for user in users %}
+                      <option value="{{user.id}}">{{user.last_name}}, {{user.first_name}}</option>
+                    {% endfor %}
+                  </select>
+              </div>
+              <br>
+              </div>
+              <br>
+              <button type="submit" class="btn btn-info btn-rounded btn-sm">Generar Reporte</button>
+            </form>
+            <br>
+          <div class="table-responsive">
+            <table class="table">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Servicio</th>
+                <th>Beneficiados</th>
+                <th>Presupuesto</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Finalizacion</th>
+                <th>Encargado</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for reporte in reportes %}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{ reporte.servicio }}</td>
+                <td>{{ reporte.beneficiados }}</td>
+                <td>{{ reporte.presupuesto }}</td>
+                <td>{{ reporte.fecha_inicio }}</td>
+                <td>{{ reporte.fecha_finalizacion }}</td>
+                <td>{{ reporte.user.last_name }}, {{ reporte.user.first_name }}</td>
+                <td>      
+                </td>
+              </tr>
+              {% endfor %} 
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Pagination-->
+    {% if is_paginated %}
+      <nav aria-label="Page navigation conatiner"></nav>
+      <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
+        {% endif %}
+        {% if page_obj.has_next %}
+        <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
+        {% endif %}
+      </ul>
+      </nav>
+      {% endif %}
+    <!--Pagination-->
+      </div>
+ </div>
+</div>
+
+
+<script type="text/javascript">
+  $(document).ready(function() {
+      $("#buscarEje").select2();
+      $("#servicio_seleccionado").select2();
+      $("#responsable").select2();
+  });
+  </script>
+    
+        
+{% endblock gruposlist %}

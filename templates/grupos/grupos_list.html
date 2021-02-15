@@ -44,7 +44,7 @@
               <tr>
                 <td>{{forloop.counter}}</td>
                 <td>{{grupo.nombre_grupo }}</td>
-                <td></td> 
+                <td>{{grupo.num_integrantes}}</td> 
                 <td><a type="button" class="btn btn-sm btn-info btn-rounded" href="/grupos/directiva/{{ grupo.id }}" >Directiva</a></td>
                 <td><a type="button" class="btn btn-sm btn-success btn-rounded" href="{% url 'pergrup_add' id=grupo.id %}">Integrantes</a></td> 
                 <td>
