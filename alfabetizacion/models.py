@@ -31,6 +31,8 @@ class MujeresAlfa(models.Model):
     # Fechas de creacion y actualizacion
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now= True)
+    finalizado = models.BooleanField(default=False)
+    aprobados = models.SmallIntegerField(default=0)
 
     class Meta:
         verbose_name = "Grupos de alfabetizacion"

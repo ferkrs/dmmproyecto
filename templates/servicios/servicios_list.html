@@ -1,5 +1,5 @@
 {% include 'base.html' %}
-{% block gruposlist  %} 
+{% block gruposlist  %}
 {% load staticfiles %}
 {% include 'navbar.html' %}
 <div class="container-fluid page-body-wrapper">
@@ -33,6 +33,7 @@
                 <th>Nombre</th>
                 <th>Dias</th>
                 <th>Horario</th>
+                <th>Integrantes</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -44,13 +45,13 @@
                 <td>{{curso.nombre}}</td>
                 <td>De: <label class="badge badge-success">{{curso.get_de_display}} </label> a: <label class="badge badge-success">{{curso.get_a_display}}</label></td>
                 <td>De: <label class="badge badge-info">{{curso.hora_inicio}}</label> a: <label class="badge badge-info"> {{curso.hora_final}}</label></td>
-                <td> 
-                  <a type="button" class="btn btn-sm btn-info btn-rounded" href="/servicios/integrantes/{{curso.id}}">Integrantes</a>
+                <td> <a type="button" class="btn btn-sm btn-info btn-rounded" href="/servicios/integrantes/{{curso.id}}">Integrantes</a></td>
+                <td>
                   <a type="button" class="btn btn-sm btn-warning btn-rounded" href="#">Editar</a>
                   <a type="button" class="btn btn-sm btn-danger btn-rounded" href="#" onclick="eliminar_servicio({{curso.id}})">Eliminar</a>
                 </td>
               </tr>
-              {% endfor %} 
+              {% endfor %}
             </tbody>
           </table>
         </div>
@@ -61,10 +62,10 @@
 </div>
 </div>
 <div class="modal fade" id="modalgrupo"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-md-12" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 class="modal-title" id="exampleModalLabel">Agregar grupo</h3>
+
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -73,11 +74,12 @@
           <form method="POST" action="{% url 'servicio_crear' %}" class="pt-3">
             {% csrf_token %}
             <div class="row">
-              <div class="col-md-6">
+             <h3 class="modal-title" id="exampleModalLabel">Agregar servicios</h3>
+              <div class="col-md-12">
                 <label>Modalidad:</label>
               {{form.modalidad}}
               </div>
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <label>Nombre:</label>
               {{form.nombre}}
               </div>

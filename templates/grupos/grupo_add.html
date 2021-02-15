@@ -1,5 +1,5 @@
 {% include 'base.html' %}
-{% block grupoadd  %} 
+{% block grupoadd  %}
 {% load staticfiles %}
 {% include 'navbar.html' %}
 
@@ -10,7 +10,7 @@
 
     <!-- Modal / Ventana / Overlay en HTML -->
     <div class="modal fade" id="modalagregar" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-dialog modal-md-12" role="document">
         <div class="modal-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -72,10 +72,10 @@
                       <label for="">Sexo</label>
                       {{formPersona.sexo}}
                     </div>
- 
+
                     <div class="col-md-6">
-                      <label for="">Dirección</label>
-                      {{formPersona.direccion}}
+                      <label for="">Telefono</label>
+                      {{formPersona.telefono}}
                     </div>
                 </div>
                 <div class="row">
@@ -135,7 +135,7 @@
           <div class="card bg-gradient-info card-img-holder text-white">
             <div class="card-body">
               <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image">
-              <h4>Integrantes del grupo: 
+              <h4>Integrantes del grupo:
               </h4>
               <h1>{{ grupo.nombre_grupo }} </h1>
               <h6 >{{ grupo.get_departamento_display }} -  {{ grupo.get_municipio_display }}, {{ grupo.get_zona_display }} -  {{ grupo.get_caserio_display }}</h6>
@@ -166,7 +166,6 @@
                     <th>No. </th>
                     <th>CUI</th>
                     <th>Nombre</th>
-                    <th>Sexo</th>
                     <th>Correo Electronico</th>
                     <th>Telefono</th>
                     <th>Acciones</th>
@@ -177,8 +176,7 @@
                   <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ integrante.persona.cui }}</td>
-                    <td>{{ integrante.persona.primer_nombre }} {{ integrante.persona.segundo_nombre }} {{ integrante.persona.primer_apellido }}</td>
-                    <td>{{ integrante.persona.get_sexo_display }}</td>
+                    <td>{{ integrante.persona.primer_nombre }} {{ integrante.persona.segundo_nombre }} {{ integrante.persona.primer_apellido }} {{ integrante.persona.segundo_apellido }}</td>
                     {% if integrante.persona.correo_electronico == "" %}
                     <td><label class="badge badge-danger">Sin registros</label></td>
                     {% else %}
@@ -223,7 +221,7 @@ $(function () {
             });
           });
         });
-        
+
   function eliminar_asignacion(id, grupo){
     console.log(id)
     Swal.fire({

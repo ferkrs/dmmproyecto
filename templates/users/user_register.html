@@ -1,19 +1,20 @@
 {% include 'base.html' %}
-{% block grupos  %} 
+{% block grupos  %}
 {% load staticfiles %}
 {% include 'navbar.html' %}
 <div class="container-fluid page-body-wrapper">
   {% include 'sidebar.html' %}
 <div class="main-panel">
   <div class="content-wrapper">
-    <div class="page-header">
-      <h3 class="page-title">Creación usuarios de sistema</h3>
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="{% url 'user_list' %}">Listado Usuarios</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Agregar Grupos</li>
-        </ol>
-      </nav>
+    <div class="row">
+      <div class="col-md-12 stretch-card grid-margin">
+        <div class="card bg-gradient-info card-img-holder text-white">
+          <div class="card-body">
+            <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image">
+            <h1 >Registrar nuevo usuario</h1>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="row">
       <div class="col-12 grid-margin stretch-card">
@@ -23,9 +24,9 @@
             <form class="forms-sample" method="POST">
               {% csrf_token %}
               {{form.as_p}}
-    
-              <button type="submit" class="btn btn-gradient-primary mr-2">Agregar</button>
-              <a class="btn btn-light" type="button" href="{% url 'user_list' %}">Cancelar</a>
+
+              <button type="submit" class="btn btn-gradient-info btn-rounded mr-2">Agregar</button>
+              <a class="btn btn-danger btn-rounded" type="button" href="{% url 'user_list' %}">Cancelar</a>
             </form>
           </div>
         </div>

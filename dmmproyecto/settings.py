@@ -15,7 +15,7 @@ SECRET_KEY = 'e#xnyh2n*j#9y=5*j+6c@$8h4#mtm5k_p=i9b_l91yz7)osl-p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -117,12 +117,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-STATICFILES_DIRS = [ 
-    os.path.join(BASE_DIR,'static')
 
-]
+STATIC_ROOT='/home/dmmmunishecana/dmmproyecto/static/'
 STATIC_URL = '/static/'
-MEDIA_ROOT='media' 
+MEDIA_ROOT='media'
 MEDIA_URL = '/media/'
 LOGIN_REDIRECT_URL = '/'
 AUTH_USER_MODEL = 'inicio.Usuario'

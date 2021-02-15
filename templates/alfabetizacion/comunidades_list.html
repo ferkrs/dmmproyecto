@@ -32,6 +32,7 @@
                 <tr>
                     <th>No.</th>
                     <th>Nombre Comunidad</th>
+                    <th>Fases por comunidad</th>
                     <th>Opciones</th>
                 </tr>
                 </thead>
@@ -41,13 +42,13 @@
                 <tr>
                   <td>{{ forloop.counter }}</td>
                     <td>{{ comu.comunidad }}</td>
+                    <td><a type="button" class="btn btn-sm btn-info btn-rounded " href="{% url 'alfabetizacion_fases' id=comu.id %}">Fases</a></td>
                     <td>
-                      <a type="button" class="btn btn-sm btn-info btn-rounded " href="{% url 'alfabetizacion_fases' id=comu.id %}">Listado de Fases</a>
                       <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-warning btn-rounded" data-form-url="{% url 'alfabetizacion_edit' comu.id %}"><span class="fa fa-trash">Editar</span></button>
                       <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-danger btn-rounded" >Eliminar</button>
                     </td>
                 </tr>
-                {% endfor %} 
+                {% endfor %}
                 </tbody>
             </table>
         </div>

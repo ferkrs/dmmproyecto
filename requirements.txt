@@ -11,3 +11,10 @@ pyexcel-webio==0.1.4
 pytz==2020.4
 sqlparse==0.4.1
 texttable==1.6.3
+et-xmlfile==1.0.1
+jdcal==1.4.1
+openpyxl==3.0.6
+pyexcel-xlsx==0.6.0
+pyexcel-xlsxw==0.6.1
+texttable==1.6.3
+XlsxWriter==1.3.7

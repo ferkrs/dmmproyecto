@@ -30,8 +30,7 @@
               <tr>
                 <th>No.</th>
                 <th>CUI</th>
-                <th>Nombres</th>
-                <th>Apellidos</th>
+                <th>Nombre</th>
                 <th>Telefono</th>
                 <th>Correo Electronico</th>
                 <th>Opciones</th>
@@ -42,17 +41,16 @@
               <tr>
                 <td>{{forloop.counter}}</td>
                 <td>{{ persona.cui }}</td>
-                <td>{{persona.segundo_nombre}} {{ persona.primer_nombre }}</td>
-                <td>{{ persona.primer_apellido }} {{ persona.segundo_apellido }}</td>
+                <td>{{ persona.primer_nombre }} {{persona.segundo_nombre}} {{ persona.primer_apellido }} {{ persona.segundo_apellido }} </td>
 
                 {% if persona.telefono == ""  %}
-                <td><label class="badge badge-info btn-rounded">Sin registro</label></td>
+                <td><label class="badge badge-danger btn-rounded">Sin registro</label></td>
                 {% else %}
                 <td>{{persona.telefono}}</td>
                 {% endif %}
-      
+
                 {% if persona.correo_electronico == ""  %}
-                <td><label class="badge badge-info btn-rounded">Sin registro</label></td>
+                <td><label class="badge badge-danger btn-rounded">Sin registro</label></td>
                 {% else %}
                 <td>{{persona.correo_electronico}}</td>
                 {% endif %}
@@ -61,7 +59,7 @@
                     <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-danger btn-rounded" data-form-url=""><span class="fa fa-trash">Eliminar</span></button>
                 </td>
               </tr>
-              {% endfor %} 
+              {% endfor %}
             </tbody>
           </table>
           </div>
@@ -78,10 +76,10 @@
       <nav aria-label="Page navigation conatiner"></nav>
       <ul class="pagination justify-content-center">
         {% if page_obj.has_previous %}
-        <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
+        <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; SIGUIENTE </a></li>
         {% endif %}
         {% if page_obj.has_next %}
-        <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
+        <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> REGRESAR &raquo;</a></li>
 
         {% endif %}
       </ul>

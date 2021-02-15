@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import *
 from django.views import generic
 from .forms import *
+from django.core.paginator import Paginator
 from inicio.forms import PersonaForm
 from django.shortcuts import render, redirect
 from bootstrap_modal_forms.generic import (
@@ -36,14 +37,14 @@ class ComunidadUpdateView(BSModalUpdateView):
 
 def comunidades_list(request):
     comunidades = Comunidad.objects.all()
-    formComunidad = ComunidadForm 
+    formComunidad = ComunidadForm
     return render(request, 'alfabetizacion/comunidades_list.html', {'comunidades': comunidades, 'formComunidad': formComunidad})
 
 # Listado de Fases de comunidad
 def comunidad_fases_list(request, id):
     formFase = FaseForm
     comunidad = Comunidad.objects.get(pk=id)
-    fases = MujeresAlfa.objects.filter(comunidad__id=id)
+    fases = MujeresAlfa.objects.filter(comunidad__id=id, finalizado=False)
     return render(request, 'alfabetizacion/comunidad_fases.html', {'fases': fases, 'comunidad': comunidad, 'formFase': formFase})
 
 def crear_fase(request, id):
@@ -57,6 +58,20 @@ def crear_fase(request, id):
             fase.save()
             messages.success(request,"Fase agregada correctamente")
     return redirect('/alfabetizacion/fases/'+str(id))
+
+# Finalizar fase
+def fase_finalizar(request, id, aprobados):
+    # Obtener la fase para actualizar
+    try:
+        fase = MujeresAlfa.objects.get(id=id)
+        fase.finalizado = True
+        fase.aprobados = aprobados
+        fase.save()
+        messages.success(request,"Fase finalizada correctamente")
+        return redirect('/alfabetizacion/fases/1')
+    except:
+        pass
+        return redirect('/alfabetizacion/fases/1')
 
 class FaseUpdateView(BSModalUpdateView):
     model = MujeresAlfa
@@ -92,6 +107,7 @@ def integrantes_fase(request, id):
         fase = MujeresAlfa.objects.get(pk=id)
         # Integrantes
         integrantes = MujeresAlfa.objects.get(pk=id).integrantes.all()
+        paginator = Paginator(integrantes, 1)
         return render(request,'alfabetizacion/integrantes_fase.html', {'integrantes': integrantes, 'fase': fase, 'formPersona': formPersona, 'personas': personas})
 
 def existente_fase(request, id):
@@ -125,7 +141,7 @@ def fases_excel(request, id):
         'Ciclo',
         'Integrantes',
         'Fase'
-    ]) 
+    ])
     # Obtener registros del modelo
     comunidad = Comunidad.objects.get(pk=id)
     fases = MujeresAlfa.objects.filter(comunidad__id=id)
@@ -161,8 +177,8 @@ def integrantes_fase_excel(request, id):
         'Segundo Apellido',
         'Apellido Casada',
         'Fecha Nacimiento',
-        'Dirección'
-    ]) 
+        'Telefono'
+    ])
     # Obtener registros del modelo
     fase = MujeresAlfa.objects.get(pk=id)
     integrantes = MujeresAlfa.objects.get(pk=id).integrantes.all()
@@ -179,7 +195,7 @@ def integrantes_fase_excel(request, id):
             persona.segundo_apellido,
             persona.apellido_casada,
             str(persona.fecha_nacimiento),
-            persona.direccion
+            persona.telefono,
         ])
         count = count + 1
     today = datetime.now()

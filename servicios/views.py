@@ -19,13 +19,13 @@ def servicio_crear(request):
     if request.method == 'POST':
         form = CursoForm(request.POST)
         if form.is_valid():
-            try: 
+            try:
                 form.save()
                 messages.success(request,"Se ha creado el servicio")
                 return render(request, 'servicios/servicios_add.html', {'servicio': servicios})
-            except:  
+            except:
                 pass
-                return redirect('servicio_list') 
+                return redirect('servicio_list')
 
 def servicio_integrantes(request, id):
     if request.method == "POST":
@@ -41,12 +41,13 @@ def servicio_integrantes(request, id):
             return redirect('/servicios/integrantes/'+str(id))
     else:
         # Personas existentes
+        personas = Persona.objects.all()
         formPersona = PersonaForm
         # Info Comunidad
         servicio = Curso.objects.get(pk=id)
         # Integrantes
         integrantes = Curso.objects.get(pk=id).integrantes.all()
-        return render(request,'servicios/servicio_integrantes.html', {'integrantes': integrantes, 'servicio': servicio, 'formPersona': formPersona})
+        return render(request,'servicios/servicio_integrantes.html', {'integrantes': integrantes, 'servicio': servicio, 'formPersona': formPersona, 'personas': personas})
 
 def servicio_existente(request, id):
     if request.method == "POST":
@@ -65,15 +66,15 @@ def eliminar_integrante(request, id, servicio):
     # Obtener fase
     Curso.objects.get(pk=servicio).integrantes.remove(persona)
     return redirect('/servicios/integrantes/'+str(servicio))
-    
+
 def ServicioDelete(request, id):
     servicio = Curso.objects.get(id=id)
     try:
         servicio.delete()
-    except: 
+    except:
         pass
-    return redirect('servicio_list')  
-    
+    return redirect('servicio_list')
+
 
 """ REPORTES EXCEL """
 def integrantes_servicio_excel(request, id):
@@ -91,7 +92,7 @@ def integrantes_servicio_excel(request, id):
         'Apellido Casada',
         'Fecha Nacimiento',
         'Dirección'
-    ]) 
+    ])
     # Obtener registros del modelo
     servicio = Curso.objects.get(pk=id)
     integrantes = Curso.objects.get(pk=id).integrantes.all()

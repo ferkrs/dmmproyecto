@@ -38,8 +38,9 @@
                 <tr>
                     <th>Alfabetizador(a)</th>
                     <th>Ciclo</th>
-                    <th>Integrantes</th>
+                    <th>No. Integrantes</th>
                     <th>Fase</th>
+                    <th>Listado de integrantes</th>
                     <th>Opciones</th>
                 </tr>
                 </thead>
@@ -50,17 +51,18 @@
                     <td>{{ fase.ciclo }}</td>
                     <td>{{ fase.integrantes.count }}</td>
                     <td>{{ fase.get_fase_display }}</td>
+                    <td><a type="button" class="btn btn-sm btn-info btn-rounded btn-fw" href="/alfabetizacion/fases/{{fase.id}}/integrantes">Integrantes</a></td>
                     <td>
-                        <a type="button" class="btn btn-sm btn-info btn-rounded btn-fw" href="/alfabetizacion/fases/{{fase.id}}/integrantes">Integrantes</a>
                         <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-warning btn-rounded" data-form-url="{% url 'fases_edit' pk=fase.id %}">
                           <span class="fa fa-trash">Editar</span>
                         </button>
+                        <a class="bs-modal btn btn-sm btn-info btn-rounded" onclick="mostrarFinalizacion({{fase.id}})">Finalizar</a>
                         <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-danger btn-rounded" data-form-url="{% url 'fases_delete' pk=fase.id %}">
                           <span class="fa fa-trash">Eliminar</span>
                         </button>
                     </td>
                 </tr>
-                {% endfor %} 
+                {% endfor %}
                 </tbody>
             </table>
             </div>
@@ -98,7 +100,7 @@
                     {{formFase.fase}}
                   </div>
               </div>
-              
+
                 <div class="modal-footer">
                   <button type="submit" class="btn btn-info btn-rounded">Agregar</button>
                   <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal">Cerrar</button>
@@ -117,6 +119,20 @@
 </div>
 
 <script type="text/javascript">
+  function mostrarFinalizacion(id){
+    Swal.fire({
+      title: "Finalización de fase",
+      text: "Ingrese el número de aprobados:",
+      input: 'number',
+      confirmButtonText: "Finalizar",
+      cancelButtonText: "Cancelar",
+      showCancelButton: true        
+    }).then((result) => {
+      if (result.value) {
+        window.location.href ="/alfabetizacion/fases/finalizar/"+id+"/"+result.value;
+      }
+    });
+  }
   $(function () {
     $(".bs-modal").each(function () {
       $(this).modalForm({

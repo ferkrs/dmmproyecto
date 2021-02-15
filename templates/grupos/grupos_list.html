@@ -1,5 +1,5 @@
 {% include 'base.html' %}
-{% block gruposlist  %} 
+{% block gruposlist  %}
 {% load staticfiles %}
 {% include 'navbar.html' %}
 <div class="container-fluid page-body-wrapper">
@@ -46,13 +46,13 @@
                 <td>{{grupo.nombre_grupo }}</td>
                 <td>{{grupo.num_integrantes}}</td> 
                 <td><a type="button" class="btn btn-sm btn-info btn-rounded" href="/grupos/directiva/{{ grupo.id }}" >Directiva</a></td>
-                <td><a type="button" class="btn btn-sm btn-success btn-rounded" href="{% url 'pergrup_add' id=grupo.id %}">Integrantes</a></td> 
+                <td><a type="button" class="btn btn-sm btn-success btn-rounded" href="{% url 'pergrup_add' id=grupo.id %}">Integrantes</a></td>
                 <td>
                   <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-warning btn-rounded" data-form-url="{% url 'grupo_update' grupo.id %}"><span class="fa fa-trash">Editar</span></button>
                   <a type="button" class="btn btn-sm btn-danger btn-rounded" href="#" onclick="eliminar_grupo({{grupo.id}})">Eliminar</a>
                 </td>
               </tr>
-              {% endfor %} 
+              {% endfor %}
             </tbody>
           </table>
           </div>
@@ -69,15 +69,15 @@
 </div>
 
 <div class="modal fade" id="modalgrupo"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog modal-md-12" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title" id="exampleModalLabel">Agregar grupo</h3>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
       </div>
       <div class="modal-body">
+                  <h3 class="modal-title" id="exampleModalLabel">Agregar grupo</h3>
         <form method="POST" action="{% url 'grupo_add' %}" class="pt-3">
           {% csrf_token %}
           <h4 class="card-title">Identificador de grupo</h4>
@@ -92,15 +92,15 @@
           <p class="card-description">Ubicacion de los grupos</p>
           <br>
           <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-12">
               <label>Departamento</label>
               {{form.departamento}}
             </div>
-            <div class="col-md-4">
+            <div class="col-md-12">
               <label>Municipio</label>
               {{form.municipio}}
             </div>
-            <div class="col-md-4">
+            <div class="col-md-12">
               <label>Identificador</label>
               {{form.identificador}}
             </div>
@@ -108,23 +108,23 @@
             <!-- Dejamos el espacio para la funcion en js-->
           <!-- Area urbana-->
           <br>
-          <div class="row">
-            <div class="col-md-3">
+          <div class="row" id="area_urbana">
+            <div class="col-md-12">
               <label>Zona</label>
               {{form.zona}}
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-12">
               <label>Canton</label>
               {{form.canton}}
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-12">
               <label>Sector</label>
               {{form.sector}}
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-12">
               <label>Canton</label>
               {{form.canton}}
             </div>
@@ -132,18 +132,25 @@
           </div>
           <br>
           <!--Este es el espacio para area rural-->
-          <div class="row">
-            <div class="col-md-4">
+          <div class="row" id="area_rural">
+            <div class="col-md-12">
               <label>Aldea</label>
               {{form.aldeas}}
             </div>
-            <div class="col-md-4">
+            <div class="col-md-12">
               <label>Caserio</label>
               {{form.caserio}}
             </div>
-            <div class="col-md-4">
+            <div class="col-md-12">
               <label>Canton / Paraje </label>
               {{form.paraje}}
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-12">
+              <label>Dirreccion Alternativa </label>
+              {{form.direccion_alternativa}}
             </div>
           </div>
           <br>
@@ -188,7 +195,29 @@
                 });
               });
 
+
+
+    $('#area_urbana').hide();
+    $('#area_rural').hide();
+    function myFunction (value) {
+    if(value == 2) {
+        $('#area_urbana').show(500);
+        $('#area_rural').hide();
+    }else if(value == 1) {
+    $('#area_rural').show(500);
+    $('#area_urbana').hide();
+    }
+    else if(value == 0) {
+    $('#area_rural').hide();
+    $('#area_urbana').hide();
+    }
+    console.log(value);
+    }
+
+$(document).ready(function() {
+    $("#buscar_paraje").select2();
+});
 </script>
-  
+
 {% endblock %}
 {% endblock gruposlist %}

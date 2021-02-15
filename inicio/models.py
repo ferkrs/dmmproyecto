@@ -21,9 +21,9 @@ class Usuario(AbstractUser):
 # PERSONA
 class Persona(models.Model):
     # CUI
-    cui = models.CharField(max_length=20,blank= False) 
+    cui = models.CharField(max_length=20,blank= False, unique="true")
     # Sexo
-    SEXO = [ 
+    SEXO = [
         (0,""),(1,"M"),(2,"F"),
     ]
     sexo = models.IntegerField(choices=SEXO, default=0, blank=False)
@@ -31,10 +31,10 @@ class Persona(models.Model):
     primer_nombre = models.CharField(max_length=20, blank=False)
     # Segundo nombre
     segundo_nombre = models.CharField(max_length=20,  blank=True)
-    # Tercer nombre 
-    tercer_nombre = models.CharField(max_length=20,  blank=True) 
+    # Tercer nombre
+    tercer_nombre = models.CharField(max_length=20,  blank=True)
     # Primer apellido
-    primer_apellido = models.CharField(max_length=20, blank=False) 
+    primer_apellido = models.CharField(max_length=20, blank=False)
     # Segundo apellido
     segundo_apellido = models.CharField(max_length=20,  blank=True)
     # Apellido casada
@@ -42,42 +42,43 @@ class Persona(models.Model):
     # Fecha Nacimiento
     fecha_nacimiento = models.DateField(blank=False, null=False)
     # Telefono
-    telefono= models.CharField(max_length=8, blank=True)
+    telefono= models.CharField(max_length=8, blank=True,null=False)
         #quitar direccion
-    direccion = models.CharField(max_length=20, blank=True)
+    direccion = models.CharField(max_length=20, blank=True, null=True)
     # Correo electronico
-    correo_electronico = models.EmailField(max_length=100, blank=True)
+    correo_electronico = models.EmailField(max_length=100, blank=True, null=False)
     def __str__(self):
-        txt="{0} {1}"
-        return txt.format(self.primer_nombre, self.primer_apellido) 
-    def telefono_persona(self): 
+        txt="{0} {1} {2} {3}"
+        return txt.format(self.cui, self.primer_nombre, self.segundo_nombre, self.primer_apellido, self.segundo_apellido)
+    def telefono_persona(self):
         txt="{0}"
         return txt.format(self.telefono)
-    def direccion_persona(self): 
+    def correo_persona(self):
         txt="{0}"
-        return txt.format(self.direccion)
+        return txt.format(self.   correo_electronico)
 
 class Grupo(models.Model):
     # Departamentos
-    DEPARTAMENTO = [ 
+    DEPARTAMENTO = [
         (0,"SAN MARCOS"),
     ]
     departamento = models.IntegerField(choices=DEPARTAMENTO, default=0, blank=False)
     # Municipios
-    MUNICIPIO = [ 
+    MUNICIPIO = [
         (0,"SAN PEDRO"),
     ]
     municipio = models.IntegerField(choices=MUNICIPIO, default=0, blank=False)
 
     # Area
-    IDENTIFICADOR = [ 
-        (0, "AREA RURAL"), 
-        (1, "AREA URBANA"), 
-        (2, "LLANO GRANDE")
+    IDENTIFICADOR = [
+        (0, ""),
+        (1, "AREA RURAL"),
+        (2, "AREA URBANA"),
+        (3, "LLANO GRANDE")
     ]
     identificador= models.IntegerField(choices=IDENTIFICADOR, blank=False)
     # Zonas area urbana
-    ZONA= [ 
+    ZONA= [
         (0, ""), (1, "ZONA 1"),(2, "ZONA 1 Y 2"),
         (3, "ZONA 1 Y 4"),(4, "ZONA 2"),
         (5, "ZONA 4"),(6, "ZONA 3 Y 4"),
@@ -85,12 +86,12 @@ class Grupo(models.Model):
     ]
     zona = models.IntegerField(choices=ZONA,default=0, blank=True)
     # Caserio
-    CASERIO= [ 
+    CASERIO= [
         (0, ""), (1, "LOS JAZMINES"),(2, "LLANO GRANDE"),
     ]
     caserio = models.IntegerField(choices=CASERIO,default=0, blank=True)
     # Canton
-    CANTON= [ 
+    CANTON= [
         (0, ""),(1, "LA PARROQUIA"),(2, "SANTA MARIA DE ATOCHA"),
         (3, "SAN MIGUEL"),(4, "SAN JUAN DE DIOS"),
         (5, "SAN JUAN DEL POZO"),(6, "SAN AGUSTÍN TONALÁ"),
@@ -98,13 +99,13 @@ class Grupo(models.Model):
     ]
     canton = models.IntegerField(choices=CANTON,default=0, blank=True)
     # Sector
-    SECTOR= [ 
+    SECTOR= [
         (0, ""),(1, "HIERBA BUENA"),(2, "GALLO ROJO"),
     ]
     sector = models.IntegerField(choices=SECTOR,default=0, blank=True)
-    
+
     #AREA RURAL
-    ALDEAS= [ 
+    ALDEAS= [
         (0, ""),(1, "CANTEL"),(2, "CORRAL GRANDE"),
         (3, "CHAMPOLLAP"),(4, "CHIM"),
         (5, "EL CEDRO"),(6, "EL TABLERO"),
@@ -116,12 +117,38 @@ class Grupo(models.Model):
         (17, "SAN FRANCISCO SOCHE"),
     ]
     aldeas = models.IntegerField(choices=ALDEAS,default=0, blank=True)
-    # Paraje
-    paraje = models.CharField(max_length=20,blank=True)
+    PARAJE= [
+        (0, ""),(1, "Canichel"),(2, "Joya del Porvenir"),
+        (3, "El Plan"),(4, "Ajil"),
+        (5, "Buena Vista"),(6, "San Francisco"),
+        (7, "Agua Caliente"),(8, "El Zapote"),
+        (9, "La Industria"),(10, "El Tesoro"),
+        (11, "Las Flores"),(12, "Vista Hermosa"),
+        (13, "La Libertad"),(14, "Los Bravo"),
+        (15, "La Ciénaga"),(16, "Alta Vista"),
+        (17, "San Rafael"),(18, "La Comunidad l"),
+        (19, "Carolina"),(20, "Kusinché"),
+        (21, "Santa Rita I"),(22, "Santa Rita II"),
+        (23, "Los Coyotes"),(24, "Agua Bendita"),
+        (25, "La Michada"),(26, "La Providencia"),
+        (27, "López"),(28, "El Zarco"),
+        (29, "Villa El Progreso"),(30, "El Carmen"),
+        (31, "Esquipulas"),(32, "Ixcá"),
+        (33, "Las Escobas"),(34, "San Lorenzo"),
+        (35, "San Miguel"),(36, "San Martín"),
+        (37, "San Pedrito"),(38, "La Caballería"),
+        (39, "Ojo de Agua"),(40, "Villa Nueva"),
+        (41, "Cerro Grande"),(42, "Las Piedrecitas"),
+        (43, "Paraje Agua Tibia"),(44, "Sector Monterrey"),
+        (45, "Sector Tres Fuentes"),(46, "Sector Los Ramírez"),
+        (47, "Sector Fraternidad"),
+    ]
+    paraje = models.IntegerField(choices=PARAJE,default=0, blank=True)
     # Grupo
+    direccion_alternativa =models.CharField(max_length=50,blank=True)
     nombre_grupo = models.CharField(max_length=50)
 
-    def __str__(self): 
+    def __str__(self):
         txt="{0}"
         return txt.format(self.nombre_grupo)
     class Meta:
@@ -153,7 +180,7 @@ class AsignacionPersonaGrupo(models.Model):
     def tel_persona(self):
         txt="{0}"
         return txt.format(self.persona.telefono_persona())
-    def dir_persona(self):
+    def correo_persona(self):
         txt="{0}"
-        return txt.format(self.persona.direccion_persona())
+        return txt.format(self.persona.correo_persona())
 
