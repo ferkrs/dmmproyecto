@@ -24,12 +24,11 @@
             <h4 class="card-title">Listado de usuarios</h4>
               <a class="btn btn-gradient-info btn-rounded ml-auto" href="{% url 'user_create' %}">
                 <i class="mdi mdi-account-plus" style="color:white;"> </i>Agregar usuario</a>
-          </span> 
-          
+          </span>
+
           <table class="table table-hover">
             <thead>
               <tr>
-                <th>No.</th>
                 <th>Primer Nombre</th>
                 <th>Segundo Nombre</th>
                 <th>Usuario</th>
@@ -40,8 +39,7 @@
             <tbody>
               {% for usuario in usuarios %}
               <tr>
-                <td>{{forloop.counter}}</td>
-                <td>{{ usuario.first_name }}</td>
+                <td>{{usuario.first_name }}</td>
                 <td>{{usuario.last_name}}</td>
                 <td>{{usuario.username}}</td>
                 <td>{{usuario.get_rol_display}}</td>
@@ -50,7 +48,7 @@
                     <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-danger btn-rounded" data-form-url="{% url 'user_delete' usuario.id %}"><span class="fa fa-trash">Eliminar</span></button>
                 </td>
               </tr>
-              {% endfor %} 
+              {% endfor %}
             </tbody>
           </table>
           <div class="modal fade" tabindex="-1" role="dialog" id="modal">
@@ -58,21 +56,57 @@
               <div class="modal-content"></div>
             </div>
           </div>
-     
-          <script type="text/javascript">
-            $(function () {
-              $(".bs-modal").each(function () {
-                $(this).modalForm({
-                  formURL: $(this).data('form-url')
-                });
-              });
-            });
-          </script>
         </div>
       </div>
     </div>
+        <!--Pagination-->
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        {% if usuarios.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ movies.previous_page_number }}">Anterior</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+          </li>
+        {% endif %}
+        {% for i in usuarios.paginator.page_range %}
+          {% if usuarios.number == i %}
+            <li class="page-item active" aria-current="page">
+              <span class="page-link">
+                {{ i }}
+                <span class="sr-only">(current)</span>
+              </span>
+            </li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if usuarios.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ movies.next_page_number }}">Siguiente</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Siguiente</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+    <!--end of Pagination-->
   </div>
 </div>
 </div>
+
+<script type="text/javascript">
+ $(function () {
+    $(".bs-modal").each(function () {
+    $(this).modalForm({
+    formURL: $(this).data('form-url')
+        });
+        });
+    });
+</script>
 
 {% endblock gruposlist %}

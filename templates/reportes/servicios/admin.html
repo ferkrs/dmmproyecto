@@ -28,7 +28,7 @@
             {% csrf_token %}
             <div class="row">
               <div class="col-md-4">
-                <label>Eje de trabajo</label>  
+                <label>Eje de trabajo</label>
                 <select class="form-control buscarEje" name="eje" id="buscarEje" style="width: 100%;">
                   <option value="-5">Seleccione</option>
                   {% for eje in ejes %}
@@ -37,7 +37,7 @@
                 </select>
               </div>
               <div class="col-md-4">
-                  <label>Tipos de Servicio</label>  
+                  <label>Tipos de Servicio</label>
                   <select class="form-control responsable" name="servicio_seleccionado" id="servicio_seleccionado" style="width: 100%;">
                       <option value="-5">Seleccione</option>
                     {% for tipo in tipos_servicios %}
@@ -46,7 +46,7 @@
                   </select>
               </div>
               <div class="col-md-4">
-                  <label>Responsable</label>  
+                  <label>Responsable</label>
                   <select class="form-control responsable" name="responsable" id="responsable" style="width: 100%;">
                       <option value="-5">Seleccione</option>
                     {% for user in users %}
@@ -83,31 +83,17 @@
                 <td>{{ reporte.fecha_inicio }}</td>
                 <td>{{ reporte.fecha_finalizacion }}</td>
                 <td>{{ reporte.user.last_name }}, {{ reporte.user.first_name }}</td>
-                <td>      
+                <td>
                 </td>
               </tr>
-              {% endfor %} 
+              {% endfor %}
             </tbody>
           </table>
           </div>
         </div>
       </div>
     </div>
-    <!--Pagination-->
-    {% if is_paginated %}
-      <nav aria-label="Page navigation conatiner"></nav>
-      <ul class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-        <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
-        {% endif %}
-        {% if page_obj.has_next %}
-        <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
-        {% endif %}
-      </ul>
-      </nav>
-      {% endif %}
-    <!--Pagination-->
-      </div>
+   </div>
  </div>
 </div>
 
@@ -119,6 +105,6 @@
       $("#responsable").select2();
   });
   </script>
-    
-        
+
+
 {% endblock gruposlist %}

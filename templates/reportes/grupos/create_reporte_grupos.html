@@ -1,5 +1,5 @@
 {% include 'base.html' %}
-{% block reporte_grupo  %} 
+{% block reporte_grupo  %}
 {% load staticfiles %}
 {% include 'navbar.html' %}
 <div class="container-fluid page-body-wrapper">
@@ -7,6 +7,16 @@
 <div class="main-panel">
   <div class="content-wrapper">
     <div class="row">
+      <div class="col-md-12 stretch-card grid-margin">
+        <div class="card bg-gradient-info card-img-holder text-white">
+          <div class="card-body">
+            <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image">
+            <h4>Generar reporte de: </h4>
+            <h1>GRUPOS SOCIALES</h1>
+          </div>
+        </div>
+      </div>
+    </div>
       <div class="col-12 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
@@ -44,7 +54,7 @@
                   <label>Descripción:</label>
                   {{reporteg.descripcion}}
                 </div>
-  
+
                 <div class="col-md-6">
                   <label>Resultados:</label>
                   {{reporteg.resultado}}
@@ -67,14 +77,12 @@
                 </div>
               </div>
               <br>
-              <button class="btn btn-light">Cancel</button>
-              <button type="submit" class="btn btn-gradient-primary mr-2">Guardar</button>
+              <button type="submit" class="btn btn-gradient-info mr-2 btn-rounded">Generar Reporte</button>
             </form>
           </div>
         </div>
       </div>
-      
-    </div>
+
     <div class="row">
       <div class="col-12 grid-margin stretch-card">
         <div class="card">
@@ -104,7 +112,7 @@
                   <td>{{ reporte.grupo }}</td>
                   <td>{{ reporte.nombre_proyecto }}</td>
                   <td>{{ reporte.beneficiados}}</td>
-                  <td>{{ reporte.presupuesto}}</td>
+                  <td>Q.{{ reporte.presupuesto}}</td>
                   <td>{{ reporte.fecha_inicio}}</td>
                   <td>{{ reporte.fecha_finalizacion}}</td>
                   <td>
@@ -126,7 +134,7 @@
             <div class="modal-content"></div>
           </div>
         </div>
-   
+
         <script type="text/javascript">
           $(function () {
             $(".bs-modal").each(function () {
