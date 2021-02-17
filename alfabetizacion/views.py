@@ -53,8 +53,9 @@ def comunidad_fases_list(request, id):
     formFase = FaseForm
     comunidad = Comunidad.objects.get(pk=id)
     fases = MujeresAlfa.objects.filter(comunidad__id=id, finalizado=False)
+    finalizadas = MujeresAlfa.objects.filter(comunidad__id=id, finalizado=True)
     paginator = Paginator(comunidad, 1)
-    return render(request, 'alfabetizacion/comunidad_fases.html', {'fases': fases, 'comunidad': comunidad, 'formFase': formFase})
+    return render(request, 'alfabetizacion/comunidad_fases.html', {'fases': fases, 'finalizadas': finalizadas, 'comunidad': comunidad, 'formFase': formFase})
 
 def crear_fase(request, id):
     if request.method == "POST":

@@ -66,6 +66,41 @@
                 </tbody>
             </table>
             </div>
+            <br><br>
+            <div class="table-responsive">
+              <h4 class="card-title">Listado de fases finalizadas</h4>
+              <table class="table">
+                <thead>
+                <tr>
+                    <th>Alfabetizador(a)</th>
+                    <th>Ciclo</th>
+                    <th>No. Integrantes</th>
+                    <th>Fase</th>
+                    <th>Listado de integrantes</th>
+                    <th>Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for fase in finalizadas %}
+                <tr>
+                    <td>{{ fase.nombre_alfabetizadora }}</td>
+                    <td>{{ fase.ciclo }}</td>
+                    <td>{{ fase.integrantes.count }}</td>
+                    <td>{{ fase.get_fase_display }}</td>
+                    <td><a type="button" class="btn btn-sm btn-info btn-rounded btn-fw" href="/alfabetizacion/fases/{{fase.id}}/integrantes">Integrantes</a></td>
+                    <td>
+                        <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-warning btn-rounded" data-form-url="{% url 'fases_edit' pk=fase.id %}">
+                          <span class="fa fa-trash">Editar</span>
+                        </button>
+                        <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-danger btn-rounded" data-form-url="{% url 'fases_delete' pk=fase.id %}">
+                          <span class="fa fa-trash">Eliminar</span>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </div>
             <br>
             <a type="button" class="btn btn-sm btn-info btn-rounded btn-fw" href="{% url 'alfabetizacion_list' %}">Regresar</a>
         </div>
@@ -111,6 +146,7 @@
     </div>
   </div>
 </div>
+
 </div>
 <div class="modal fade" tabindex="-1" role="dialog" id="modal">
   <div class="modal-dialog" role="document">

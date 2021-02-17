@@ -22,7 +22,6 @@
         <div class="card-body">
           <span class="d-flex align-items-center purchase-popup">
             <h4 class="card-title">Listado de Reportes</h4>
-              <a class="btn btn-gradient-success btn-rounded ml-auto" href="{% url 'generar_excel' %}"  > <i class="mdi mdi-file-excel-box" style="color: white;"></i> Exportar exel</a>
           </span>
           <form method="POST" action="{% url 'reporte_servicios_admin' %}" class="pt-3">
             {% csrf_token %}
@@ -57,7 +56,8 @@
               <br>
               </div>
               <br>
-              <button type="submit" class="btn btn-info btn-rounded btn-sm">Generar Reporte</button>
+              <button type="submit" class="btn btn-info btn-rounded btn-sm" onclick="javascript: form.action='/reporte/servicios/admin'">Generar Reporte</button>
+              <button type="submit" class="btn btn-gradient-success btn-rounded ml-auto btn-sm" onclick="javascript: form.action='/reporte/servicios/admin/excel'">Generar Excel</button>
             </form>
             <br>
           <div class="table-responsive">

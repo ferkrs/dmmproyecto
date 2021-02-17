@@ -22,9 +22,8 @@
         <div class="card-body">
           <span class="d-flex align-items-center purchase-popup">
             <h4 class="card-title">Listado de Reportes</h4>
-              <a class="btn btn-gradient-success btn-rounded ml-auto" href="{% url 'generar_excel' %}"  > <i class="mdi mdi-file-excel-box" style="color: white;"></i> Exportar exel</a>
           </span>
-          <form method="POST" action="{% url 'reporte_grupos_admin' %}" class="pt-3">
+          <form method="POST" class="pt-3">
             {% csrf_token %}
             <div class="row">
               <div class="col-md-5">
@@ -77,7 +76,8 @@
                 </div>
                   </div>
               <br>
-              <button type="submit" class="btn btn-info btn-rounded btn-sm">Generar Reporte</button>
+              <button type="submit" class="btn btn-info btn-rounded btn-sm" onclick="javascript: form.action='/reporte/grupos/admin'">Generar Reporte</button>
+              <button type="submit" class="btn btn-gradient-success btn-rounded ml-auto btn-sm" onclick="javascript: form.action='/reporte/grupos/admin/excel'">Generar Excel</button>
             </form>
             <br>
           <div class="table-responsive">
@@ -101,7 +101,7 @@
                 <td>{{forloop.counter}}</td>
                 <td>{{ reporte.grupo }}</td>
                 <td>{{ reporte.nombre_proyecto }}</td>
-                <td>{{ reporte.eje.eje_trabajo }}</td>
+                <td>{{ reporte.eje_trabajo }}</td>
                 <td>{{ reporte.beneficiados }}</td>
                 <td>{{ reporte.presupuesto }}</td>
                 <td>{{ reporte.fecha_inicio }}</td>
@@ -144,6 +144,10 @@
       $("#responsable").select2();
       $("#identificador").select2();
       $("#contenido").hide();
+      $("#generarReporte").submit(function(event) {
+        e.preventDefault();
+        console.log("Se apacho");
+      })
       $("#identificador").on("change", function(event){
         if(event.target.value == 0){
           $("#campoAldeas").show();

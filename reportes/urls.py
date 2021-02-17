@@ -11,5 +11,7 @@ urlpatterns = [
     path('reporteservicios/update/<int:pk>', ReporteServicioUpdateView.as_view(), name='reporte_servicio_update'),
     path('reporteservicios/crear', reporte_servicio, name='reporte_servicio'),
     path('reporte/grupos/admin', reporte_grupos_admin, name='reporte_grupos_admin'),
-    path('reporte/servicios/admin', reporte_servicios_admin, name='reporte_servicios_admin')
+    path('reporte/grupos/admin/excel', reporte_grupos_admin_excel, name='reporte_grupos_admin_excel'),
+    path('reporte/servicios/admin', reporte_servicios_admin, name='reporte_servicios_admin'),
+    path('reporte/servicios/admin/excel', reporte_servicios_admin_excel, name='reporte_servicios_admin_excel')
 ]
