@@ -46,7 +46,10 @@ def eliminar_comunidad(request, id):
 def comunidades_list(request):
     comunidades = Comunidad.objects.all()
     formComunidad = ComunidadForm
-    return render(request, 'alfabetizacion/comunidades_list.html', {'comunidades': comunidades, 'formComunidad': formComunidad})
+    paginator = Paginator(comunidades,10)
+    page_number=request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'alfabetizacion/comunidades_list.html', context={'comunidades': comunidades, 'formComunidad': formComunidad, 'comunidades':page_obj})
 
 # Listado de Fases de comunidad
 def comunidad_fases_list(request, id):
@@ -70,7 +73,7 @@ def crear_fase(request, id):
     return redirect('/alfabetizacion/fases/'+str(id))
 
 # Finalizar fase
-def fase_finalizar(request, id, aprobados):
+def fase_finalizar(request, id, aprobados, comunidad):
     # Obtener la fase para actualizar
     try:
         fase = MujeresAlfa.objects.get(id=id)
@@ -78,10 +81,10 @@ def fase_finalizar(request, id, aprobados):
         fase.aprobados = aprobados
         fase.save()
         messages.success(request,"Fase finalizada correctamente")
-        return redirect('/alfabetizacion/fases/1')
+        return redirect('/alfabetizacion/fases/'+str(comunidad))
     except:
         pass
-        return redirect('/alfabetizacion/fases/1')
+        return redirect('/alfabetizacion/fases/'+str(comunidad))
 
 class FaseUpdateView(BSModalUpdateView):
     model = MujeresAlfa

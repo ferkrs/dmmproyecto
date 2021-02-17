@@ -10,10 +10,13 @@ from .forms import CursoForm
 from django.contrib import messages
 from datetime import datetime
 import django_excel as excel
-
+from django.core.paginator import Paginator
 def servicio_list(request):
     servicios = Curso.objects.all()
-    return render(request, 'servicios/servicios_list.html', {'servicios': servicios, 'form': CursoForm})
+    paginator = Paginator(servicios,10)
+    page_number=request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'servicios/servicios_list.html', {'servicios': servicios, 'form': CursoForm, 'servicios':page_obj})
 
 def servicio_crear(request):
     if request.method == 'POST':

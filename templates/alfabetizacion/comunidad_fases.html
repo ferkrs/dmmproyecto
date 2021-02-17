@@ -49,15 +49,21 @@
                 <tr>
                     <td>{{ fase.nombre_alfabetizadora }}</td>
                     <td>{{ fase.ciclo }}</td>
-                    <td>{{ fase.integrantes.count }}</td>
+                {% if fase.integrantes.count == 0 %}
+                    <td><label class="badge badge-info btn-rounded">Aún no existen integrantes</label></td>
+                {%else%}
+                     <td>{{ fase.integrantes.count }}</td>
+                {% endif %}
+
+
                     <td>{{ fase.get_fase_display }}</td>
                     <td><a type="button" class="btn btn-sm btn-info btn-rounded btn-fw" href="/alfabetizacion/fases/{{fase.id}}/integrantes">Integrantes</a></td>
                     <td>
                         <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-warning btn-rounded" data-form-url="{% url 'fases_edit' pk=fase.id %}">
                           <span class="fa fa-trash">Editar</span>
                         </button>
-                        <a class="bs-modal btn btn-sm btn-info btn-rounded" onclick="mostrarFinalizacion({{fase.id}})">Finalizar</a>
-                        <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-danger btn-rounded" data-form-url="{% url 'fases_delete' pk=fase.id %}">
+                        <a class="bs-modal btn btn-sm btn-info btn-rounded" onclick="mostrarFinalizacion({{fase.id}},{{comunidad.id}})">Finalizar</a>
+                        <button type="button" id="user-delete" class="bs-modal btn btn-sm btn-danger btn-rounded" data-form-url="{% url 'fases_delete' pk=fase.id  %}">
                           <span class="fa fa-trash">Eliminar</span>
                         </button>
                     </td>
@@ -155,17 +161,17 @@
 </div>
 
 <script type="text/javascript">
-  function mostrarFinalizacion(id){
+  function mostrarFinalizacion(id,comunidad){
     Swal.fire({
       title: "Finalización de fase",
       text: "Ingrese el número de aprobados:",
       input: 'number',
       confirmButtonText: "Finalizar",
       cancelButtonText: "Cancelar",
-      showCancelButton: true        
+      showCancelButton: true
     }).then((result) => {
       if (result.value) {
-        window.location.href ="/alfabetizacion/fases/finalizar/"+id+"/"+result.value;
+        window.location.href ="/alfabetizacion/fases/finalizar/"+id+"/"+result.value+"/"+comunidad;
       }
     });
   }

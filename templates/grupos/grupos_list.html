@@ -6,8 +6,6 @@
   {% include 'sidebar.html' %}
 <div class="main-panel">
   <div class="content-wrapper">
-    <div class="page-header">
-    </div>
     <div class="row">
       <div class="col-md-12 stretch-card grid-margin">
         <div class="card bg-gradient-info card-img-holder text-white">
@@ -44,7 +42,11 @@
               <tr>
                 <td>{{forloop.counter}}</td>
                 <td>{{grupo.nombre_grupo }}</td>
-                <td>{{grupo.num_integrantes}}</td> 
+                {% if grupo.num_integrantes == 0 %}
+                    <td><label class="badge badge-info btn-rounded">Aun no existen integrantes</label></td>
+                {%else%}
+                    <td>{{grupo.num_integrantes}}</td>
+                {% endif %}
                 <td><a type="button" class="btn btn-sm btn-info btn-rounded" href="/grupos/directiva/{{ grupo.id }}" >Directiva</a></td>
                 <td><a type="button" class="btn btn-sm btn-success btn-rounded" href="{% url 'pergrup_add' id=grupo.id %}">Integrantes</a></td>
                 <td>
@@ -64,6 +66,42 @@
         </div>
       </div>
     </div>
+          <!--Pagination-->
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        {% if grupos.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ movies.previous_page_number }}">Anterior</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+          </li>
+        {% endif %}
+        {% for i in grupos.paginator.page_range %}
+          {% if grupos.number == i %}
+            <li class="page-item active" aria-current="page">
+              <span class="page-link">
+                {{ i }}
+                <span class="sr-only">(current)</span>
+              </span>
+            </li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if grupos.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ movies.next_page_number }}">Siguiente</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Siguiente</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+    <!--end of Pagination-->
   </div>
 </div>
 </div>

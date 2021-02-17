@@ -11,6 +11,7 @@ from django.views.generic import ListView, TemplateView
 from django.http import HttpResponse
 from datetime import datetime
 from django.db.models import Count
+from django.core.paginator import Paginator
 # Modelos
 from .models import *
 # Formularios
@@ -56,7 +57,10 @@ def administrador_check(user):
 @user_passes_test(administrador_check)
 def user_list(request):
     usuarios = Usuario.objects.all()
-    return render(request, 'users/user_list.html', {'usuarios': usuarios})
+    paginator = Paginator(usuarios,10)
+    page_number=request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'users/user_list.html', context={'usuarios': usuarios, 'usuarios': page_obj})
 
 # User Delete
 class UserDeleteView(BSModalDeleteView):
@@ -105,7 +109,11 @@ def logout_view(request):
 def personas_list(request):
     personas_noasignadas = Persona.objects.filter()
     personas_asignadas = Persona.objects.exclude()
-    return render(request, 'personas/personas_list.html', {'asignadas': personas_asignadas, 'no_asignadas': personas_noasignadas})
+    paginator = Paginator(personas_asignadas,10)
+    page_number=request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'personas/personas_list.html', context={'asignadas': personas_asignadas, 'no_asignadas': personas_noasignadas, 'asignadas':page_obj})
+
 
 class PersonaUpdateView(BSModalUpdateView):
     model = Persona
@@ -114,25 +122,15 @@ class PersonaUpdateView(BSModalUpdateView):
     success_message = 'La información fue editada correctamente.'
     success_url = reverse_lazy('personas_list')
 
-#def eliminar_persona(request, id):
-#    persona = Persona.objects.get(id=id)
-#    try:
-#        persona.delete()
-#    except:
-#        pass
-#    return redirect('persona_list')
 
-
-"""
-
-*****    VISTAS GRUPOS    *****
-
-"""
 #funcion de listar
 def grupo_list(request):
     grupos = Grupo.objects.annotate(num_integrantes=Count('grupo_directiva__persona'))
     form = GrupoForm
-    return render(request, 'grupos/grupos_list.html', {'grupos': grupos, 'form': form})
+    paginator = Paginator(grupos,10)
+    page_number=request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'grupos/grupos_list.html', {'grupos': grupos, 'form': form,'grupos':page_obj})
 
 #funcion de consulta de directiva by id
 def directiva(request, id):

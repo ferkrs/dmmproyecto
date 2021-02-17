@@ -1,21 +1,22 @@
 {% include 'base.html' %}
-{% block reporte_servicios  %} 
+{% block reporte_servicios  %}
 {% load staticfiles %}
 {% include 'navbar.html' %}
 <div class="container-fluid page-body-wrapper">
   {% include 'sidebar.html' %}
 <div class="main-panel">
   <div class="content-wrapper">
-    <div class="page-header">
-      <h3 class="page-title">Formulario de reporte de servicios sociales</h3>
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
-          <li class="breadcrumb-item" aria-current="page">Reporte de servicios</li>
-        </ol>
-      </nav>
-    </div>
     <div class="row">
+      <div class="col-md-12 stretch-card grid-margin">
+        <div class="card bg-gradient-info card-img-holder text-white">
+          <div class="card-body">
+            <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image">
+            <h4>Generar reporte de: </h4>
+            <h1>SERVICIOS</h1>
+          </div>
+        </div>
+      </div>
+    </div>
       <div class="col-12 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
@@ -52,7 +53,7 @@
                   <label>Fecha de Inicio:</label>
                   {{reportes.fecha_inicio}}
                 </div>
-                  
+
                 <div class="col-md-3">
                   <label>Fecha de Finalizacion:</label>
                   {{reportes.fecha_finalizacion}}
@@ -69,15 +70,14 @@
                 </div>
               </div>
               <br>
-              <button class="btn btn-light">Cancel</button>
-              <button type="submit" class="btn btn-gradient-primary mr-2">Guardar</button>
+              <button type="submit" class="btn btn-gradient-info mr-2 btn-rounded">Generar Reporte</button>
             </form>
           </div>
         </div>
       </div>
-    </div>
+
     <div class="row">
-        <div class="col-12 grid-margin stretch-card">
+      <div class="col-12 grid-margin stretch-card">
           <div class="card">
             <div class="card-body">
               <h4 class="card-title">Estado de mis reportes</h4>
@@ -103,7 +103,7 @@
                     <td>{{ reporte.eje_trabajo }}</td>
                     <td>{{ reporte.servicio }}</td>
                     <td>{{ reporte.beneficiados}}</td>
-                    <td>{{ reporte.presupuesto}}</td>
+                    <td>Q. {{ reporte.presupuesto}}</td>
                     <td>{{ reporte.fecha_inicio}}</td>
                     <td>{{ reporte.fecha_finalizacion}}</td>
                     <td>
@@ -125,7 +125,7 @@
               <div class="modal-content"></div>
             </div>
           </div>
-     
+
           <script type="text/javascript">
             $(function () {
               $(".bs-modal").each(function () {
