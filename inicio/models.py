@@ -74,7 +74,6 @@ class Grupo(models.Model):
 
     # Area
     IDENTIFICADOR = [
-        (0, ""),
         (1, "AREA RURAL"),
         (2, "AREA URBANA"),
         (3, "LLANO GRANDE")
@@ -82,34 +81,53 @@ class Grupo(models.Model):
     identificador= models.IntegerField(choices=IDENTIFICADOR, blank=False)
     # Zonas area urbana
     ZONA= [
-        (0, ""), (1, "ZONA 1"),(2, "ZONA 1 Y 2"),
+        (1, "ZONA 1"),(2, "ZONA 1 Y 2"),
         (3, "ZONA 1 Y 4"),(4, "ZONA 2"),
         (5, "ZONA 4"),(6, "ZONA 3 Y 4"),
 
     ]
-    zona = models.IntegerField(choices=ZONA,default=0, blank=True)
+    zona = models.IntegerField(choices=ZONA,default=0, blank=True, null=True)
     # Caserio
     CASERIO= [
-        (0, ""), (1, "LOS JAZMINES"),(2, "LLANO GRANDE"),
+        (1, "Agua Tibia"),(2, "Alta Vista"),
+        (3, "Bella Vista"),(4, "Ciprés Grande"),
+        (5, "Cruz de Piedra"),(6, "Cruz Verde"),
+        (7, "El Boquerón"),(8, "El Platanillo"),
+        (9, "El Tizate"),(10, "Entre Ríos"),
+        (11, "Ixcá"),(12, "Ixhual "),
+        (13, "Ixhual 2 "),(14, "La Cuchilla"),
+        (15, "La Democracia"),(16, "La Lagunac "),
+        (17, "La Libertad "),(18, "Las Guayabas"),
+        (19, "Las Vásquez"),(20, "Loma Linda"),
+        (21, "Los Juárez"),(22, "Los Molinos"),
+        (23, "Nueva Reforma"),(24, "Ojo de Agua"),
+        (25, "Oratorio"),(26, "Paconché"),
+        (27, "Palencia "),(28, "Piedra Parada"),
+        (29, "San Francisco El Chichicaste"),(30, "San Juan del Pozo"),
+        (31, "San Miguel Las Flores"),(32, "San Rafael"),
+        (33, "San Vicente Esquipulas"),(34, "Santa Teresa"),
+
+
     ]
-    caserio = models.IntegerField(choices=CASERIO,default=0, blank=True)
+    caserio = models.IntegerField(choices=CASERIO,default=0, blank=True, null=True)
     # Canton
     CANTON= [
-        (0, ""),(1, "LA PARROQUIA"),(2, "SANTA MARIA DE ATOCHA"),
+        (1, "LA PARROQUIA"),(2, "SANTA MARIA DE ATOCHA"),
         (3, "SAN MIGUEL"),(4, "SAN JUAN DE DIOS"),
         (5, "SAN JUAN DEL POZO"),(6, "SAN AGUSTÍN TONALÁ"),
         (7, "EL MOSQUITO"),(8, "SAN SEBASTIÁN"),
     ]
-    canton = models.IntegerField(choices=CANTON,default=0, blank=True)
-    # Sector
+    canton = models.IntegerField(choices=CANTON,default=0, blank=True,null=True)
+    # Sector y caserios se iran juntos
     SECTOR= [
-        (0, ""),(1, "HIERBA BUENA"),(2, "GALLO ROJO"),
+        (1, "HIERBA BUENA"),(2, "GALLO ROJO"),
+        (2, "LOS JAZMINES"),(3, "LLANO GRANDE"),
     ]
-    sector = models.IntegerField(choices=SECTOR,default=0, blank=True)
+    sector = models.IntegerField(choices=SECTOR,default=0, blank=True,null=True)
 
     #AREA RURAL
     ALDEAS= [
-        (0, ""),(1, "CANTEL"),(2, "CORRAL GRANDE"),
+        (1, "CANTEL"),(2, "CORRAL GRANDE"),
         (3, "CHAMPOLLAP"),(4, "CHIM"),
         (5, "EL CEDRO"),(6, "EL TABLERO"),
         (7, "LA GRANDEZA"),(8, "MÁVIL"),
@@ -119,9 +137,9 @@ class Grupo(models.Model):
         (15, "SAN PEDRO PETZ"),(16, "SANTA TERESA"),
         (17, "SAN FRANCISCO SOCHE"),
     ]
-    aldeas = models.IntegerField(choices=ALDEAS,default=0, blank=True)
+    aldeas = models.IntegerField(choices=ALDEAS,default=0, blank=True,null=True)
     PARAJE= [
-        (0, ""),(1, "Canichel"),(2, "Joya del Porvenir"),
+        (1, "Canichel"),(2, "Joya del Porvenir"),
         (3, "El Plan"),(4, "Ajil"),
         (5, "Buena Vista"),(6, "San Francisco"),
         (7, "Agua Caliente"),(8, "El Zapote"),
@@ -146,9 +164,9 @@ class Grupo(models.Model):
         (45, "Sector Tres Fuentes"),(46, "Sector Los Ramírez"),
         (47, "Sector Fraternidad"),
     ]
-    paraje = models.IntegerField(choices=PARAJE,default=0, blank=True)
+    paraje = models.IntegerField(choices=PARAJE,default=0, blank=True,null=True)
     # Grupo
-    direccion_alternativa =models.CharField(max_length=50,blank=True)
+    direccion_alternativa =models.CharField(max_length=50,blank=True,null=True)
     nombre_grupo = models.CharField(max_length=50)
 
     def __str__(self):
