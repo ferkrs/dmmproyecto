@@ -2,6 +2,25 @@
 {% block gruposlist  %}
 {% load staticfiles %}
 {% include 'navbar.html' %}
+<style>
+    .modale-content {
+      position: relative;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      width: 100%;
+      pointer-events: auto;
+      background-color: #f2edf3;
+      background-clip: padding-box;
+      border: 1px solid #ebedf2;
+      border-radius: 0.3rem;
+      outline: 0;
+    }
+</style>
 <div class="container-fluid page-body-wrapper">
   {% include 'sidebar.html' %}
 <div class="main-panel">
@@ -47,7 +66,7 @@
                 <td>Hoario: <label class="badge badge-info">{{curso.hora_inicio}}</label> a: <label class="badge badge-info"> {{curso.hora_final}}</label></td>
                 <td> <a type="button" class="btn btn-sm btn-info btn-rounded" href="/servicios/integrantes/{{curso.id}}">Integrantes</a></td>
                 <td>
-                  <a type="button" class="btn btn-sm btn-warning btn-rounded" href="#">Editar</a>
+                  <button type="button" id="servicio-update" class="bs-modal btn btn-sm btn-warning btn-rounded" data-form-url="{% url 'servicio_update' curso.id %}"><span class="fa fa-trash">Editar</span></button>
                   <a type="button" class="btn btn-sm btn-danger btn-rounded" href="#" onclick="eliminar_servicio({{curso.id}})">Eliminar</a>
                 </td>
               </tr>
@@ -97,11 +116,15 @@
   </div>
 </div>
 </div>
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content"></div>
+    </div>
+</div>
 <div class="modal fade" id="modalgrupo"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md-12" role="document">
-      <div class="modal-content">
+      <div class="modale-content">
         <div class="modal-header">
-
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -157,8 +180,17 @@
         </div>
       </div>
   </div>
+
 {% block js %}
 <script>
+  $(function () {
+    $(".bs-modal").each(function () {
+      $(this).modalForm({
+          formURL: $(this).data('form-url')
+      });
+    });
+  });
+
   function eliminar_servicio(id){
     console.log(id)
     Swal.fire({

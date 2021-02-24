@@ -6,11 +6,17 @@ from django.http import HttpResponse
 from .models import *
 from inicio.models import *
 from inicio.forms import *
-from .forms import CursoForm
+from .forms import CursoForm, CursoModalForm
 from django.contrib import messages
 from datetime import datetime
+from django.urls import reverse_lazy
 import django_excel as excel
 from django.core.paginator import Paginator
+from bootstrap_modal_forms.generic import (
+    BSModalDeleteView,
+    BSModalUpdateView
+)
+
 def servicio_list(request):
     servicios = Curso.objects.all()
     paginator = Paginator(servicios,10)
@@ -30,11 +36,23 @@ def servicio_crear(request):
                 pass
                 return redirect('servicio_list')
 
+# Actualizar Servicio
+class ServicioUpdateView(BSModalUpdateView):
+    model = Curso
+    template_name = 'servicios/servicio_edit.html'
+    form_class = CursoModalForm
+    success_message = 'El servicio fue editado correctamente.'
+    success_url = reverse_lazy('servicio_list')
+
 def servicio_integrantes(request, id):
     if request.method == "POST":
         try:
             # Form Persona
             formPersona = PersonaForm(request.POST)
+            # Validar si ya existe persona con mismo dpi
+            if Persona.objects.filter(cui=formPersona['cui'].value()).count() > 0:
+                messages.success(request, "Ya existe este una persona con este DPI, intente otra vez.")
+                return redirect('/servicios/integrantes/'+str(id))
             if formPersona.is_valid():
                 persona_creada = formPersona.save()
                 Curso.objects.get(pk=id).integrantes.add(persona_creada)
@@ -44,7 +62,7 @@ def servicio_integrantes(request, id):
             return redirect('/servicios/integrantes/'+str(id))
     else:
         # Personas existentes
-        personas = Persona.objects.all()
+        personas = Persona.objects.exclude(persona_servicio__id=id)
         formPersona = PersonaForm
         # Info Comunidad
         servicio = Curso.objects.get(pk=id)

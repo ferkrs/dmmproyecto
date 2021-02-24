@@ -2,7 +2,25 @@
 {% block grupoadd  %}
 {% load staticfiles %}
 {% include 'navbar.html' %}
-
+<style>
+    .modale-content {
+      position: relative;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      width: 100%;
+      pointer-events: auto;
+      background-color: #f2edf3;
+      background-clip: padding-box;
+      border: 1px solid #ebedf2;
+      border-radius: 0.3rem;
+      outline: 0;
+    }
+</style>
 <div class="container-fluid page-body-wrapper">
   {% include 'sidebar.html' %}
 <div class="main-panel">
@@ -22,9 +40,9 @@
       </div>
     </div>
     <!-- Modal / Ventana / Overlay en HTML -->
-    <div class="modal fade" id="modalagregar" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalagregar" name="modalagregar" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-sm-12" role="document">
-        <div class="modal-content">
+        <div class="modale-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -90,7 +108,7 @@
                       {{formPersona.sexo}}
                     </div>
                     <div class="col-md-6">
-                      <label for="">Telefono</label>
+                      <label for="">Teléfono</label>
                       {{formPersona.telefono}}
                     </div>
                 </div>
@@ -110,7 +128,7 @@
     <!-- Modal / Ventana / Overlay en HTML -->
     <div class="modal fade" id="modalexistente" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm-12" role="document">
-          <div class="modal-content">
+          <div class="modale-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
@@ -141,7 +159,6 @@
           </div>
       </div>
 
-
     <div class="col-lg-12  col-sm-12 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
@@ -160,14 +177,14 @@
               </span>
             </div>
           <div class="table-responsive">
-            <table class="table">
+            <table class="table" id="table-integrantes">
               <thead>
                 <tr>
                   <th>No.</th>
                   <th>CUI</th>
                   <th>Nombre</th>
-                  <th>Correo Electronico</th>
-                  <th>Telefono</th>
+                  <th>Correo Electrónico</th>
+                  <th>Teléfono</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -190,7 +207,7 @@
                 {% endif %}
 
                   <td>
-                    <button type="button" id="asignacion-update" class="bs-modal btn btn-sm btn-warning btn-rounded " data-form-url="{% url 'personas_update' integrante.id %}">
+                    <button type="button" id="asignacion-update" class="update-integrante btn btn-sm btn-warning btn-rounded " data-form-url="{% url 'personas_update' integrante.id %}">
                       <span class="fa fa-trash">Editar</span>
                     </button>
                     <a type="button" class="btn btn-sm btn-danger btn-rounded" href="#" onclick="eliminar_asignacion({{integrante.id}}, {{fase.id}})">Eliminar</a>
@@ -220,50 +237,68 @@
   </div>
 </div>
 </div>
-
-{% block js %}
-<script>
-  function eliminar_asignacion(id, grupo){
-    Swal.fire({
-      title: 'Desea eliminar el integrante de esta fase?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'Cancelar',
-      confirmButtonText: 'Eliminar'
-    })
-    .then((result) => {
-      if (result.isConfirmed) {
-        window.location.href ="/alfabetizacion/fases/"+id+"/"+grupo+"/delete"
-        Swal.fire(
-          'Se ha eliminado el integrante correctamente!',
-        )
-      }
-    })
-  }
-</script>
 <div class="modal fade" tabindex="-1" role="dialog" id="modal">
   <div class="modal-dialog" role="document">
     <div class="modal-content"></div>
   </div>
 </div>
-
 <script type="text/javascript">
-$(document).ready(function() {
-    $("#buscar").select2();
-});
-  $(function () {
-    // Update, Read and Delete book buttons open modal with id="modal" (default)
-    // The formURL is retrieved from the data of the element
-    $(".bs-modal").each(function () {
-      $(this).modalForm({
-        formURL: $(this).data('form-url')
-      });
+    $(function () {
+        var asyncSuccessMessage = [
+          "<div ",
+          "style='position:fixed;top:0;z-index:10000;width:100%;border-radius:0;' ",
+          "class='alert alert-icon alert-success alert-dismissible fade show mb-0' role='alert'>",
+          "Información actualizada correctamente.",
+          "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>",
+          "<span aria-hidden='true'>&times;</span>",
+          "</button>",
+          "</div>",
+          "<script>",
+          "$('.alert').fadeTo(2000, 500).slideUp(500, function () {$('.alert').slideUp(500).remove();});",
+          "<\/script>"
+        ].join();
+
+        function updatePersonaModalForm() {
+            $(".update-integrante").each(function () {
+                $(this).modalForm({
+                    formURL: $(this).data("form-url"),
+                    asyncUpdate: true,
+                    asyncSettings: {
+                        closeOnSubmit: true,
+                        successMessage: asyncSuccessMessage,
+                        dataUrl: `/alfabetizacion/fases/${34}/integrantes/async`,
+                        dataElementId: "#table-integrantes",
+                        dataKey: "table",
+                        addModalFormFunction: updatePersonaModalForm,
+                    }
+                });
+            });
+        }
+        updatePersonaModalForm();
     });
-  });
-
 </script>
-
-{% endblock %}
+<script>
+    $(document).ready(function() {
+        $("#buscar").select2();
+    });
+    function eliminar_asignacion(id, grupo){
+        Swal.fire({
+            title: 'Desea eliminar el integrante de esta fase?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Eliminar'
+        })
+        .then((result) => {
+            if (result.isConfirmed) {
+                window.location.href ="/alfabetizacion/fases/"+id+"/"+grupo+"/delete"
+                Swal.fire(
+                  'Se ha eliminado el integrante correctamente!',
+                )
+            }
+        })
+    }
+</script>
 {% endblock grupoadd %}

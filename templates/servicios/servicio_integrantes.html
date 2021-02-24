@@ -2,7 +2,25 @@
 {% block grupoadd  %}
 {% load staticfiles %}
 {% include 'navbar.html' %}
-
+<style>
+    .modale-content {
+      position: relative;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      width: 100%;
+      pointer-events: auto;
+      background-color: #f2edf3;
+      background-clip: padding-box;
+      border: 1px solid #ebedf2;
+      border-radius: 0.3rem;
+      outline: 0;
+    }
+</style>
 <div class="container-fluid page-body-wrapper">
   {% include 'sidebar.html' %}
   <div class="main-panel">
@@ -11,7 +29,7 @@
     <!-- Modal / Ventana / Overlay en HTML -->
     <div class="modal fade" id="modalagregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-sm-12" role="document">
-        <div class="modal-content">
+        <div class="modale-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -93,7 +111,7 @@
     <!-- Modal / Ventana / Overlay en HTML -->
     <div class="modal fade" id="modalexistente" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md-12" role="document">
-          <div class="modal-content">
+          <div class="modale-content">
             <div class="modal-header">
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -200,8 +218,22 @@
   </div>
 </div>
 </div>
-
-{% block js %}
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"></div>
+  </div>
+</div>
+<script>
+    $(function () {
+        // Update, Read and Delete book buttons open modal with id="modal" (default)
+        // The formURL is retrieved from the data of the element
+        $(".bs-modal").each(function () {
+          $(this).modalForm({
+            formURL: $(this).data('form-url')
+          });
+        });
+    });
+</script>
 <script>
   function eliminar_asignacion(id, grupo){
     Swal.fire({
@@ -223,26 +255,11 @@
     })
   }
 </script>
-<div class="modal fade" tabindex="-1" role="dialog" id="modal">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content"></div>
-  </div>
-</div>
+
 
 <script type="text/javascript">
 $(document).ready(function() {
     $("#search").select2();
 });
-  $(function () {
-    // Update, Read and Delete book buttons open modal with id="modal" (default)
-    // The formURL is retrieved from the data of the element
-    $(".bs-modal").each(function () {
-      $(this).modalForm({
-        formURL: $(this).data('form-url')
-      });
-    });
-  });
 </script>
-
-{% endblock %}
 {% endblock grupoadd %}

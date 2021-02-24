@@ -2,6 +2,25 @@
 {% block gruposlist  %}
 {% load staticfiles %}
 {% include 'navbar.html' %}
+<style>
+    .modale-content {
+      position: relative;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      width: 100%;
+      pointer-events: auto;
+      background-color: #f2edf3;
+      background-clip: padding-box;
+      border: 1px solid #ebedf2;
+      border-radius: 0.3rem;
+      outline: 0;
+    }
+</style>
 <div class="container-fluid page-body-wrapper">
   {% include 'sidebar.html' %}
 <div class="main-panel">
@@ -28,8 +47,7 @@
                   <button type="button" class="btn btn-gradient-info btn-rounded dropdown-toggle " data-toggle="dropdown" aria-expanded="false">Opciones</button>
                   <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 44px, 0px);">
                     <a class="dropdown-item" data-toggle="modal" data-target="#modalagregar">Agregar Fase</a>
-                    <a class="dropdown-item"href="{% url 'alfabetizacion_fases_excel' id=comunidad.id %}" >Fases finalizadas</a>
-                    <a class="dropdown-item"href="{% url 'alfabetizacion_fases_excel' id=comunidad.id %}" >Generar Exel</a>
+                    <a class="dropdown-item"href="{% url 'alfabetizacion_fases_excel_actuales' id=comunidad.id %}" >Generar Excel Actuales</a>
                   </div>
                 </div>
             </span>
@@ -87,13 +105,17 @@
             </div>
 
             <div id="finalizados" class="table-responsive">
-              <h4 class="card-title">Listado de fases finalizadas</h4>
+            <span class="d-flex align-items-center purchase-popup">
+                <h4 class="card-title">Listado de fases finalizadas</h4>
+                <a class="btn btn-gradient-success btn-rounded ml-auto" href="{% url 'alfabetizacion_fases_excel_finalizadas' id=comunidad.id %}" >Generar Exel</a>
+            </span>
               <table class="table">
                 <thead>
                 <tr>
                     <th>Alfabetizador(a)</th>
                     <th>Ciclo</th>
                     <th>No. Integrantes</th>
+                    <th>No. Aprobados</th>
                     <th>Fase</th>
                     <th>Listado de integrantes</th>
                     <th>Opciones</th>
@@ -105,6 +127,7 @@
                     <td>{{ fase.nombre_alfabetizadora }}</td>
                     <td>{{ fase.ciclo }}</td>
                     <td>{{ fase.integrantes.count }}</td>
+                    <td>{{ fase.aprobados}}</td>
                     <td>{{ fase.get_fase_display }}</td>
                     <td><a type="button" class="btn btn-sm btn-info btn-rounded btn-fw" href="/alfabetizacion/fases/{{fase.id}}/integrantes">Integrantes</a></td>
                     <td>
@@ -127,7 +150,7 @@
 
     <div class="modal fade" id="modalagregar" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-sm-12" role="document">
-        <div class="modal-content">
+        <div class="modale-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -175,7 +198,13 @@
 </div>
 
 <script type="text/javascript">
-
+     $(function () {
+        $(".bs-modal").each(function () {
+          $(this).modalForm({
+            formURL: $(this).data('form-url')
+          });
+        });
+    });
     $('#actuales').show();
     $('#finalizados').hide();
     function myFunction (value) {
@@ -203,13 +232,6 @@
       }
     });
   }
-  $(function () {
-    $(".bs-modal").each(function () {
-      $(this).modalForm({
-        formURL: $(this).data('form-url')
-      });
-    });
-  });
 </script>
 
 {% endblock gruposlist %}

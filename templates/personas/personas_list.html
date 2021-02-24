@@ -12,7 +12,7 @@
           <div class="card-body">
             <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image">
             <h1 >Personas Registradas</h1>
-            <p>Listado de todas las personas registradas</p>
+            <p>Listado de personas registradas</p>
           </div>
         </div>
       </div>
@@ -30,8 +30,8 @@
               <tr>
                 <th>CUI</th>
                 <th>Nombre</th>
-                <th>Telefono</th>
-                <th>Correo Electronico</th>
+                <th>Teléfono</th>
+                <th>Correo Electrónico</th>
                 <th>Opciones</th>
               </tr>
             </thead>
@@ -108,6 +108,12 @@
  </div>
 </div>
 
+<!--Modal editar persona-->
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"></div>
+  </div>
+</div>
 <script type="text/javascript">
   $(function () {
     // Update, Read and Delete book buttons open modal with id="modal" (default)

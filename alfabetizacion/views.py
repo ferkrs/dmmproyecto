@@ -3,6 +3,8 @@ from .models import *
 from django.views import generic
 from .forms import *
 from django.core.paginator import Paginator
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 from inicio.forms import PersonaForm
 from django.shortcuts import render, redirect
 from bootstrap_modal_forms.generic import (
@@ -100,11 +102,27 @@ class FaseDeleteView(BSModalDeleteView):
     success_message = 'La fase fue eliminada correctamente.'
     success_url = reverse_lazy('alfabetizacion_list')
 
+
+def books(request, id):
+    data = dict()
+    if request.method == 'GET':
+        integrantes = Persona.objects.all()
+        data['table'] = render_to_string(
+            'alfabetizacion/integrantes_fase.html',
+            {'integrantes': integrantes},
+            request=request
+        )
+        return JsonResponse(data)
+
 def integrantes_fase(request, id):
     if request.method == "POST":
         try:
             # Form Persona
             formPersona = PersonaForm(request.POST)
+            # Validar si ya existe persona con mismo dpi
+            if Persona.objects.filter(cui=formPersona['cui'].value()).count() > 0:
+                messages.success(request, "Ya existe este una persona con este DPI, intente otra vez.")
+                return redirect('/alfabetizacion/fases/'+str(id)+'/integrantes')
             if formPersona.is_valid():
                 persona_creada = formPersona.save()
                 MujeresAlfa.objects.get(pk=id).integrantes.add(persona_creada)
@@ -114,7 +132,7 @@ def integrantes_fase(request, id):
             return redirect('/alfabetizacion/fases/'+str(id)+'/integrantes')
     else:
         # Personas existentes
-        personas = Persona.objects.all()
+        personas = Persona.objects.exclude(persona_alfabetizacion__id=id)
         formPersona = PersonaForm
         # Info Comunidad
         fase = MujeresAlfa.objects.get(pk=id)
@@ -184,6 +202,40 @@ def fases_excel(request, id):
 
     return excel.make_response(sheet, "xlsx", file_name="fases-"+comunidad.comunidad+"-"+strToday+".xlsx")
 
+def fases_excel_finalizadas(request, id):
+    export = []
+    # Encabezados de excel
+    export.append([
+        'No.',
+        'Alfabetizadora',
+        'Ciclo',
+        'Integrantes',
+        'Aprobados',
+        'Fase'
+    ])
+    # Obtener registros del modelo
+    comunidad = Comunidad.objects.get(pk=id)
+    fases = MujeresAlfa.objects.filter(comunidad__id=id, finalizado=True)
+    count = 1
+    for fase in fases:
+        export.append([
+            count,
+            fase.nombre_alfabetizadora,
+            str(fase.ciclo),
+            fase.integrantes.count(),
+            fase.aprobados,
+            fase.get_fase_display(),
+        ])
+        count = count + 1
+    today = datetime.now()
+    strToday = today.strftime("%Y%m%d")
+
+    # Transformar el array a un arreglo
+    sheet = excel.pe.Sheet(export)
+
+    return excel.make_response(sheet, "xlsx", file_name="fasesFinalizadas-"+comunidad.comunidad+"-"+strToday+".xlsx")
+
+
 def integrantes_fase_excel(request, id):
     export = []
     # Encabezados de excel
@@ -198,12 +250,12 @@ def integrantes_fase_excel(request, id):
         'Segundo Apellido',
         'Apellido Casada',
         'Fecha Nacimiento',
-        'Telefono'
+        'Teléfono'
     ])
     # Obtener registros del modelo
     fase = MujeresAlfa.objects.get(pk=id)
     integrantes = MujeresAlfa.objects.get(pk=id).integrantes.all()
-    count = 0
+    count = 1
     for persona in integrantes:
         export.append([
             count,

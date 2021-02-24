@@ -44,7 +44,7 @@ class Persona(models.Model):
     # Telefono
     telefono= models.CharField(max_length=8, blank=True,null=False)
         #quitar direccion
-    direccion = models.CharField(max_length=20, blank=True, null=True)
+    direccion = models.CharField(max_length=50, blank=True, null=True)
     # Correo electronico
     correo_electronico = models.EmailField(max_length=100, blank=True, null=False)
     def __str__(self):
@@ -187,6 +187,8 @@ class AsignacionPersonaGrupo(models.Model):
         (4, "TESORERA"),
         (5, "VOCAL 1"),
         (6, "VOCAL 2"),
+        (7, "VOCAL 3"),
+        (8, "VOCAL 4"),
     ]
     # Integrante
     persona = models.ForeignKey(Persona, on_delete= models.CASCADE,related_name='persona_directiva', null=False, blank=False)

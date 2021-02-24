@@ -80,7 +80,7 @@ class GrupoForm(forms.ModelForm):
             'caserio':'Caserio',
             'canton':'Cantón',
             'sector':'Sector',
-            'aldeas':'Aledeas',
+            'aldeas':'Aldeas',
             'paraje':'Paraje',
             'direccion_alternativa':'Direccion Alternativa',
         }
@@ -108,23 +108,25 @@ class GrupoModalForm(BSModalModelForm):
             'municipio',
             'identificador',
             'zona',
-            'caserio',
             'canton',
             'sector',
             'aldeas',
+            'caserio',
             'paraje',
+            'direccion_alternativa',
         ]
         labels = {
             'nombre_grupo':'Nombre del grupo',
             'departamento':'Departamento',
             'municipio': 'Municipio',
-            'identificador':'Lugar',
+            'identificador':'Identificador',
             'zona':'Zona',
-            'caserio':'Caserio',
             'canton':'Cantón',
             'sector':'Sector',
-            'aldeas':'Aledeas',
+            'aldeas':'Aldea',
+            'caserio':'Caserio',
             'paraje':'Paraje',
+            'direccion_alternativa':'Direccion Alternativa',
         }
         widgets = {
             'nombre_grupo': forms.TextInput(attrs={'class': 'form-control '}),
@@ -132,12 +134,12 @@ class GrupoModalForm(BSModalModelForm):
             'municipio' :forms.Select(attrs={'class': 'form-control'}),
             'identificador' :forms.Select(attrs={'class': 'form-control'}),
             'zona' :forms.Select(attrs={'class': 'form-control'}),
-            'caserio' :forms.Select(attrs={'class': 'form-control'}),
-            'sector' :forms.Select(attrs={'class': 'form-control'}),
             'canton' :forms.Select(attrs={'class': 'form-control'}),
+            'sector' :forms.Select(attrs={'class': 'form-control'}),
             'aldeas' :forms.Select(attrs={'class': 'form-control'}),
-            'paraje': forms.TextInput(attrs={'class': 'form-control '}),
-
+            'caserio' :forms.Select(attrs={'class': 'form-control'}),
+            'paraje': forms.Select(attrs={'class': 'form-control '}),
+            'direccion_alternativa':forms.TextInput(attrs={'class': 'form-control '}),
         }
 
 class PersonaForm(forms.ModelForm):

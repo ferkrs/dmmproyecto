@@ -2,6 +2,25 @@
 {% block gruposlist  %}
 {% load staticfiles %}
 {% include 'navbar.html' %}
+<style>
+    .modale-content {
+      position: relative;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      width: 100%;
+      pointer-events: auto;
+      background-color: #f2edf3;
+      background-clip: padding-box;
+      border: 1px solid #ebedf2;
+      border-radius: 0.3rem;
+      outline: 0;
+    }
+</style>
 <div class="container-fluid page-body-wrapper">
   {% include 'sidebar.html' %}
 <div class="main-panel">
@@ -55,7 +74,7 @@
     </div>
     <div class="modal fade" id="modalagregar" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm-12" role="document">
-          <div class="modal-content">
+          <div class="modale-content">
             <div class="modal-header">
               <h3 class="modal-title" id="exampleModalLabel">Agregar comunidad</h3>
                 <button type="button" class="close" data-dismiss="modal" ><span aria-hidden="false">&times;</span></button></div>
@@ -64,7 +83,7 @@
                 {% csrf_token %}
                   <div class="row">
                       <div class="col-md-12">
-                        <label for="">Nombre de la comunidad</label>
+                        <label for="">Aldea, Caserio, Canton</label>
                         {{formComunidad.comunidad}}
                       </div>
                   </div>
@@ -117,7 +136,12 @@
     <!--end of Pagination-->
 </div>
 
-
+<!--Modal edicion de comunidad-->
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"></div>
+  </div>
+</div>
 <script type="text/javascript">
   function eliminar_comunidad(id){
       console.log(id)
@@ -134,7 +158,7 @@
       if (result.isConfirmed) {
         window.location.href ="/alfabetizacion/eliminar-comunidad/"+id;
         Swal.fire(
-          'Se ha eliminado el integrante correctamente!',
+          'Se ha eliminado la comunidad correctamente!',
         )
       }
     })

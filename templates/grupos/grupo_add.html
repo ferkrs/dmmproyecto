@@ -2,16 +2,33 @@
 {% block grupoadd  %}
 {% load staticfiles %}
 {% include 'navbar.html' %}
-
+<style>
+    .modale-content {
+      position: relative;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      width: 100%;
+      pointer-events: auto;
+      background-color: #f2edf3;
+      background-clip: padding-box;
+      border: 1px solid #ebedf2;
+      border-radius: 0.3rem;
+      outline: 0;
+    }
+</style>
 <div class="container-fluid page-body-wrapper">
   {% include 'sidebar.html' %}
 <div class="main-panel">
   <div class="content-wrapper">
-
     <!-- Modal / Ventana / Overlay en HTML -->
     <div class="modal fade" id="modalagregar" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-md-12" role="document">
-        <div class="modal-content">
+        <div class="modale-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -95,11 +112,10 @@
           </div>
         </div>
     </div>
-
     <!-- Modal / Ventana / Overlay en HTML -->
     <div class="modal fade" id="modalexistente" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md-12" role="document">
-          <div class="modal-content">
+          <div class="modale-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
@@ -111,14 +127,23 @@
                 <h3 class="modal-title" id="exampleModalLabel">Nuevo Integrante</h3>
                 <h4 class="card-title">Información de Persona</h4>
                   <div class="col-md-12">
-                      <label>Seleccione una persona</label>
-                      {{formExistente.persona}}
+                      <select class="form-control buscar" name="existente" id="existente" style="width: 100%;" required>
+                          <option value="">Seleccione</option>
+                        {% for persona in personas %}
+                          <option value="{{persona.id}}">{{persona.cui}} {{persona.primer_nombre}} {{persona.segundo_apellido}} {{ integrante.primer_apellido }} </option>
+                        {% endfor %}
+                      </select>
                   </div>
                   <br>
                   <h4 class="card-title">Puesto en grupo</h4>
                   <div class="col-md-12">
                       <label>Puesto</label>
-                      {{formExistente.puesto}}
+                      <select class="form-control buscar" name="ppExistente" id="ppExistente" style="width: 100%;" required>
+                          <option value="">Seleccione</option>
+                        {% for puesto in puestos %}
+                          <option value="{{puesto.value}}">{{puesto.nombre}}</option>
+                        {% endfor %}
+                      </select>
                   </div>
                   </div>
                   <div class="modal-footer">
@@ -129,7 +154,6 @@
             </div>
           </div>
       </div>
-
       <div class="row">
         <div class="col-md-12 stretch-card grid-margin">
           <div class="card bg-gradient-info card-img-holder text-white">
@@ -138,7 +162,12 @@
               <h4>Integrantes del grupo:
               </h4>
               <h1>{{ grupo.nombre_grupo }} </h1>
-              <h6 >{{ grupo.get_departamento_display }} -  {{ grupo.get_municipio_display }}, {{ grupo.get_zona_display }} -  {{ grupo.get_caserio_display }}</h6>
+              <h4 >{{ grupo.get_departamento_display }} -  {{ grupo.get_municipio_display }} </h4>
+                {% if grupo.identificador == 1 %}
+                <h6>Area Rural: {{ grupo.get_aldeas_display|default_if_none:'' }}, {{ grupo.get_caserio_display|default_if_none:'' }}, {{ grupo.get_paraje_display|default_if_none:'' }}</h6>
+                {%else%}
+                <h6>Area urbana: {{ grupo.get_zona_display|default_if_none:'' }}, {{ grupo.get_canton_display|default_if_none:'' }}, {{ grupo.get_sector_display|default_if_none:'' }} </h6>
+                {%endif%}
             </div>
           </div>
         </div>
@@ -166,7 +195,7 @@
                     <th>No. </th>
                     <th>CUI</th>
                     <th>Nombre</th>
-                    <th>Correo Electronico</th>
+                    <th>Email</th>
                     <th>Telefono</th>
                     <th>Acciones</th>
                   </tr>
@@ -178,21 +207,21 @@
                     <td>{{ integrante.persona.cui }}</td>
                     <td>{{ integrante.persona.primer_nombre }} {{ integrante.persona.segundo_nombre }} {{ integrante.persona.primer_apellido }} {{ integrante.persona.segundo_apellido }}</td>
                     {% if integrante.persona.correo_electronico == "" %}
-                    <td><label class="badge badge-danger">Sin registros</label></td>
+                    <td><label class="badge badge-primary">Sin datos</label></td>
                     {% else %}
                     <td>{{integrante.persona.correo_electronico}}</td>
                     {% endif %}
                     {% if integrante.persona.telefono == "" %}
-                    <td><label class="badge badge-danger">Sin registros</label></td>
+                    <td><label class="badge badge-primary">Sin datos</label></td>
                     {% else %}
                     <td>{{ integrante.persona.telefono}}</td>
                     {% endif %}
-
                     <td>
-                        <button type="button" id="asignacion-update" class="bs-modal btn btn-sm btn-warning btn-rounded" data-form-url="{% url 'pergrup_update' integrante.id %}">
-                            <span class="fa fa-trash">Editar</span>
-                        </button>
-                          <a type="button" class="btn btn-sm btn-danger btn-rounded " href="#" onclick="eliminar_asignacion({{integrante.id}}, {{grupo.id}})">Eliminar</a>
+                    <a type="button" id="asignacion-update" class="bs-modal btn btn-sm btn-info btn-rounded" data-form-url="{% url 'pergrup_update' integrante.id %}">Puesto</a>
+                      <button type="button" id="persona-update" class="bs-modal btn btn-sm btn-warning btn-rounded" data-form-url="{% url 'personas_update' integrante.persona.id %}">
+                      <span class="fa fa-trash">Editar</span>
+                    </button>
+                        <a type="button" class="btn btn-sm btn-danger btn-rounded " href="#" onclick="eliminar_asignacion({{integrante.id}}, {{grupo.id}})">Eliminar</a>
                     </td>
                   </tr>
                   {% endfor %}
@@ -204,23 +233,22 @@
           </div>
         </div>
     </div>
-
-    <div class="modal fade" tabindex="-1" role="dialog" id="modal">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content"></div>
-      </div>
-    </div>
   </div>
 </div>
 </div>
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content"></div>
+    </div>
+</div>
 <script>
 $(function () {
-          $(".bs-modal").each(function () {
-            $(this).modalForm({
-              formURL: $(this).data('form-url')
-            });
-          });
-        });
+  $(".bs-modal").each(function () {
+    $(this).modalForm({
+      formURL: $(this).data('form-url')
+    });
+  });
+});
 
   function eliminar_asignacion(id, grupo){
     console.log(id)
@@ -244,7 +272,8 @@ $(function () {
   }
 
   $(document).ready(function() {
-    $('.existente').select2();
+    $('#existente').select2();
+    $("#ppExistente").select2();
 });
 </script>
 {% endblock grupoadd %}

@@ -3,7 +3,7 @@
 <form method="post" action="">
     {% csrf_token %}
     <div class="modal-header">
-      <h3 class="modal-title">Actualizar Asignacion</h3>
+      <h3 class="modal-title">Asignar a directiva</h3>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -22,6 +22,6 @@
       {% endfor %}
     </div>
     <div class="modal-footer">
-      <button type="button" class="submit-btn btn btn-primary">Actualizar</button>
+      <button type="button" class="submit-btn btn btn-info btn-rounded">Actualizar</button>
     </div>
   </form>
