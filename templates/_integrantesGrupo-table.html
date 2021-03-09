@@ -1,0 +1,40 @@
+<div class="table-responsive">
+    <table class="table" id="table-integrantes">
+    <thead>
+      <tr>
+        <th>No. </th>
+        <th>CUI</th>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Telefono</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for integrante in integrantes %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ integrante.persona.cui }}</td>
+        <td>{{ integrante.persona.primer_nombre }} {{ integrante.persona.segundo_nombre }} {{ integrante.persona.primer_apellido }} {{ integrante.persona.segundo_apellido }}</td>
+        {% if integrante.persona.correo_electronico == "" %}
+        <td><label class="badge badge-primary">Sin datos</label></td>
+        {% else %}
+        <td>{{integrante.persona.correo_electronico}}</td>
+        {% endif %}
+        {% if integrante.persona.telefono == "" %}
+        <td><label class="badge badge-primary">Sin datos</label></td>
+        {% else %}
+        <td>{{ integrante.persona.telefono}}</td>
+        {% endif %}
+        <td>
+        <a type="button" id="asignacion-update" class="bs-modal btn btn-sm btn-info btn-rounded" data-form-url="{% url 'pergrup_update' integrante.id %}">Puesto</a>
+          <button type="button" id="persona-update" class="update-integrante btn btn-sm btn-warning btn-rounded" data-form-url="{% url 'personas_update' integrante.persona.id %}">
+          <span class="fa fa-trash">Editar</span>
+        </button>
+            <a type="button" class="btn btn-sm btn-danger btn-rounded " href="#" onclick="eliminar_asignacion({{integrante.id}}, {{grupo.id}})">Eliminar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

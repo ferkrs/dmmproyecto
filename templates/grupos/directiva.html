@@ -9,16 +9,27 @@
 
     <!-- Modal / Ventana / Overlay en HTML -->
     <div class="row">
-      <div class="col-md-12 stretch-card grid-margin">
-        <div class="card bg-gradient-info card-img-holder text-white">
-          <div class="card-body">
-            <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image">
-            <h1 class="mb-5">Directiva</h1>
+        <div class="col-md-12 stretch-card grid-margin">
+          <div class="card bg-gradient-info card-img-holder text-white">
+            <div class="card-body">
+              <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image">
+              <h4>Integrantes del grupo:
+              </h4>
+              <input type="hidden" id="grupoID" name="variable" value="{{ grupo.id }}">
+              <h1>{{ grupo.nombre_grupo }} </h1>
+              <h4 >{{ grupo.get_departamento_display }} -  {{ grupo.get_municipio_display }} </h4>
+                {% if grupo.identificador == 1 %}
+                <h6>Area Rural: {{ grupo.get_aldeas_display|default_if_none:'' }} {{ grupo.get_caserio_display|default_if_none:'' }} {{ grupo.get_paraje_display|default_if_none:'' }}</h6>
+                {% elif grupo.identificador == 2 %}
+                <h6>Area urbana: {{ grupo.get_zona_display|default_if_none:'' }}  {{ grupo.get_canton_display|default_if_none:'' }} {{ grupo.get_sector_display|default_if_none:'' }} </h6>
+                {%else%}
+                <td>Llano Grande: {{ grupo.direccion_alternativa }}</td>
+                {%endif%}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="col-lg-12 grid-margin stretch-card">
+
 
     <div class="col-lg-12 grid-margin stretch-card">
       <div class="card">

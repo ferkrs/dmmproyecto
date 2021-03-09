@@ -27,7 +27,7 @@
             {% csrf_token %}
             <div class="row">
               <div class="col-md-5">
-                <label>Eje de trabajo</label>  
+                <label>Eje de trabajo</label>
                 <select class="form-control buscarEje" name="eje" id="buscarEje" style="width: 100%;">
                   <option value="0">Seleccione</option>
                   {% for eje in ejes %}
@@ -36,7 +36,7 @@
                 </select>
               </div>
               <div class="col-md-5">
-                <label>Grupo</label>  
+                <label>Grupo</label>
                 <select class="form-control buscarGrupo" name="grupo" id="buscarGrupo" style="width: 100%;">
                     <option value="0">Seleccione</option>
                   {% for grupo in grupos %}
@@ -48,7 +48,7 @@
               <br>
               <div class="row">
                   <div class="col-md-4" id="campoIdentificador">
-                    <label>Identificador</label>  
+                    <label>Identificador</label>
                     <select class="form-control" name="identificador" id="identificador" style="width: 100%;">
                       <option value="100">Seleccione</option>
                       {% for identificador in identificadores %}
@@ -57,7 +57,7 @@
                     </select>
                   </div>
                   <div class="col-md-4" id="campoAldeas">
-                    <label>Aldeas</label>  
+                    <label>Aldeas</label>
                     <select class="form-control aldea" name="aldea" id="aldea" style="width: 100%;">
                         <option value="0">Seleccione</option>
                       {% for aldea in aldeas %}
@@ -66,7 +66,7 @@
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <label>Responsable</label>  
+                    <label>Responsable</label>
                     <select class="form-control responsable" name="responsable" id="responsable" style="width: 100%;">
                         <option value="0">Seleccione</option>
                       {% for user in users %}
@@ -80,7 +80,7 @@
               <button type="submit" class="btn btn-gradient-success btn-rounded ml-auto btn-sm" onclick="javascript: form.action='/reporte/grupos/admin/excel'">Generar Excel</button>
             </form>
             <br>
-          <div class="table-responsive">
+            <div class="table-responsive">
             <table class="table">
             <thead>
               <tr>
@@ -107,10 +107,10 @@
                 <td>{{ reporte.fecha_inicio }}</td>
                 <td>{{ reporte.fecha_finalizacion }}</td>
                 <td>{{ reporte.user.last_name }}, {{ reporte.user.first_name }}</td>
-                <td>      
+                <td>
                 </td>
               </tr>
-              {% endfor %} 
+              {% endfor %}
             </tbody>
           </table>
           </div>
@@ -157,6 +157,6 @@
       })
   });
   </script>
-    
-        
+
+
 {% endblock gruposlist %}

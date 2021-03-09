@@ -148,6 +148,7 @@
         <div class="card bg-gradient-info card-img-holder text-white">
           <div class="card-body">
             <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image">
+            <input type="hidden" id="servicioID" name="variable" value="{{ servicio.id }}">
             <h4>Inicio: {{ servicio.fecha_inicio }}, Finalización: {{ servicio.fecha_finalizacion }} </h4>
             <h1>{{ servicio.get_modalidad_display }}: {{ servicio.nombre }} </h1>
             <p>Dias: {{ servicio.get_de_display }} a {{ servicio.get_a_display }} | Horario: {{ servicio.hora_inicio}} a {{servicio.hora_final}} </p>
@@ -169,48 +170,11 @@
                 </div>
               </div>
           </span>
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>No. </th>
-                  <th>CUI</th>
-                  <th>Nombre</th>
-                  <th>Correo Electronico</th>
-                  <th>Telefono</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                  {% for integrante in integrantes %}
-                <tr>
-                  <td>{{ forloop.counter }}</td>
-                  <td>{{ integrante.cui }}</td>
-                  <td>{{ integrante.primer_nombre }} {{ integrante.segundo_nombre}} {{ integrante.primer_apellido}} {{ integrante.segundo_apellido}} </td>
-                {% if integrante.correo_electronico == "" %}
-                    <td><label class="badge badge-danger btn-rounded">Sin registro</label></td>
-                {%else%}
-                      <td>{{ integrante.correo_electronico }}</td>
-                {% endif %}
-
-                {% if integrante.telefono == "" %}
-                    <td><label class="badge badge-danger btn-rounded">Sin registro</label></td>
-                {% else %}
-                    <td>{{ integrante.telefono}}</td>
-                {% endif %}
-                  <td>
-                    <button type="button" id="asignacion-update" class="bs-modal btn btn-sm btn-warning btn-rounded" data-form-url="{% url 'personas_update' integrante.id %}">
-                      <span class="fa fa-trash">Editar</span>
-                    </button>
-                    <a type="button" class="btn btn-sm btn-danger btn-rounded" href="#" onclick="eliminar_asignacion({{integrante.id}}, {{servicio.id}})">Eliminar</a>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-            <br>
-            <br>
-          </div>
+          {% if integrantes %}
+            {% include "_integrantes-table.html" %}
+          {% else %}
+            <p class="no-books text-primary">No existen integrantes aún.</p>
+          {% endif %}
           <br>
         <a type="button" class="btn btn-sm btn-info btn-rounded btn-fw" href="{% url 'servicio_list' %}">Regresar</a>
         </div>
@@ -223,6 +187,33 @@
     <div class="modal-content"></div>
   </div>
 </div>
+<script type="text/javascript">
+    $(function () {
+        var asyncSuccessMessage = [
+          "<script>",
+            "alert('You clicked the button!');",
+          "<\/script>"
+        ].join();
+        function updatePersonaModalForm() {
+            var servicioID = parseInt(document.getElementById("servicioID").value)
+            $(".update-integrante").each(function () {
+                $(this).modalForm({
+                    formURL: $(this).data("form-url"),
+                    asyncUpdate: true,
+                    asyncSettings: {
+                        closeOnSubmit: true,
+                        successMessage: asyncSuccessMessage,
+                        dataUrl: `/servicios/integrantes/${servicioID}/async`,
+                        dataElementId: "#table-integrantes",
+                        dataKey: "table",
+                        addModalFormFunction: updatePersonaModalForm,
+                    }
+                });
+            });
+        }
+        updatePersonaModalForm();
+    });
+</script>
 <script>
     $(function () {
         // Update, Read and Delete book buttons open modal with id="modal" (default)

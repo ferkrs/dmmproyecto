@@ -32,7 +32,8 @@
         <div class="card bg-gradient-info card-img-holder text-white">
           <div class="card-body">
             <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image">
-            <h4>FASE: {{ fase.get_fase_display }}</h4>
+            <h4> FASE: {{ fase.get_fase_display }}</h4>
+            <input type="hidden" id="faseID" name="variable" value="{{ fase.id }}">
             <h1>Comunidad: {{ fase.comunidad }} </h1>
             <p>Alfabetizadora: {{ fase.nombre_alfabetizadora }} -  Ciclo: {{ fase.ciclo }}</p>
           </div>
@@ -162,7 +163,6 @@
     <div class="col-lg-12  col-sm-12 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
-
             <div class="col-12">
               <span class="d-flex align-items-center purchase-popup">
                   <h4 class="card-title">Agregar Integrantes</h4>
@@ -176,47 +176,11 @@
                   </div>
               </span>
             </div>
-          <div class="table-responsive">
-            <table class="table" id="table-integrantes">
-              <thead>
-                <tr>
-                  <th>No.</th>
-                  <th>CUI</th>
-                  <th>Nombre</th>
-                  <th>Correo Electrónico</th>
-                  <th>Teléfono</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                  {% for integrante in integrantes %}
-                <tr>
-                  <td>{{ forloop.counter }}</td>
-                  <td>{{ integrante.cui }}</td>
-                  <td>{{ integrante.primer_nombre }} {{ integrante.segundo_nombre }} {{ integrante.primer_apellido }}  </td>
-                {% if integrante.correo_electronico == "" %}
-                    <td><label class="badge badge-danger btn-rounded">Sin registro</label></td>
-                {%else%}
-                      <td>{{ integrante.correo_electronico }}</td>
-                {% endif %}
-
-                {% if integrante.telefono == "" %}
-                    <td><label class="badge badge-danger btn-rounded">Sin registro</label></td>
-                {% else %}
-                    <td>{{ integrante.telefono}}</td>
-                {% endif %}
-
-                  <td>
-                    <button type="button" id="asignacion-update" class="update-integrante btn btn-sm btn-warning btn-rounded " data-form-url="{% url 'personas_update' integrante.id %}">
-                      <span class="fa fa-trash">Editar</span>
-                    </button>
-                    <a type="button" class="btn btn-sm btn-danger btn-rounded" href="#" onclick="eliminar_asignacion({{integrante.id}}, {{fase.id}})">Eliminar</a>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-            </div>
+            {% if integrantes %}
+                {% include "_integrantes-table.html" %}
+            {% else %}
+              <p class="no-books text-primary">No existen integrantes aún.</p>
+            {% endif %}
             <br>
             <a type="button" class="btn btn-sm btn-info btn-rounded btn-fw" href="{% url 'alfabetizacion_fases' fase.comunidad.id %}">Regresar</a>
           </div>
@@ -245,20 +209,13 @@
 <script type="text/javascript">
     $(function () {
         var asyncSuccessMessage = [
-          "<div ",
-          "style='position:fixed;top:0;z-index:10000;width:100%;border-radius:0;' ",
-          "class='alert alert-icon alert-success alert-dismissible fade show mb-0' role='alert'>",
-          "Información actualizada correctamente.",
-          "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>",
-          "<span aria-hidden='true'>&times;</span>",
-          "</button>",
-          "</div>",
           "<script>",
-          "$('.alert').fadeTo(2000, 500).slideUp(500, function () {$('.alert').slideUp(500).remove();});",
+            "alert('You clicked the button!');",
           "<\/script>"
         ].join();
 
         function updatePersonaModalForm() {
+            var faseID = parseInt(document.getElementById("faseID").value)
             $(".update-integrante").each(function () {
                 $(this).modalForm({
                     formURL: $(this).data("form-url"),
@@ -266,7 +223,7 @@
                     asyncSettings: {
                         closeOnSubmit: true,
                         successMessage: asyncSuccessMessage,
-                        dataUrl: `/alfabetizacion/fases/${34}/integrantes/async`,
+                        dataUrl: `/alfabetizacion/fases/${faseID}/integrantes/async`,
                         dataElementId: "#table-integrantes",
                         dataKey: "table",
                         addModalFormFunction: updatePersonaModalForm,

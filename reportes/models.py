@@ -21,6 +21,8 @@ class ReporteGrupos(models.Model):
     fecha_inicio = models.DateField(blank= True, null=True)
     fecha_finalizacion = models.DateField(blank= True, null=True)
     user = models.ForeignKey(Usuario, on_delete= models.CASCADE,related_name='usuario_grupo', null=False, blank=False)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now= True)
 
 class ReporteServicios(models.Model):
     eje_trabajo = models.ForeignKey(Eje, on_delete= models.CASCADE,related_name='eje_servicios', null=False, blank=False)
@@ -32,3 +34,5 @@ class ReporteServicios(models.Model):
     beneficiados = models.IntegerField()
     resultado= models.CharField(max_length=150,blank= False)
     user = models.ForeignKey(Usuario, on_delete= models.CASCADE,related_name='usuario_servicio', null=False, blank=False)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now= True)

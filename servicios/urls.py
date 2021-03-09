@@ -7,6 +7,7 @@ urlpatterns = [
     path('servicios/list', servicio_list, name='servicio_list'),
     path('servicios/update/<int:pk>', ServicioUpdateView.as_view(), name='servicio_update'),
     path('servicios/integrantes/<int:id>', views.servicio_integrantes, name="servicio_integrantes"),
+    path('servicios/integrantes/<int:id>/async', integrantes_servicio_async, name="servicio_integrantes_async"),
     path('servicios/existentes/<int:id>', servicio_existente, name="servicio_existentes"),
     path('servicios/integrantes/<int:id>/<int:servicio>/delete', views.eliminar_integrante, name="servicio_integrantes_eliminar"),
     path('servicios-delete/<int:id>', views.ServicioDelete, name='servicio_delete'),

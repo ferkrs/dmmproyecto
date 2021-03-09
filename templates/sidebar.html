@@ -41,7 +41,7 @@
           <i class="mdi mdi-library-books menu-icon"style="color: #6c757d;"></i>
         </a>
       </li>
-      <li class="nav-item">
+    <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#reportes" aria-expanded="false" aria-controls="general-pages">
           <span>Reportes</span>
           <i class="menu-arrow"></i>
@@ -54,10 +54,28 @@
             {% if user.rol == 0 %}
              <li class="nav-item"> <a class="nav-link" style="color: #6c757d;" href="{% url 'reporte_grupos_admin' %}">Ver reportes de grupos</a></li>
              <li class="nav-item"> <a class="nav-link" style="color: #6c757d;" href="{% url 'reporte_servicios_admin' %}">Ver reportes de servicios</a></li>
+
             {% endif %}
           </ul>
         </div>
-      </li>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#estadisticas" aria-expanded="false" aria-controls="general-pages">
+          <span>Estadisticas</span>
+          <i class="menu-arrow"></i>
+          <i class="mdimdi-stack-overflow menu-icon"></i>
+        </a>
+        <div class="collapse" id="estadisticas">
+          <ul class="nav flex-column sub-menu">
+
+             <li class="nav-item"> <a class="nav-link" style="color: #6c757d;"  href="{% url 'estadistica_inversion' %}">Estadistica por inversión</a></li>
+             <li class="nav-item"> <a class="nav-link" style="color: #6c757d;" href="{% url 'estadistica_beneficiarios' %}">Estadisticas beneficiarios</a></li>
+             <li class="nav-item"> <a class="nav-link" style="color: #6c757d;" href="{% url 'estadistica_grupos' %}" >Estadisticas por grupos</a></li>
+
+          </ul>
+        </div>
+    </li>
     </ul>
   </nav>
 

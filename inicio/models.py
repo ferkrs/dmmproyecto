@@ -168,6 +168,7 @@ class Grupo(models.Model):
     # Grupo
     direccion_alternativa =models.CharField(max_length=50,blank=True,null=True)
     nombre_grupo = models.CharField(max_length=50)
+    created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         txt="{0}"

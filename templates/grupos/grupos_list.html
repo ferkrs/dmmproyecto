@@ -70,9 +70,11 @@
                 <!-- Agrar funcionalidad-->
 
                 {% if grupo.identificador == 1 %}
-                <td>Area Rural: {{ grupo.get_aldeas_display|default_if_none:'' }}, {{ grupo.get_caserio_display|default_if_none:'' }}, {{ grupo.get_paraje_display|default_if_none:'' }}</td>
-                {%else%}
-                <td>Area urbana: {{ grupo.get_zona_display|default_if_none:'' }},  {{ grupo.get_canton_display|default_if_none:'' }}, {{ grupo.get_sector_display|default_if_none:'' }} </td>
+                <td>Area Rural: {{ grupo.get_aldeas_display|default_if_none:'' }} {{ grupo.get_caserio_display|default_if_none:'' }} {{ grupo.get_paraje_display|default_if_none:'' }}</td>
+                {% elif grupo.identificador  == 2 %}
+                <td>Area urbana: {{ grupo.get_zona_display|default_if_none:'' }}  {{ grupo.get_canton_display|default_if_none:'' }} {{ grupo.get_sector_display|default_if_none:'' }} </td>
+                {% else %}
+                <td>Llano Grande: {{ grupo.direccion_alternativa }}</td>
                 {%endif%}
 
                 {% if grupo.num_integrantes == 0 %}
@@ -165,13 +167,12 @@
               <label>Municipio</label>
               {{formularioGrupo.municipio}}
             </div>
+            <br>
             <div class="col-md-12">
               <label>Identificador</label>
               {{formularioGrupo.identificador}}
             </div>
           </div>
-            <!-- Dejamos el espacio para la funcion en js-->
-          <!-- Area urbana-->
           <br>
           <div class="row" id="area_urbana">
             <div class="col-md-12">
@@ -205,8 +206,7 @@
               {{formularioGrupo.paraje}}
             </div>
           </div>
-          <br>
-          <div class="row">
+          <div class="row" id="llanogrande">
             <div class="col-md-12">
               <label>Dirreccion Alternativa </label>
               {{formularioGrupo.direccion_alternativa}}
@@ -255,15 +255,24 @@
 
     $('#area_urbana').hide();
     $('#area_rural').hide();
+    $('#llanogrande').hide();
     function myFunction (value) {
     if(value == 2) {
         $('#area_urbana').show(500);
         $('#area_rural').hide();
+        $('#llanogrande').hide();
     }else if(value == 1) {
-    $('#area_rural').show(500);
-    $('#area_urbana').hide();
+        $('#area_rural').show(500);
+        $('#area_urbana').hide();
+        $('#llanogrande').hide();
     }
     else if(value == 0) {
+    $('#area_rural').hide();
+    $('#area_urbana').hide();
+    $('#llanogrande').hide();
+    }
+    else if(value == 3) {
+    $('#llanogrande').show(500);
     $('#area_rural').hide();
     $('#area_urbana').hide();
     }

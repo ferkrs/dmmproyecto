@@ -1,0 +1,42 @@
+<div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>No. </th>
+                  <th>CUI</th>
+                  <th>Nombre</th>
+                  <th>Correo Electronico</th>
+                  <th>Telefono</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                  {% for integrante in integrantes %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ integrante.cui }}</td>
+                  <td>{{ integrante.primer_nombre }} {{ integrante.segundo_nombre}} {{ integrante.primer_apellido}} {{ integrante.segundo_apellido}} </td>
+                {% if integrante.correo_electronico == "" %}
+                    <td><label class="badge badge-danger btn-rounded">Sin registro</label></td>
+                {%else%}
+                      <td>{{ integrante.correo_electronico }}</td>
+                {% endif %}
+
+                {% if integrante.telefono == "" %}
+                    <td><label class="badge badge-danger btn-rounded">Sin registro</label></td>
+                {% else %}
+                    <td>{{ integrante.telefono}}</td>
+                {% endif %}
+                  <td>
+                    <button type="button" id="asignacion-update" class="bs-modal btn btn-sm btn-warning btn-rounded" data-form-url="{% url 'personas_update' integrante.id %}">
+                      <span class="fa fa-trash">Editar</span>
+                    </button>
+                    <a type="button" class="btn btn-sm btn-danger btn-rounded" href="#" onclick="eliminar_asignacion({{integrante.id}}, {{servicio.id}})">Eliminar</a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <br>
+            <br>
+          </div>

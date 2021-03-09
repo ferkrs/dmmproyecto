@@ -4,10 +4,12 @@ from django.views import generic
 from django.views.generic import ListView, TemplateView
 from django.http import HttpResponse
 from django.urls import reverse_lazy
-from .models import *  
+from .models import *
+from inicio.models import Grupo
 from .forms import *
 from django.contrib import messages
-from django.db.models import Q
+from django.db.models import Q, Sum, Count
+from django.http import JsonResponse
 # Bootstrap Modals
 from bootstrap_modal_forms.generic import (
     BSModalDeleteView,
@@ -34,10 +36,10 @@ def reporte_grupo(request):
                 reporte.user = request.user
                 reporte.save()
                 messages.success(request,"Se ha creado el reporte de grupos correctamente")
-                return redirect('reporte_grupo') 
-            except:  
+                return redirect('reporte_grupo')
+            except:
                 pass
-                return redirect('reporte_grupo') 
+                return redirect('reporte_grupo')
     else:
         reporteg = ReporteGruposForm()
         # Obtener reportes del usuario
@@ -58,7 +60,7 @@ def reporte_grupo_delete(request, id):
         reporte = ReporteGrupos.objects.get(id=id)
         reporte.delete()
         return redirect('/reportegrupos/crear')
-    except: 
+    except:
         pass
         return redirect('/reportegrupos/crear')
 
@@ -73,10 +75,10 @@ def reporte_servicio(request):
                 reporte.user = request.user
                 reporte.save()
                 messages.success(request,"Se ha creado el reporte de servicios correctamente")
-                return redirect('reporte_servicio') 
-            except:  
+                return redirect('reporte_servicio')
+            except:
                 pass
-                return redirect('reporte_servicio') 
+                return redirect('reporte_servicio')
     else:
         reportes = ReporteserviciosForm()
     return render(request,'reportes/servicios/create_reporte_servicios.html', {'reportes': reportes, 'mis_reportes': mis_reportes})
@@ -88,7 +90,7 @@ def reporte_servicio_delete(request, id):
         reporte = ReporteServicios.objects.get(id=id)
         reporte.delete()
         return redirect('/reporteservicios/crear')
-    except: 
+    except:
         pass
         return redirect('/reporteservicios/crear')
 
@@ -110,7 +112,7 @@ def reporte_grupos_admin(request):
         {'id': 1, 'tipo': 'AREA URBANA'},
         {'id': 2, 'tipo': 'LLANO GRANDE'}
     ]
-    aldeas = [ 
+    aldeas = [
         {"id": 1, "nombre": "CANTEL"}, {"id": 2, "nombre": "CORRAL GRANDE"},
         {"id": 3, "nombre": "CHAMPOLLAP"},{"id": 4, "nombre": "CHIM"},
         {"id": 5, "nombre": "EL CEDRO"},{"id": 6, "nombre": "EL TABLERO"},
@@ -155,12 +157,26 @@ def reporte_grupos_admin_excel(request):
     ejes = Eje.objects.all()
     grupos = Grupo.objects.all()
     users = Usuario.objects.all()
+    years = [
+        {'id': 2020, "texto": "2020"},
+        {'id': 2021, "texto": "2021"},
+        {'id': 2022, 'texto': "2022"},
+        {'id': 2023, 'texto': "2023"},
+        {'id': 2024, 'texto': "2024"},
+        {'id': 2025, 'texto': "2025"},
+        {'id': 2026, 'texto': "2026"},
+        {'id': 2027, 'texto': "2027"},
+        {'id': 2028, 'texto': "2028"},
+        {'id': 2029, 'texto': "2029"},
+        {'id': 2030, 'texto': "2030"},
+        {'id': 2031, 'texto': "2031"},
+    ]
     identificadores = [
         {'id': 0, 'tipo': 'AREA RURAL'},
         {'id': 1, 'tipo': 'AREA URBANA'},
         {'id': 2, 'tipo': 'LLANO GRANDE'}
     ]
-    aldeas = [ 
+    aldeas = [
         {"id": 1, "nombre": "CANTEL"}, {"id": 2, "nombre": "CORRAL GRANDE"},
         {"id": 3, "nombre": "CHAMPOLLAP"},{"id": 4, "nombre": "CHIM"},
         {"id": 5, "nombre": "EL CEDRO"},{"id": 6, "nombre": "EL TABLERO"},
@@ -231,7 +247,7 @@ def reporte_grupos_admin_excel(request):
         sheet = excel.pe.Sheet(export)
         return excel.make_response(sheet, "xlsx", file_name="reporteGrupos-"+strToday+".xlsx")
     else:
-        return render(request,'reportes/grupos/admin.html', {'users': users, 'ejes': ejes, 'grupos': grupos, 'identificadores': identificadores, 'aldeas': aldeas})
+        return render(request,'reportes/grupos/admin.html', {'users': users, 'ejes': ejes, 'grupos': grupos, 'identificadores': identificadores, 'aldeas': aldeas, 'years':years})
 
 
 @user_passes_test(administrador_check)
@@ -239,12 +255,12 @@ def reporte_servicios_admin(request):
     ejes = Eje.objects.all()
     users = Usuario.objects.all()
     tipos_servicio = [
-        {"id": 0, "nombre": "CURSO"}, 
-        {"id": 1, "nombre": "TALLER"}, 
+        {"id": 0, "nombre": "CURSO"},
+        {"id": 1, "nombre": "TALLER"},
         {"id": 2, "nombre": "SEMINARIO"},
-        {"id": 3, "nombre": "DIPLOMADO"}, 
+        {"id": 3, "nombre": "DIPLOMADO"},
         {"id": 4, "nombre": "CAPACITACION"},
-        {"id": 5, "nombre": "CONVERSATORIO"},  
+        {"id": 5, "nombre": "CONVERSATORIO"},
     ]
     queryReportes = Q()
     if request.method == "POST":
@@ -264,7 +280,7 @@ def reporte_servicios_admin(request):
                 queryReportes = queryReportes & Q(user__id=responsable)
             reportes = ReporteServicios.objects.filter(queryReportes)
         return render(request,'reportes/servicios/admin.html', {'users': users, 'ejes': ejes, 'reportes': reportes, 'tipos_servicios': tipos_servicio})
-        
+
     else:
         return render(request,'reportes/servicios/admin.html', {'users': users, 'ejes': ejes, 'tipos_servicios': tipos_servicio})
 
@@ -274,12 +290,12 @@ def reporte_servicios_admin_excel(request):
     ejes = Eje.objects.all()
     users = Usuario.objects.all()
     tipos_servicio = [
-        {"id": 0, "nombre": "CURSO"}, 
-        {"id": 1, "nombre": "TALLER"}, 
+        {"id": 0, "nombre": "CURSO"},
+        {"id": 1, "nombre": "TALLER"},
         {"id": 2, "nombre": "SEMINARIO"},
-        {"id": 3, "nombre": "DIPLOMADO"}, 
+        {"id": 3, "nombre": "DIPLOMADO"},
         {"id": 4, "nombre": "CAPACITACION"},
-        {"id": 5, "nombre": "CONVERSATORIO"},  
+        {"id": 5, "nombre": "CONVERSATORIO"},
     ]
     queryReportes = Q()
     if request.method == "POST":
@@ -330,6 +346,267 @@ def reporte_servicios_admin_excel(request):
         sheet = excel.pe.Sheet(export)
         return excel.make_response(sheet, "xlsx", file_name="reporteServicios-"+strToday+".xlsx")
         return render(request,'reportes/servicios/admin.html', {'users': users, 'ejes': ejes, 'reportes': reportes, 'tipos_servicios': tipos_servicio})
-        
+
     else:
         return render(request,'reportes/servicios/admin.html', {'users': users, 'ejes': ejes, 'tipos_servicios': tipos_servicio})
+#REPORTES VIEW
+#REPORTES VIEW
+#ESTADISTICA POR INVERSION
+#ESTADISTICA POR BENEFICIARIOS
+def get_data_inversion(request):
+    labels = []
+    data = []
+    # Obtener campos para la consulta
+    year = request.POST.get('year', False)
+    identificador = request.POST.get('identificador', False)
+    aldea = request.POST.get('aldea', False)
+    canton = request.POST.get('canton', False)
+    direccion = request.POST.get('direccion', False)
+    if year != 0 and identificador != -1 and aldea != -1:
+        # Si selecciono area rural
+        if identificador == "0":
+            # Busca aldeas
+            queryset = ReporteGrupos.objects.filter(grupo_id__aldeas=aldea, created_on__year=year).values('eje_trabajo__eje_trabajo').annotate(presupuesto=Sum('presupuesto'))
+        elif identificador == "1":
+            # Busca cantones
+            queryset = ReporteGrupos.objects.filter(grupo_id__canton=canton, created_on__year=year).values('eje_trabajo__eje_trabajo').annotate(presupuesto=Sum('presupuesto'))
+        elif identificador == "2":
+            # Busca general llano grande
+            queryset = ReporteGrupos.objects.filter(grupo_id__direccion_alternativa=direccion, created_on__year=year).values('eje_trabajo__eje_trabajo').annotate(presupuesto=Sum('presupuesto'))
+    for entry in queryset:
+        labels.append(entry['eje_trabajo__eje_trabajo'])
+        data.append(entry['presupuesto'])
+
+    return JsonResponse(data={
+        'labels': labels,
+        'data': data,
+    })
+
+def estadistica_inversion(request):
+    direcciones = Grupo.objects.all().values('direccion_alternativa').exclude(direccion_alternativa=None).distinct()
+    ejes = Eje.objects.all()
+    grupos = Grupo.objects.all()
+    users = Usuario.objects.all()
+    years = [
+        {'id': 2021, "texto": "2021"},
+        {'id': 2022, "texto": "2022"},
+        {'id': 2023, "texto": "2023"},
+        {'id': 2024, "texto": "2024"},
+        {'id': 2025, "texto": "2025"},
+        {'id': 2026, "texto": "2026"},
+        {'id': 2027, "texto": "2027"},
+        {'id': 2028, "texto": "2028"},
+        {'id': 2029, "texto": "2029"},
+        {'id': 2030, "texto": "2030"},
+        {'id': 2031, "texto": "2031"},
+    ]
+    identificadores = [
+        {'id': 0, 'tipo': 'AREA RURAL'},
+        {'id': 1, 'tipo': 'AREA URBANA'},
+        {'id': 2, 'tipo': 'LLANO GRANDE'}
+    ]
+    aldeas = [
+        {"id": 1, "nombre": "CANTEL"}, {"id": 2, "nombre": "CORRAL GRANDE"},
+        {"id": 3, "nombre": "CHAMPOLLAP"},{"id": 4, "nombre": "CHIM"},
+        {"id": 5, "nombre": "EL CEDRO"},{"id": 6, "nombre": "EL TABLERO"},
+        {"id": 7, "nombre": "LA GRANDEZA"},{"id": 8, "nombre": "MÁVIL"},
+        {"id": 9, "nombre": "PIEDRA GRANDE"},{"id": 10, "nombre": "PROVINCIA CHIQUITA"},
+        {"id": 11, "nombre": "SACUCHÚM"},{"id": 12, "nombre": "SAN ANDRÉS CHÁPIL"},
+        {"id": 13, "nombre": "SAN ISIDRO CHAMAC"},{"id": 14, "nombre": "SAN JOSÉ CÁBEN"},
+        {"id": 15, "nombre": "SAN PEDRO PETZ"},{"id": 16, "nombre": "SANTA TERESA"},
+        {"id": 17, "nombre": "SAN FRANCISCO SOCHE"},
+    ]
+    cantones = [
+        {"id": 1, "nombre": "LA PARROQUIA"}, {"id": 2, "nombre": "SANTA MARIA DE ATOCHA"},
+        {"id": 3, "nombre": "SAN MIGUEL"},{"id": 4, "nombre": "SAN JUAN DE DIOS"},
+        {"id": 5, "nombre": "SAN JUAN DEL POZO"},{"id": 6, "nombre": "SAN AGUSTÍN TONALÁ"},
+        {"id": 7, "nombre": "EL MOSQUITO"},{"id": 8, "nombre": "SAN SEBASTIÁN"},
+    ]
+    # Eje seleccionado
+    reportes = []
+    return render(request,'reportes/charts/estadistica_inversion.html', {'users': users, 'ejes': ejes, 'grupos': grupos, 'identificadores': identificadores, 'aldeas': aldeas, 'years': years, 'cantones':cantones, 'direcciones': direcciones})
+
+#ESTADISTICA POR BENEFICIARIOS
+def get_data_beneficiarios(request):
+    labels = []
+    data = []
+    # Obtener campos para la consulta
+    year = request.POST.get('year', False)
+    identificador = request.POST.get('identificador', False)
+    aldea = request.POST.get('aldea', False)
+    canton = request.POST.get('canton', False)
+    direccion = request.POST.get('direccion', False)
+    if year != 0 and identificador != -1 and aldea != -1:
+        # Si selecciono area rural
+        if identificador == "0":
+            # Busca aldeas
+            queryset = ReporteGrupos.objects.filter(grupo_id__aldeas=aldea, created_on__year=year).values('eje_trabajo__eje_trabajo').annotate(beneficiados=Sum('beneficiados'))
+        elif identificador == "1":
+            # Busca cantones
+            queryset = ReporteGrupos.objects.filter(grupo_id__canton=canton, created_on__year=year).values('eje_trabajo__eje_trabajo').annotate(beneficiados=Sum('beneficiados'))
+        elif identificador == "2":
+            # Busca general llano grande
+            queryset = ReporteGrupos.objects.filter(grupo_id__direccion_alternativa=direccion, created_on__year=year).values('eje_trabajo__eje_trabajo').annotate(beneficiados=Sum('beneficiados'))
+    for entry in queryset:
+        labels.append(entry['eje_trabajo__eje_trabajo'])
+        data.append(entry['beneficiados'])
+
+    return JsonResponse(data={
+        'labels': labels,
+        'data': data,
+    })
+
+def estadistica_beneficiarios(request):
+    direcciones = Grupo.objects.all().values('direccion_alternativa').exclude(direccion_alternativa=None).distinct()
+    ejes = Eje.objects.all()
+    grupos = Grupo.objects.all()
+    users = Usuario.objects.all()
+    years = [
+        {'id': 2021, "texto": "2021"},
+        {'id': 2022, "texto": "2022"},
+        {'id': 2023, "texto": "2023"},
+        {'id': 2024, "texto": "2024"},
+        {'id': 2025, "texto": "2025"},
+        {'id': 2026, "texto": "2026"},
+        {'id': 2027, "texto": "2027"},
+        {'id': 2028, "texto": "2028"},
+        {'id': 2029, "texto": "2029"},
+        {'id': 2030, "texto": "2030"},
+        {'id': 2031, "texto": "2031"},
+    ]
+    identificadores = [
+        {'id': 0, 'tipo': 'AREA RURAL'},
+        {'id': 1, 'tipo': 'AREA URBANA'},
+        {'id': 2, 'tipo': 'LLANO GRANDE'}
+    ]
+    aldeas = [
+        {"id": 1, "nombre": "CANTEL"}, {"id": 2, "nombre": "CORRAL GRANDE"},
+        {"id": 3, "nombre": "CHAMPOLLAP"},{"id": 4, "nombre": "CHIM"},
+        {"id": 5, "nombre": "EL CEDRO"},{"id": 6, "nombre": "EL TABLERO"},
+        {"id": 7, "nombre": "LA GRANDEZA"},{"id": 8, "nombre": "MÁVIL"},
+        {"id": 9, "nombre": "PIEDRA GRANDE"},{"id": 10, "nombre": "PROVINCIA CHIQUITA"},
+        {"id": 11, "nombre": "SACUCHÚM"},{"id": 12, "nombre": "SAN ANDRÉS CHÁPIL"},
+        {"id": 13, "nombre": "SAN ISIDRO CHAMAC"},{"id": 14, "nombre": "SAN JOSÉ CÁBEN"},
+        {"id": 15, "nombre": "SAN PEDRO PETZ"},{"id": 16, "nombre": "SANTA TERESA"},
+        {"id": 17, "nombre": "SAN FRANCISCO SOCHE"},
+    ]
+    cantones = [
+        {"id": 1, "nombre": "LA PARROQUIA"}, {"id": 2, "nombre": "SANTA MARIA DE ATOCHA"},
+        {"id": 3, "nombre": "SAN MIGUEL"},{"id": 4, "nombre": "SAN JUAN DE DIOS"},
+        {"id": 5, "nombre": "SAN JUAN DEL POZO"},{"id": 6, "nombre": "SAN AGUSTÍN TONALÁ"},
+        {"id": 7, "nombre": "EL MOSQUITO"},{"id": 8, "nombre": "SAN SEBASTIÁN"},
+    ]
+    # Eje seleccionado
+    reportes = []
+    return render(request,'reportes/charts/estadistica_beneficiario.html', {'users': users, 'ejes': ejes, 'grupos': grupos, 'identificadores': identificadores, 'aldeas': aldeas, 'years': years, 'cantones':cantones, 'direcciones': direcciones})
+
+#ESTADISTICA POR GRUPOS
+def get_data_grupos(request):
+    years = [
+        {'id': 2021, "texto": "2021"},
+        {'id': 2022, "texto": "2022"},
+        {'id': 2023, "texto": "2023"},
+        {'id': 2024, "texto": "2024"},
+        {'id': 2025, "texto": "2025"},
+        {'id': 2026, "texto": "2026"},
+        {'id': 2027, "texto": "2027"},
+        {'id': 2028, "texto": "2028"},
+        {'id': 2029, "texto": "2029"},
+        {'id': 2030, "texto": "2030"},
+        {'id': 2031, "texto": "2031"},
+    ]
+    aldeas = [
+        {"id": 1, "nombre": "CANTEL"}, {"id": 2, "nombre": "CORRAL GRANDE"},
+        {"id": 3, "nombre": "CHAMPOLLAP"},{"id": 4, "nombre": "CHIM"},
+        {"id": 5, "nombre": "EL CEDRO"},{"id": 6, "nombre": "EL TABLERO"},
+        {"id": 7, "nombre": "LA GRANDEZA"},{"id": 8, "nombre": "MÁVIL"},
+        {"id": 9, "nombre": "PIEDRA GRANDE"},{"id": 10, "nombre": "PROVINCIA CHIQUITA"},
+        {"id": 11, "nombre": "SACUCHÚM"},{"id": 12, "nombre": "SAN ANDRÉS CHÁPIL"},
+        {"id": 13, "nombre": "SAN ISIDRO CHAMAC"},{"id": 14, "nombre": "SAN JOSÉ CÁBEN"},
+        {"id": 15, "nombre": "SAN PEDRO PETZ"},{"id": 16, "nombre": "SANTA TERESA"},
+        {"id": 17, "nombre": "SAN FRANCISCO SOCHE"},
+    ]
+    cantones = [
+        {"id": 1, "nombre": "LA PARROQUIA"}, {"id": 2, "nombre": "SANTA MARIA DE ATOCHA"},
+        {"id": 3, "nombre": "SAN MIGUEL"},{"id": 4, "nombre": "SAN JUAN DE DIOS"},
+        {"id": 5, "nombre": "SAN JUAN DEL POZO"},{"id": 6, "nombre": "SAN AGUSTÍN TONALÁ"},
+        {"id": 7, "nombre": "EL MOSQUITO"},{"id": 8, "nombre": "SAN SEBASTIÁN"},
+    ]
+    labels = []
+    data = []
+    # Obtener campos para la consulta
+    year = request.POST.get('year', False)
+    identificadorArea = request.POST.get('identificador', False)
+    if year != 0 and identificadorArea != "-1":
+        # Si selecciono area rural
+        if identificadorArea == "0":
+            # Busca aldeas
+            queryset = Grupo.objects.filter(identificador=1, created_on__year=year).values('aldeas').annotate(total=Count(id))
+            for entry in queryset:
+                indx = int(entry['aldeas']) - 1
+                labels.append(aldeas[indx]['nombre'])
+                data.append(entry['total'])
+        elif identificadorArea == "1":
+            # Busca cantones
+            queryset = Grupo.objects.filter(identificador=2, created_on__year=year).values('canton').annotate(total=Count(id))
+            for entry in queryset:
+                indx = int(entry['canton']) - 1
+                labels.append(cantones[indx]['nombre'])
+                data.append(entry['total'])
+        elif identificadorArea == "2":
+            # Busca general llano grande
+            queryset = Grupo.objects.filter(identificador=3, created_on__year=year).values('direccion_alternativa').annotate(total=Count(id))
+            for entry in queryset:
+                labels.append(entry['direccion_alternativa'])
+                data.append(entry['total'])
+
+    return JsonResponse(data={
+        'labels': labels,
+        'data': data,
+    })
+
+def estadistica_grupos(request):
+    grupos = Grupo.objects.all()
+    users = Usuario.objects.all()
+    years = [
+        {'id': 2021, "texto": "2021"},
+        {'id': 2022, "texto": "2022"},
+        {'id': 2023, "texto": "2023"},
+        {'id': 2024, "texto": "2024"},
+        {'id': 2025, "texto": "2025"},
+        {'id': 2026, "texto": "2026"},
+        {'id': 2027, "texto": "2027"},
+        {'id': 2028, "texto": "2028"},
+        {'id': 2029, "texto": "2029"},
+        {'id': 2030, "texto": "2030"},
+        {'id': 2031, "texto": "2031"},
+    ]
+    identificadores = [
+        {'id': 0, 'tipo': 'AREA RURAL'},
+        {'id': 1, 'tipo': 'AREA URBANA'},
+        {'id': 2, 'tipo': 'LLANO GRANDE'}
+    ]
+    aldeas = [
+        {"id": 1, "nombre": "CANTEL"}, {"id": 2, "nombre": "CORRAL GRANDE"},
+        {"id": 3, "nombre": "CHAMPOLLAP"},{"id": 4, "nombre": "CHIM"},
+        {"id": 5, "nombre": "EL CEDRO"},{"id": 6, "nombre": "EL TABLERO"},
+        {"id": 7, "nombre": "LA GRANDEZA"},{"id": 8, "nombre": "MÁVIL"},
+        {"id": 9, "nombre": "PIEDRA GRANDE"},{"id": 10, "nombre": "PROVINCIA CHIQUITA"},
+        {"id": 11, "nombre": "SACUCHÚM"},{"id": 12, "nombre": "SAN ANDRÉS CHÁPIL"},
+        {"id": 13, "nombre": "SAN ISIDRO CHAMAC"},{"id": 14, "nombre": "SAN JOSÉ CÁBEN"},
+        {"id": 15, "nombre": "SAN PEDRO PETZ"},{"id": 16, "nombre": "SANTA TERESA"},
+        {"id": 17, "nombre": "SAN FRANCISCO SOCHE"},
+    ]
+    cantones = [
+        {"id": 1, "nombre": "LA PARROQUIA"}, {"id": 2, "nombre": "SANTA MARIA DE ATOCHA"},
+        {"id": 3, "nombre": "SAN MIGUEL"},{"id": 4, "nombre": "SAN JUAN DE DIOS"},
+        {"id": 5, "nombre": "SAN JUAN DEL POZO"},{"id": 6, "nombre": "SAN AGUSTÍN TONALÁ"},
+        {"id": 7, "nombre": "EL MOSQUITO"},{"id": 8, "nombre": "SAN SEBASTIÁN"},
+    ]
+    # Eje seleccionado
+    reportes = []
+    return render(request,'reportes/charts/estadistica_grupos.html', {'users': users, 'grupos': grupos, 'identificadores': identificadores, 'aldeas': aldeas, 'years': years, 'cantones':cantones})
+
+
+
+

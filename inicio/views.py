@@ -3,6 +3,8 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 # Url Imports
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
@@ -190,6 +192,18 @@ class GrupoUpdateView(BSModalUpdateView):
 *****    VISTAS ASIGNACION DE INTEGRANTES    *****
 
 """
+
+# Actualizacion de integrantes grupo
+def integrantes_grupo(request, id):
+    data = dict()
+    if request.method == 'GET':
+        integrantes = AsignacionPersonaGrupo.objects.filter(grupo=id)
+        data['table'] = render_to_string(
+            '_integrantesGrupo-table.html',
+            {'integrantes': integrantes},
+            request=request
+        )
+        return JsonResponse(data)
 
 # Crear persona y asignarlo a un grupo
 @login_required

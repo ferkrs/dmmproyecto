@@ -5,6 +5,8 @@ from django.views.generic import ListView, TemplateView
 from django.http import HttpResponse
 from .models import *
 from inicio.models import *
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 from inicio.forms import *
 from .forms import CursoForm, CursoModalForm
 from django.contrib import messages
@@ -43,6 +45,18 @@ class ServicioUpdateView(BSModalUpdateView):
     form_class = CursoModalForm
     success_message = 'El servicio fue editado correctamente.'
     success_url = reverse_lazy('servicio_list')
+
+# Actualizacion de integrantes grupo
+def integrantes_servicio_async(request, id):
+    data = dict()
+    if request.method == 'GET':
+        integrantes = Curso.objects.get(pk=id).integrantes.all()
+        data['table'] = render_to_string(
+            '_integrantes-table.html',
+            {'integrantes': integrantes},
+            request=request
+        )
+        return JsonResponse(data)
 
 def servicio_integrantes(request, id):
     if request.method == "POST":

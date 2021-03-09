@@ -26,6 +26,7 @@ urlpatterns = [
     path('grupos/directiva/<int:id>', views.directiva, name='grupos_directiva'),
     # Asignacion de integrantes
     path('grupos/addpersonas/<int:id>', asignar_integrantes, name='pergrup_add'),
+    path('grupos/addPersonas/<int:id>/integrantes/async', integrantes_grupo, name='pergrup_add_async'),
     path('grupos/addexistente/<int:id>', asignar_existente, name='pergrupexistente_add'),
     path('grupos/personas/delete/<int:id>/<int:grupo>', eliminar_integrante, name='pergrup_del'),
     path('grupos/personas/edit/<int:pk>', views.AsignacionUpdateView.as_view(), name='pergrup_update'),

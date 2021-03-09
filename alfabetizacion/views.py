@@ -103,12 +103,12 @@ class FaseDeleteView(BSModalDeleteView):
     success_url = reverse_lazy('alfabetizacion_list')
 
 
-def books(request, id):
+def integrantes_fase_async(request, id):
     data = dict()
     if request.method == 'GET':
-        integrantes = Persona.objects.all()
+        integrantes = MujeresAlfa.objects.get(pk=id).integrantes.all()
         data['table'] = render_to_string(
-            'alfabetizacion/integrantes_fase.html',
+            '_integrantes-table.html',
             {'integrantes': integrantes},
             request=request
         )
