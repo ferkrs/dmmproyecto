@@ -21,8 +21,8 @@
     <div class="col-12 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
-            <h4 class="card-title">Formulario de reportes de grupos sociales </h4>
-            <p class="card-description">Generar reporte de grupos sociales</p>
+            <h4 class="card-title">Formulario de reportes de servicios </h4>
+            <p class="card-description">Generar reporte de servicios</p>
             <form class="forms-sample" method="POST">
               {% csrf_token %}
               <div class="row">
@@ -31,7 +31,7 @@
                   {{reportes.eje_trabajo}}
                 </div>
                 <div class="col-md-6">
-                  <label>Nombre del grupo:</label>
+                  <label>Nombre del servicio:</label>
                   {{reportes.servicio}}
                 </div>
               </div>
@@ -119,6 +119,42 @@
               </table>
             </div>
             </div>
+<!--Paginacion-->
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                {% if mis_reportes.has_previous %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ movies.previous_page_number }}">Anterior</a>
+                  </li>
+                {% else %}
+                  <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+                  </li>
+                {% endif %}
+                {% for i in mis_reportes.paginator.page_range %}
+                  {% if mis_reportes.number == i %}
+                    <li class="page-item active" aria-current="page">
+                      <span class="page-link">
+                        {{ i }}
+                        <span class="sr-only">(current)</span>
+                      </span>
+                    </li>
+                  {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                  {% endif %}
+                {% endfor %}
+                {% if mis_reprotes.has_next %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ movies.next_page_number }}">Siguiente</a>
+                  </li>
+                {% else %}
+                  <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Siguiente</a>
+                  </li>
+                {% endif %}
+              </ul>
+            </nav>
+<!--Paginacion-->
           </div>
         </div>
         <div class="modal fade" tabindex="-1" role="dialog" id="modal">
@@ -128,6 +164,9 @@
           </div>
 
           <script type="text/javascript">
+          $(document).ready(function() {
+              $("#hola").select2();
+            });
             $(function () {
               $(".bs-modal").each(function () {
                 $(this).modalForm({

@@ -10,6 +10,7 @@ from .forms import *
 from django.contrib import messages
 from django.db.models import Q, Sum, Count
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 # Bootstrap Modals
 from bootstrap_modal_forms.generic import (
     BSModalDeleteView,
@@ -28,6 +29,9 @@ def administrador_check(user):
 
 def reporte_grupo(request):
     mis_reportes = ReporteGrupos.objects.filter(user=request.user)
+    paginator = Paginator(mis_reportes,10)
+    page_number=request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     if request.method == 'POST':
         reporteg = ReporteGruposForm(request.POST)
         if reporteg.is_valid():
@@ -43,7 +47,7 @@ def reporte_grupo(request):
     else:
         reporteg = ReporteGruposForm()
         # Obtener reportes del usuario
-    return render(request,'reportes/grupos/create_reporte_grupos.html', {'reporteg': reporteg, 'mis_reportes': mis_reportes})
+    return render(request,'reportes/grupos/create_reporte_grupos.html', context={'reporteg': reporteg, 'mis_reportes': mis_reportes, 'mis_reportes':page_obj})
 
 # Reporte Update
 class ReporteGrupoUpdateView(BSModalUpdateView):
@@ -67,6 +71,9 @@ def reporte_grupo_delete(request, id):
 def reporte_servicio(request):
     # Reportes del usuario
     mis_reportes = ReporteServicios.objects.filter(user=request.user)
+    paginator = Paginator(mis_reportes,10)
+    page_number=request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     if request.method == 'POST':
         reportes = ReporteserviciosForm(request.POST)
         if reportes.is_valid():
@@ -81,7 +88,7 @@ def reporte_servicio(request):
                 return redirect('reporte_servicio')
     else:
         reportes = ReporteserviciosForm()
-    return render(request,'reportes/servicios/create_reporte_servicios.html', {'reportes': reportes, 'mis_reportes': mis_reportes})
+    return render(request,'reportes/servicios/create_reporte_servicios.html', context={'reportes': reportes, 'mis_reportes': mis_reportes,'mis_reportes':page_obj})
 
 # Reporte Delete
 def reporte_servicio_delete(request, id):
@@ -108,9 +115,19 @@ def reporte_grupos_admin(request):
     grupos = Grupo.objects.all()
     users = Usuario.objects.all()
     identificadores = [
-        {'id': 0, 'tipo': 'AREA RURAL'},
-        {'id': 1, 'tipo': 'AREA URBANA'},
-        {'id': 2, 'tipo': 'LLANO GRANDE'}
+        {'id': 1, 'tipo': 'AREA RURAL'},
+        {'id': 2, 'tipo': 'AREA URBANA'},
+        {'id': 3, 'tipo': 'LLANO GRANDE'}
+    ]
+    cantones = [
+        {'id': 1,'nombre': "LA PARROQUIA"},
+        {'id': 2,'nombre': "SANTA MARIA DE ATOCHA"},
+        {'id': 3,'nombre': "SAN MIGUEL"},
+        {'id': 4,'nombre': "SAN JUAN DE DIOS"},
+        {'id': 5,'nombre': "SAN JUAN DEL POZO"},
+        {'id': 6,'nombre': "SAN AGUSTÍN TONALÁ"},
+        {'id': 7,'nombre': "EL MOSQUITO"},
+        {'id': 8,'nombre': "SAN SEBASTIÁN"},
     ]
     aldeas = [
         {"id": 1, "nombre": "CANTEL"}, {"id": 2, "nombre": "CORRAL GRANDE"},
@@ -131,6 +148,7 @@ def reporte_grupos_admin(request):
         grupo_seleccionado = request.POST.get('grupo', False)
         identificador = request.POST.get('identificador', False)
         aldea = request.POST.get('aldea', False)
+        canton = request.POST.get('cantones', False)
         responsable = request.POST.get('responsable', False)
         if eje_seleccionado == "0" and grupo_seleccionado == "0" and identificador == "0" and responsable == "0":
             reportes = ReporteGrupos.objects.all()
@@ -145,12 +163,14 @@ def reporte_grupos_admin(request):
                 queryReportes = queryReportes & Q(grupo__identificador=identificador)
             if aldea != "0":
                 queryReportes = queryReportes & Q(grupo__aldeas=aldea)
+            if canton != "0":
+                queryReportes = queryReportes & Q(grupo__canton=canton)
             if responsable != "0":
                 queryReportes = queryReportes & Q(user__id=responsable)
             reportes = ReporteGrupos.objects.filter(queryReportes)
-        return render(request,'reportes/grupos/admin.html', {'users': users, 'ejes': ejes, 'grupos': grupos, 'identificadores': identificadores, 'aldeas': aldeas, 'reportes': reportes})
+        return render(request,'reportes/grupos/admin.html', {'users': users, 'ejes': ejes, 'grupos': grupos, 'identificadores': identificadores, 'aldeas': aldeas, 'reportes': reportes, 'cantones': cantones})
     else:
-        return render(request,'reportes/grupos/admin.html', {'users': users, 'ejes': ejes, 'grupos': grupos, 'identificadores': identificadores, 'aldeas': aldeas})
+        return render(request,'reportes/grupos/admin.html', {'users': users, 'ejes': ejes, 'grupos': grupos, 'identificadores': identificadores, 'aldeas': aldeas, 'cantones': cantones})
 
 @user_passes_test(administrador_check)
 def reporte_grupos_admin_excel(request):
@@ -172,9 +192,19 @@ def reporte_grupos_admin_excel(request):
         {'id': 2031, 'texto': "2031"},
     ]
     identificadores = [
-        {'id': 0, 'tipo': 'AREA RURAL'},
-        {'id': 1, 'tipo': 'AREA URBANA'},
-        {'id': 2, 'tipo': 'LLANO GRANDE'}
+        {'id': 1, 'tipo': 'AREA RURAL'},
+        {'id': 2, 'tipo': 'AREA URBANA'},
+        {'id': 3, 'tipo': 'LLANO GRANDE'}
+    ]
+    cantones = [
+        {'id': 1,'nombre': "LA PARROQUIA"},
+        {'id': 2,'nombre': "SANTA MARIA DE ATOCHA"},
+        {'id': 3,'nombre': "SAN MIGUEL"},
+        {'id': 4,'nombre': "SAN JUAN DE DIOS"},
+        {'id': 5,'nombre': "SAN JUAN DEL POZO"},
+        {'id': 6,'nombre': "SAN AGUSTÍN TONALÁ"},
+        {'id': 7,'nombre': "EL MOSQUITO"},
+        {'id': 8,'nombre': "SAN SEBASTIÁN"},
     ]
     aldeas = [
         {"id": 1, "nombre": "CANTEL"}, {"id": 2, "nombre": "CORRAL GRANDE"},
@@ -196,6 +226,7 @@ def reporte_grupos_admin_excel(request):
         grupo_seleccionado = request.POST.get('grupo', False)
         identificador = request.POST.get('identificador', False)
         aldea = request.POST.get('aldea', False)
+        canton = request.POST.get('cantones', False)
         responsable = request.POST.get('responsable', False)
         if eje_seleccionado == "0" and grupo_seleccionado == "0" and identificador == "0" and responsable == "0":
             reportes = ReporteGrupos.objects.all()
@@ -210,6 +241,8 @@ def reporte_grupos_admin_excel(request):
                 queryReportes = queryReportes & Q(grupo__identificador=identificador)
             if aldea != "0":
                 queryReportes = queryReportes & Q(grupo__aldeas=aldea)
+            if canton != "0":
+                queryReportes = queryReportes & Q(grupo__canton=canton)
             if responsable != "0":
                 queryReportes = queryReportes & Q(user__id=responsable)
             reportes = ReporteGrupos.objects.filter(queryReportes)
@@ -360,8 +393,8 @@ def get_data_inversion(request):
     year = request.POST.get('year', False)
     identificador = request.POST.get('identificador', False)
     aldea = request.POST.get('aldea', False)
-    canton = request.POST.get('canton', False)
     direccion = request.POST.get('direccion', False)
+    canton = request.POST.get('canton', False)
     if year != 0 and identificador != -1 and aldea != -1:
         # Si selecciono area rural
         if identificador == "0":
@@ -372,7 +405,7 @@ def get_data_inversion(request):
             queryset = ReporteGrupos.objects.filter(grupo_id__canton=canton, created_on__year=year).values('eje_trabajo__eje_trabajo').annotate(presupuesto=Sum('presupuesto'))
         elif identificador == "2":
             # Busca general llano grande
-            queryset = ReporteGrupos.objects.filter(grupo_id__direccion_alternativa=direccion, created_on__year=year).values('eje_trabajo__eje_trabajo').annotate(presupuesto=Sum('presupuesto'))
+            queryset = ReporteGrupos.objects.filter(grupo_id__identificador=3, created_on__year=year).values('eje_trabajo__eje_trabajo').annotate(presupuesto=Sum('presupuesto'))
     for entry in queryset:
         labels.append(entry['eje_trabajo__eje_trabajo'])
         data.append(entry['presupuesto'])
@@ -434,8 +467,8 @@ def get_data_beneficiarios(request):
     year = request.POST.get('year', False)
     identificador = request.POST.get('identificador', False)
     aldea = request.POST.get('aldea', False)
-    canton = request.POST.get('canton', False)
     direccion = request.POST.get('direccion', False)
+    canton = request.POST.get('canton', False)
     if year != 0 and identificador != -1 and aldea != -1:
         # Si selecciono area rural
         if identificador == "0":
@@ -446,7 +479,7 @@ def get_data_beneficiarios(request):
             queryset = ReporteGrupos.objects.filter(grupo_id__canton=canton, created_on__year=year).values('eje_trabajo__eje_trabajo').annotate(beneficiados=Sum('beneficiados'))
         elif identificador == "2":
             # Busca general llano grande
-            queryset = ReporteGrupos.objects.filter(grupo_id__direccion_alternativa=direccion, created_on__year=year).values('eje_trabajo__eje_trabajo').annotate(beneficiados=Sum('beneficiados'))
+            queryset = ReporteGrupos.objects.filter(grupo_id__identificador=3, created_on__year=year).values('eje_trabajo__eje_trabajo').annotate(beneficiados=Sum('beneficiados'))
     for entry in queryset:
         labels.append(entry['eje_trabajo__eje_trabajo'])
         data.append(entry['beneficiados'])
@@ -555,9 +588,9 @@ def get_data_grupos(request):
                 data.append(entry['total'])
         elif identificadorArea == "2":
             # Busca general llano grande
-            queryset = Grupo.objects.filter(identificador=3, created_on__year=year).values('direccion_alternativa').annotate(total=Count(id))
+            queryset = Grupo.objects.filter(identificador=3, created_on__year=year).values('identificador').annotate(total=Count(id))
             for entry in queryset:
-                labels.append(entry['direccion_alternativa'])
+                labels.append("Llano Grande")
                 data.append(entry['total'])
 
     return JsonResponse(data={

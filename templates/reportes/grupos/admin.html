@@ -47,7 +47,7 @@
               </div>
               <br>
               <div class="row">
-                  <div class="col-md-4" id="campoIdentificador">
+                  <div class="col-md-3" id="campoIdentificador">
                     <label>Identificador</label>
                     <select class="form-control" name="identificador" id="identificador" style="width: 100%;">
                       <option value="100">Seleccione</option>
@@ -62,6 +62,15 @@
                         <option value="0">Seleccione</option>
                       {% for aldea in aldeas %}
                         <option value="{{aldea.id}}">{{aldea.nombre}}</option>
+                      {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4" id="campoCantones">
+                    <label>Cantones</label>
+                    <select class="form-control aldea" name="cantones" id="cantones" style="width: 100%;">
+                        <option value="0">Seleccione</option>
+                      {% for canton in cantones %}
+                        <option value="{{canton.id}}">{{canton.nombre}}</option>
                       {% endfor %}
                     </select>
                 </div>
@@ -103,7 +112,7 @@
                 <td>{{ reporte.nombre_proyecto }}</td>
                 <td>{{ reporte.eje_trabajo }}</td>
                 <td>{{ reporte.beneficiados }}</td>
-                <td>{{ reporte.presupuesto }}</td>
+                <td>Q. {{ reporte.presupuesto }}</td>
                 <td>{{ reporte.fecha_inicio }}</td>
                 <td>{{ reporte.fecha_finalizacion }}</td>
                 <td>{{ reporte.user.last_name }}, {{ reporte.user.first_name }}</td>
@@ -117,21 +126,7 @@
         </div>
       </div>
     </div>
-    <!--Pagination-->
-    {% if is_paginated %}
-      <nav aria-label="Page navigation conatiner"></nav>
-      <ul class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-        <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
-        {% endif %}
-        {% if page_obj.has_next %}
-        <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
-        {% endif %}
-      </ul>
-      </nav>
-      {% endif %}
-    <!--Pagination-->
-      </div>
+    </div>
  </div>
 </div>
 
@@ -141,22 +136,29 @@
       $("#buscarEje").select2();
       $("#buscarGrupo").select2();
       $("#aldea").select2();
+      $("#cantones").select2();
       $("#responsable").select2();
       $("#identificador").select2();
       $("#contenido").hide();
       $("#generarReporte").submit(function(event) {
         e.preventDefault();
-        console.log("Se apacho");
       })
+    $("#campoAldeas").hide();
+    $("#campoCantones").hide();
       $("#identificador").on("change", function(event){
-        if(event.target.value == 0){
-          $("#campoAldeas").show();
-        } else {
-          $("#campoAldeas").hide();
+        if(event.target.value == 1){
+            $("#campoAldeas").show(500);
+            $("#campoCantones").hide();
+        }
+        else if (event.target.value == 2){
+            $("#campoCantones").show(500);
+            $("#campoAldeas").hide();
+        }
+        else{
+            $("#campoAldeas").hide();
+            $("#campoCantones").hide();
         }
       })
   });
   </script>
-
-
 {% endblock gruposlist %}

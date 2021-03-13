@@ -60,15 +60,6 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="col-md-6" id="direcciones">
-                            <label>Direcciones</label>
-                            <select class="form-control aldea" name="direccion" id="direccion" style="width: 100%;">
-                                <option value="0">Seleccione</option>
-                                {% for dir in direcciones %}
-                                    <option value="{{dir.direccion_alternativa}}">{{dir.direccion_alternativa}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
                 </div>
                <br>
             <button type="submit" class="btn btn-info btn-rounded btn-sm">Generar Reporte</button>
@@ -88,30 +79,26 @@
       </div>
     </div>
 </div>
-<script src="{% static 'js/charts_data.js' %}"></script>
+<script src="{% static 'js/ChartsData.js' %}"></script>
 <script>
     $('#area_urbana').hide();
     $('#area_rural').hide();
-    $('#direcciones').hide();
+
     function myFunction (value) {
     if(value == 0) {
         $('#area_rural').show(500);
         $('#area_urbana').hide();
-        $('#direcciones').hide();
     }else if(value == 1) {
     $('#area_urbana').show(500);
     $('#area_rural').hide();
-    $('#direcciones').hide();
     }
     else if(value == -1) {
     $('#area_rural').hide();
     $('#area_urbana').hide();
-    $('#direcciones').hide();
     }
     else if(value == 2) {
     $('#area_rural').hide();
     $('#area_urbana').hide();
-    $('#direcciones').show(500);
     }
     }
 </script>

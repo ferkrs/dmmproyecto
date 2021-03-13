@@ -145,7 +145,7 @@ class PersonaUpdateView(BSModalUpdateView):
 #funcion de listar
 @login_required
 def grupo_list(request):
-    grupos = Grupo.objects.annotate(num_integrantes=Count('grupo_directiva__persona'))
+    grupos = Grupo.objects.annotate(num_integrantes=Count('grupo_directiva__persona')).order_by('-created_on')
     formularioGrupo = GrupoForm
     paginator = Paginator(grupos,10)
     page_number=request.GET.get('page')

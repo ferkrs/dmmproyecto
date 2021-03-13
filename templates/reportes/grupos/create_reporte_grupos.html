@@ -25,19 +25,20 @@
             <form class="forms-sample" method="POST">
               {% csrf_token %}
               <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-6">
                   <label>Eje de trabajo:</label>
                   {{reporteg.eje_trabajo}}
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                   <label>Nombre del grupo:</label>
-                  {{reporteg.grupo}}
+                {{reporteg.grupo}}
                 </div>
-                <div class="col-md-3">
+                <br>
+                <div class="col-md-6">
                   <label>Nombre del proyecto:</label>
                   {{reporteg.nombre_proyecto}}
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-6">
                   <label>Presupuesto:</label>
                   <div class="input-group">
                     <div class="input-group-prepend">
@@ -109,7 +110,7 @@
                 <tr>
                   <td>{{ forloop.counter }}</td>
                   <td>{{ reporte.eje_trabajo }}</td>
-                  <td>{{ reporte.grupo }}</td>
+                  <td>{{ reporte.grupo }} </td>
                   <td>{{ reporte.nombre_proyecto }}</td>
                   <td>{{ reporte.beneficiados}}</td>
                   <td>Q.{{ reporte.presupuesto}}</td>
@@ -127,6 +128,42 @@
             </table>
           </div>
           </div>
+<!--Paginacion-->
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                {% if mis_reportes.has_previous %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ movies.previous_page_number }}">Anterior</a>
+                  </li>
+                {% else %}
+                  <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+                  </li>
+                {% endif %}
+                {% for i in mis_reportes.paginator.page_range %}
+                  {% if mis_reportes.number == i %}
+                    <li class="page-item active" aria-current="page">
+                      <span class="page-link">
+                        {{ i }}
+                        <span class="sr-only">(current)</span>
+                      </span>
+                    </li>
+                  {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                  {% endif %}
+                {% endfor %}
+                {% if mis_reprotes.has_next %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ movies.next_page_number }}">Siguiente</a>
+                  </li>
+                {% else %}
+                  <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Siguiente</a>
+                  </li>
+                {% endif %}
+              </ul>
+            </nav>
+<!--Paginacion-->
         </div>
       </div>
       <div class="modal fade" tabindex="-1" role="dialog" id="modal">
@@ -144,12 +181,16 @@
             });
           });
         </script>
+
     </div>
   </div>
 </div>
 </div>
 
 <script>
+$(document).ready(function() {
+  $("#hola").select2();
+});
     function eliminar_reporte(id){
       Swal.fire({
         title: 'Desea eliminar el reporte?',

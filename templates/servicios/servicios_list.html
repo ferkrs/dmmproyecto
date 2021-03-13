@@ -59,7 +59,7 @@
             <tbody>
               {% for curso in servicios %}
               <tr>
-                <td>{{curso.id}}</td>
+                <td>{{forloop.counter}}</td>
                 <td>{{curso.get_modalidad_display}}</td>
                 <td>{{curso.nombre}}</td>
                 <td>Dias: <label class="badge badge-success">{{curso.get_de_display}} </label> y <label class="badge badge-success">{{curso.get_a_display}}</label></td>

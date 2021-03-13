@@ -169,7 +169,7 @@
                 {% elif grupo.identificador == 2 %}
                 <h6>Area urbana: {{ grupo.get_zona_display|default_if_none:'' }}, {{ grupo.get_canton_display|default_if_none:'' }}, {{ grupo.get_sector_display|default_if_none:'' }} </h6>
                 {%else%}
-                <td>Llano Grande: {{ grupo.direccion_alternativa }}</td>
+                <td>Llano Grande: {{ grupo.direccion_alternativa|default_if_none:"--" }}</td>
                 {%endif%}
             </div>
           </div>

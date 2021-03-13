@@ -1,6 +1,5 @@
 $(function () {
   'use strict';
-  console.log('A');
   //Estadistica para inversion
   function float2dollar(value) {
     return "Q. " + (value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
@@ -106,9 +105,7 @@ $(function () {
             identificador: parseInt(document.getElementById("identificador").value),
             aldea: parseInt(document.getElementById("aldea").value),
             canton: parseInt(document.getElementById("canton").value),
-            direccion: document.getElementById("direccion").value
         }
-        console.log(dataForm.direccion);
         $.ajax({
             type: "POST",
             url: $inversionChart.data("url"),

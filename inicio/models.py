@@ -171,8 +171,18 @@ class Grupo(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        txt="{0}"
-        return txt.format(self.nombre_grupo)
+        txt="{0} -- {1}"
+        if self.identificador == 1:
+            return txt.format(self.nombre_grupo, self.get_aldeas_display())
+        elif self.identificador == 2:
+            return txt.format(self.nombre_grupo, self.get_canton_display())
+        else:
+            ident= "LLANO GRANDE"
+            return txt.format(self.nombre_grupo, ident)
+
+
+
+
     class Meta:
         verbose_name = "Asiganacion de grupos"
         verbose_name_plural = "Asiganacion de grupos"

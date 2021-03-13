@@ -32,7 +32,7 @@ class ReporteGruposForm(forms.ModelForm):
         }
         widgets = {
             'eje_trabajo':forms.Select(attrs={'class': 'form-control'}),
-            'grupo':forms.Select(attrs={'class': 'form-control'}),
+            'grupo':forms.Select(attrs={'class': 'form-control', 'id': 'hola' }),
             'nombre_proyecto':forms.TextInput(attrs={'class': 'form-control '}),
             'descripcion': forms.Textarea(attrs={ 'class': 'form-control','rows':10, 'cols':20}),
             'resultado':forms.Textarea(attrs={ 'class': 'form-control','rows':10, 'cols':20}),
@@ -69,7 +69,7 @@ class ReporteGruposModal(BSModalModelForm):
         }
         widgets = {
             'eje_trabajo':forms.Select(attrs={'class': 'form-control'}),
-            'grupo':forms.Select(attrs={'class': 'form-control'}),
+            'grupo':forms.Select(attrs={'class': 'form-control', 'id':'hola'}),
             'nombre_proyecto':forms.TextInput(attrs={'class': 'form-control '}),
             'descripcion': forms.Textarea(attrs={ 'class': 'form-control','rows':10, 'cols':20}),
             'resultado':forms.Textarea(attrs={ 'class': 'form-control','rows':10, 'cols':20}),
@@ -105,7 +105,7 @@ class ReporteserviciosForm(forms.ModelForm):
         }
         widgets = {
             'eje_trabajo':forms.Select(attrs={'class': 'form-control'}),
-            'servicio':forms.Select(attrs={'class': 'form-control'}),
+            'servicio':forms.Select(attrs={'class': 'form-control', 'id':'hola'}),
             'fecha_inicio':forms.DateInput(attrs={'class':'form-control', 'type':'date'}),
             'fecha_finalizacion':forms.DateInput(attrs={'class':'form-control', 'type':'date'}),
             'presupuesto':forms.TextInput(attrs={'class': 'form-control '}),
@@ -139,7 +139,7 @@ class ReporteServiciosModal(BSModalModelForm):
         }
         widgets = {
             'eje_trabajo':forms.Select(attrs={'class': 'form-control'}),
-            'servicio':forms.Select(attrs={'class': 'form-control'}),
+            'servicio':forms.Select(attrs={'class': 'form-control','id':'hola'}),
             'fecha_inicio':forms.DateInput(attrs={'class':'form-control', 'type':'date'}),
             'fecha_finalizacion':forms.DateInput(attrs={'class':'form-control', 'type':'date'}),
             'presupuesto':forms.TextInput(attrs={'class': 'form-control '}),
