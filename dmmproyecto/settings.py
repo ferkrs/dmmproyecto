@@ -40,6 +40,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     #'django.middleware.csrf.CsrfViewMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -119,9 +120,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_ROOT='/home/dmmmunishecana/dmmproyecto/static/'
-STATIC_URL = '/static/'
+
 MEDIA_ROOT='media'
 MEDIA_URL = '/media/'
 LOGIN_REDIRECT_URL = '/'
 AUTH_USER_MODEL = 'inicio.Usuario'
+
+STATIC_FILES: STATICFILES_STORAGE ='whitenoise.storage.StaticFilesStorage'
