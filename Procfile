@@ -1,0 +1,1 @@
+web: gunicorn dmmproyecto.wsgi --log-file -
