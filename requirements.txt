@@ -4,7 +4,7 @@ django-excel==0.0.10
 django-widget-tweaks==1.4.8
 lml==0.1.0
 mysqlclient==2.0.2
-Pillow==8.0.1
+Pillow
 pyexcel==0.6.6
 pyexcel-io==0.6.4
 pyexcel-webio==0.1.4
