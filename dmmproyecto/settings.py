@@ -74,10 +74,11 @@ WSGI_APPLICATION = 'dmmproyecto.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dmmmunishecana$dmmproyecto',
-        'USER': 'dmmmunishecana',
-        'PASSWORD':'dmmproyecto2021',
-        'HOST': 'dmmmunishecana.mysql.pythonanywhere-services.com',
+        'NAME': 'railway',
+        'USER': 'root',
+        'PASSWORD':'4B1hBDfH16DFFe6A2ah3dDDGgACAab4c',
+        'HOST': 'monorail.proxy.rlwy.net',
+        'PORT': '31684',
         'init_command': 'SET sql_mode=STRICT_TRANS_TABLES',
     }
 }
